@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PIN: ${{ secrets.TEACHER_PIN }}
+      FONT: /tmp/Literata.ttf
+      BASE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
     steps:
       - uses: actions/checkout@v4
 
@@ -26,26 +28,47 @@ jobs:
         with:
           python-version: "3.12"
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q edge-tts fonttools cairosvg pillow numpy
+          curl -sL -o "$FONT" "https://raw.githubusercontent.com/google/fonts/main/ofl/literata/Literata%5Bopsz%2Cwght%5D.ttf"
+          cd tests && npm i -s jsdom@24 --no-save
+
       - name: Check essays
         run: python check_essays.py
 
-      - name: Make voices (only new essays)
-        run: |
-          pip install edge-tts
-          python make_audio.py
+      - name: Chaos tests (Python)
+        run: python tests/test_python.py
 
-      - name: Save voices to the repository
+      - name: Chaos tests (website)
+        run: node tests/chaos.js
+
+      - name: Make voices (only new essays)
+        run: python make_audio.py
+
+      - name: Build branded lesson previews
+        run: python build_pages.py
+
+      - name: Save voices and previews to the repository
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add audio
-          git diff --cached --quiet || (git commit -m "Add voices" && git push)
+          git add audio l og
+          git diff --cached --quiet || (git commit -m "Add voices and previews" && git push)
 
       - name: Set teacher PIN
         if: env.PIN != ''
         run: |
           H=$(printf '%s' "$PIN" | sha256sum | cut -d' ' -f1)
           sed -i "s/const TEACHER_PIN_HASH = \"[0-9a-f]*\"/const TEACHER_PIN_HASH = \"$H\"/" index.html
+
+      - name: Remove test tools from the site
+        run: rm -rf tests/node_modules
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
