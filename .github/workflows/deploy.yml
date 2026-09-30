@@ -45,6 +45,84 @@ jobs:
       - name: Make the sound logo
         run: python make_chime.py
 
+      - name: Make the logo files (only if missing)
+        run: |
+          if [ ! -f icon.svg ] || [ ! -f apple-touch-icon.png ] || [ ! -f favicon-32.png ]; then
+            python - <<'PYEOF'
+          import os
+          FONTPATH=os.environ.get('FONT','/tmp/Literata.ttf')
+          from fontTools.ttLib import TTFont
+          from fontTools.varLib.instancer import instantiateVariableFont
+          from fontTools.pens.svgPathPen import SVGPathPen
+          from fontTools.pens.transformPen import TransformPen
+          from fontTools.pens.boundsPen import BoundsPen
+
+          def inst(opsz,wght):
+              return instantiateVariableFont(TTFont(__import__('os').environ.get('FONT','/tmp/Literata.ttf')),{"opsz":opsz,"wght":wght})
+          F_BIG=inst(72,600); F_TXT=inst(36,600); F_SUB=inst(12,500)
+
+          def text_path(font,s,size,x,y,anchor="start",track=0):
+              gs=font.getGlyphSet(); cmap=font.getBestCmap(); upm=font['head'].unitsPerEm
+              sc=size/upm; hmtx=font['hmtx']
+              names=[cmap[ord(c)] for c in s]
+              width=sum(hmtx[n][0] for n in names)*sc+track*(len(s)-1)
+              if anchor=="middle": x-=width/2
+              pen=SVGPathPen(gs); cx=x
+              for n in names:
+                  tp=TransformPen(pen,(sc,0,0,-sc,cx,y)); gs[n].draw(tp); cx+=hmtx[n][0]*sc+track
+              return pen.getCommands(),width
+
+          LV=["#2E9E6A","#1C8AA3","#3E5FD9","#7A4FD6","#B23F78"]
+          INK="#172241"; PAPER="#FFFFFF"
+
+          def book(cx,cy,s):
+              # open book; spine at (cx,cy); s = scale (1 => 512 icon)
+              def P(x,y): return f"{cx+x*s:.1f},{cy+y*s:.1f}"
+              out=[]
+              # five coloured page edges under the pages = the five levels
+              for i,c in enumerate(reversed(LV)):
+                  d=(4-i)*9
+                  out.append(f'<path d="M{P(0,20+d)} C{P(-58,-8+d)} {P(-128,-14+d)} {P(-176,2+d)} L{P(-176,-14+d)} C{P(-128,-30+d)} {P(-58,-24+d)} {P(0,4+d)} C{P(58,-24+d)} {P(128,-30+d)} {P(176,-14+d)} L{P(176,2+d)} C{P(128,-14+d)} {P(58,-8+d)} {P(0,20+d)}Z" fill="{c}"/>')
+              # white pages
+              out.append(f'<path d="M{P(0,20)} C{P(-58,-8)} {P(-128,-14)} {P(-176,2)} L{P(-176,-112)} C{P(-128,-128)} {P(-58,-122)} {P(0,-92)} C{P(58,-122)} {P(128,-128)} {P(176,-112)} L{P(176,2)} C{P(128,-14)} {P(58,-8)} {P(0,20)}Z" fill="{PAPER}"/>')
+              # spine + text lines
+              out.append(f'<path d="M{P(0,-92)} L{P(0,20)}" stroke="{INK}" stroke-opacity=".18" stroke-width="{3*s:.1f}"/>')
+              for k in range(3):
+                  y=-86+k*26
+                  out.append(f'<path d="M{P(-150,y)} C{P(-110,y-10)} {P(-60,y-8)} {P(-22,y+8)} M{P(22,y+8)} C{P(60,y-8)} {P(110,y-10)} {P(150,y)}" fill="none" stroke="{INK}" stroke-opacity=".16" stroke-width="{5*s:.1f}" stroke-linecap="round"/>')
+              return "\n".join(out)
+
+          def icon_svg(size=512):
+              mono,_=text_path(F_BIG,"GT",150,256,212,"middle",track=-4)
+              return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="{size}" height="{size}">
+          <rect width="512" height="512" rx="112" fill="{INK}"/>
+          <path d="{mono}" fill="{PAPER}"/>
+          {book(256,392,1.0)}
+          </svg>'''
+
+          def logo_svg():
+              mono,_=text_path(F_BIG,"GT",150,256,212,"middle",track=-4)
+              name,w1=text_path(F_TXT,"Gayane Torosyan",64,560,250)
+              sub,w2=text_path(F_SUB,"English Reading Room",30,564,306,track=1.5)
+              W=int(560+max(w1,w2)+40)
+              return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} 512" width="{W}" height="512">
+          <rect width="512" height="512" rx="112" fill="{INK}"/>
+          <path d="{mono}" fill="{PAPER}"/>
+          {book(256,392,1.0)}
+          <path d="{name}" fill="{INK}"/>
+          <path d="{sub}" fill="#5A6583"/>
+          <g>{"".join(f'<rect x="{564+i*46}" y="330" width="38" height="8" rx="4" fill="{c}"/>' for i,c in enumerate(LV))}</g>
+          </svg>'''
+
+          open('icon.svg','w').write(icon_svg())
+          open('logo.svg','w').write(logo_svg())
+          import cairosvg
+          for n,sz in [('icon-512.png',512),('apple-touch-icon.png',180),('favicon-32.png',32)]:
+              cairosvg.svg2png(url='icon.svg',write_to=n,output_width=sz,output_height=sz)
+          print("ok")
+          PYEOF
+          fi
+
       - name: Check essays
         run: python check_essays.py
 
