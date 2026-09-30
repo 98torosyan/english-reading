@@ -4,7 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F5F7FB">
-<title>Ընթերցարան</title>
+<title>Gayane Torosyan | English Reading Room</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Gayane English">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&family=Noto+Sans+Armenian:wght@400;500;600;700&family=Noto+Serif+Armenian:wght@600;700&display=swap" rel="stylesheet">
@@ -62,6 +66,15 @@ a{color:inherit}
 .err{color:var(--bad);min-height:1.4em;margin:2px 0 6px;font-size:.9rem}
 .lock .btn-main{padding:13px}
 
+.mark{display:block;border-radius:22%;flex:none}
+.brand .tag,.lock .tag{margin:2px 0 0;color:var(--muted);font-family:var(--read);font-size:.95rem;letter-spacing:.02em}
+.brand h1{font-size:1.7rem}
+.lock .mark.big{margin:0 auto 16px;width:84px;height:84px}
+.lock .lead{margin-top:18px}
+.sbrand{display:flex;align-items:center;gap:10px;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.sbrand b{display:block;font-family:var(--read);font-size:1rem;line-height:1.2}
+.sbrand span{color:var(--muted);font-size:.8rem}
+
 /* Share sheet */
 .backdrop{position:fixed;inset:0;background:rgba(10,15,30,.45);z-index:20;opacity:0;transition:opacity .2s}
 .backdrop.show{opacity:1}
@@ -107,8 +120,8 @@ a{color:inherit}
 .hint{color:var(--muted);font-size:.85rem;margin:8px 0 18px}
 .text{font-family:var(--read);font-size:1.2rem;line-height:1.78;max-width:66ch}
 .text p{margin:0 0 1em}
-.s{border-radius:4px;transition:background .2s;cursor:pointer}
-.s.on{background:var(--marker)}
+.s{border-radius:4px;cursor:pointer;background-image:linear-gradient(var(--marker),var(--marker));background-repeat:no-repeat;background-size:0% 100%;transition:background-size .45s cubic-bezier(.3,.7,.2,1)}
+.s.on{background-size:100% 100%}
 .sec{font-size:1.15rem;margin:36px 0 12px}
 .words{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
 .word{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;gap:8px;align-items:center}
@@ -124,7 +137,25 @@ a{color:inherit}
 .check{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:13px 18px;font-weight:700;width:100%;margin-top:6px}
 .score{font-family:var(--read);font-size:1.4rem;text-align:center;margin:18px 0 0}
 .note{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:10px 12px;color:var(--muted);font-size:.9rem}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* motion */
+.mark svg{display:block;width:100%;height:100%}
+.anim .st{animation:stIn .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(.35s + var(--i)*.08s)}
+.anim .pg{animation:pgIn .55s cubic-bezier(.2,.8,.2,1) both .12s;transform-origin:256px 392px}
+.anim .mono{animation:fadeIn .6s ease both}
+@keyframes stIn{from{transform:translateY(34px);opacity:0}}
+@keyframes pgIn{from{transform:scaleY(.35);opacity:0}}
+@keyframes fadeIn{from{opacity:0}}
+.list.rise .item{animation:rise .38s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--d)*28ms)}
+@keyframes rise{from{transform:translateY(10px);opacity:0}}
+.opt.right.flash{animation:pop .4s ease}
+.opt.wrong.flash{animation:nudge .35s ease}
+@keyframes pop{40%{transform:scale(1.025)}}
+@keyframes nudge{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.bar span{transition:width .25s linear}
+.btn,.chip,.tri,.play,.check,.speed,.app{transition:transform .12s ease}
+.btn:active,.chip:active,.tri:active:not(:disabled),.play:active,.check:active,.speed:active,.app:active{transform:scale(.96)}
+.score.win{animation:pop .5s ease}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -134,18 +165,24 @@ a{color:inherit}
 <script src="essays.js"></script>
 <script>
 /* ======= Settings ======= */
-const TEACHER_NAME = "";          // e.g. "Ms. Anna" — appears in the message if filled
+const TEACHER_NAME = "Gayane Torosyan";          // e.g. "Ms. Anna" — appears in the message if filled
 const AUDIO_DIR = "audio/";       // MP3 files made by make_audio.py
 // Teacher PIN (default 1234). To change: echo -n YOUR_PIN | sha256sum  → paste the result here
 const TEACHER_PIN_HASH = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4";
 
 const ESSAYS = window.ESSAYS || [];
+const LOGO_INNER = `<rect width="512" height="512" rx="112" fill="#172241"/><path d="M204.91500549316405 214.1Q190.81500549316405 214.1 180.11251373291014 207.72499084472656Q169.41002197265624 201.34998168945313 163.43253021240233 189.00497436523438Q157.45503845214841 176.65996704101562 157.45503845214841 158.52497253417968Q157.45503845214841 145.7450164794922 161.28753204345702 135.12502746582032Q165.12002563476562 124.50503845214844 172.01251373291015 116.73503112792969Q178.90500183105468 108.96502380371093 188.28748626708983 104.68251190185546Q197.669970703125 100.4 208.7249542236328 100.4Q218.54996337890623 100.4 225.44246063232418 104.2175064086914Q232.33495788574217 108.03501281738282 236.7149688720703 112.52002563476563L238.48495788574218 100.18999633789063H240.62995605468748L247.28995971679686 135.90496520996095L244.99496154785155 136.44496154785156Q241.15496520996092 126.81496887207031 235.8674606323242 119.20997619628906Q230.5799560546875 111.60498352050782 223.81495056152343 107.11998901367187Q217.04994506835936 102.63499450683594 208.76995239257812 102.63499450683594Q201.92991943359374 102.63499450683594 196.54488830566405 106.16750640869141Q191.15985717773435 109.70001831054688 187.41733245849608 116.6600311279297Q183.6748077392578 123.6200439453125 181.739794921875 133.86504211425782Q179.80478210449218 144.11004028320315 179.80478210449218 157.47500915527343Q179.80478210449218 170.05994873046876 182.00229034423828 179.83994140625Q184.19979858398438 189.61993408203125 188.09981689453124 196.42245330810547Q191.9998352050781 203.2249725341797 197.40736541748046 206.73499450683596Q202.8148956298828 210.2450164794922 209.12993774414062 210.2450164794922Q213.23997802734374 210.2450164794922 216.95251007080077 209.39750823974612Q220.6650421142578 208.55 223.88256683349607 206.87748260498046Q227.10009155273434 205.20496520996093 229.33510437011716 202.57993774414064V170.34503479003905Q229.33510437011716 166.32504577636718 228.38260345458983 164.81754302978516Q227.4301025390625 163.31004028320314 224.38510437011718 163.16004028320313L216.69005126953124 162.80003662109374V161.00003662109376H260.03994140624997V162.80003662109374L253.2598937988281 163.16004028320313Q250.48490295410153 163.31004028320314 249.48740386962888 164.89254302978514Q248.48990478515623 166.47504577636718 248.48990478515623 170.76504211425782V212.67499084472655H246.77990112304684L231.63006591796875 203.74994506835938Q228.1500732421875 207.0349578857422 224.3400695800781 209.344970703125Q220.53006591796873 211.6549835205078 215.8875503540039 212.87749176025392Q211.24503479003906 214.1 204.91500549316405 214.1ZM285.3350128173828 212.0V210.2L294.66506042480466 209.68999633789062Q297.62006225585935 209.5399963378906 298.7975540161133 207.78499450683591Q299.97504577636715 206.02999267578124 299.97504577636715 201.92000732421874V104.9H291.70998535156247Q286.65498352050776 104.9 282.77748260498043 106.46749725341797Q278.8999816894531 108.03499450683594 275.83248443603514 111.41748809814453Q272.7649871826172 114.79998168945313 270.1774917602539 120.30497436523439Q267.58999633789057 125.80996704101562 264.9050018310547 133.7899597167969L262.84999999999997 133.14496154785155L266.73501281738277 102.5H354.1098388671875L357.7848480224609 133.14496154785155L355.6248443603515 133.7899597167969Q353.0898498535156 125.80996704101562 350.47985534667964 120.30497436523439Q347.8698608398437 114.79998168945313 344.8548645019531 111.41748809814453Q341.83986816406247 108.03499450683594 338.0148681640625 106.46749725341797Q334.18986816406243 104.9 329.1348663330078 104.9H320.8997985839843V202.52000732421874Q320.8997985839843 206.5399963378906 322.1447875976562 207.98749542236328Q323.3897766113281 209.43499450683595 326.44978027343745 209.68999633789062L335.5398315429687 210.2V212.0Z" fill="#FFFFFF" class="mono"/><path d="M256.0,448.0 C198.0,420.0 128.0,414.0 80.0,430.0 L80.0,414.0 C128.0,398.0 198.0,404.0 256.0,432.0 C314.0,404.0 384.0,398.0 432.0,414.0 L432.0,430.0 C384.0,414.0 314.0,420.0 256.0,448.0Z" fill="#B23F78" class="st" style="--i:0"/><path d="M256.0,439.0 C198.0,411.0 128.0,405.0 80.0,421.0 L80.0,405.0 C128.0,389.0 198.0,395.0 256.0,423.0 C314.0,395.0 384.0,389.0 432.0,405.0 L432.0,421.0 C384.0,405.0 314.0,411.0 256.0,439.0Z" fill="#7A4FD6" class="st" style="--i:1"/><path d="M256.0,430.0 C198.0,402.0 128.0,396.0 80.0,412.0 L80.0,396.0 C128.0,380.0 198.0,386.0 256.0,414.0 C314.0,386.0 384.0,380.0 432.0,396.0 L432.0,412.0 C384.0,396.0 314.0,402.0 256.0,430.0Z" fill="#3E5FD9" class="st" style="--i:2"/><path d="M256.0,421.0 C198.0,393.0 128.0,387.0 80.0,403.0 L80.0,387.0 C128.0,371.0 198.0,377.0 256.0,405.0 C314.0,377.0 384.0,371.0 432.0,387.0 L432.0,403.0 C384.0,387.0 314.0,393.0 256.0,421.0Z" fill="#1C8AA3" class="st" style="--i:3"/><path d="M256.0,412.0 C198.0,384.0 128.0,378.0 80.0,394.0 L80.0,378.0 C128.0,362.0 198.0,368.0 256.0,396.0 C314.0,368.0 384.0,362.0 432.0,378.0 L432.0,394.0 C384.0,378.0 314.0,384.0 256.0,412.0Z" fill="#2E9E6A" class="st" style="--i:4"/><path d="M256.0,412.0 C198.0,384.0 128.0,378.0 80.0,394.0 L80.0,280.0 C128.0,264.0 198.0,270.0 256.0,300.0 C314.0,270.0 384.0,264.0 432.0,280.0 L432.0,394.0 C384.0,378.0 314.0,384.0 256.0,412.0Z" fill="#FFFFFF" class="pg"/><path d="M256.0,300.0 L256.0,412.0" stroke="#172241" stroke-opacity=".18" stroke-width="3.0"/><path d="M106.0,306.0 C146.0,296.0 196.0,298.0 234.0,314.0 M278.0,314.0 C316.0,298.0 366.0,296.0 406.0,306.0" fill="none" stroke="#172241" stroke-opacity=".16" stroke-width="5.0" stroke-linecap="round"/><path d="M106.0,332.0 C146.0,322.0 196.0,324.0 234.0,340.0 M278.0,340.0 C316.0,324.0 366.0,322.0 406.0,332.0" fill="none" stroke="#172241" stroke-opacity=".16" stroke-width="5.0" stroke-linecap="round"/><path d="M106.0,358.0 C146.0,348.0 196.0,350.0 234.0,366.0 M278.0,366.0 C316.0,350.0 366.0,348.0 406.0,358.0" fill="none" stroke="#172241" stroke-opacity=".16" stroke-width="5.0" stroke-linecap="round"/>`;
+const logoMark = (size, cls="") => `<span class="mark ${cls}" style="width:${size}px;height:${size}px" aria-hidden="true"><svg viewBox="0 0 512 512">${LOGO_INNER}</svg></span>`;
+const REDUCED = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+let chimeEl=null;
+function chime(){ try{ chimeEl=chimeEl||new Audio("brand/chime.mp3"); chimeEl.volume=.6; chimeEl.currentTime=0; chimeEl.play().catch(()=>{}); }catch{} }
 const LEVELS = ["A1","A2","B1","B2","C1"];
 const app = document.getElementById("app");
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const wordCount = e => e.text.join(" ").split(/\s+/).length;
 const baseUrl = () => location.origin + location.pathname;
-const linkFor = e => baseUrl() + "?e=" + e.id;
+const dirUrl = () => location.origin + location.pathname.replace(/[^/]*$/, "");
+const linkFor = e => dirUrl() + "l/" + e.id + ".html";   // branded preview page (built by build_pages.py)
 const isPhone = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
 /* audio availability cache */
@@ -189,12 +226,13 @@ async function sha256(t){
 function isTeacher(){ try{ return localStorage.getItem(LS_KEY)===TEACHER_PIN_HASH; }catch{ return sessionOK; } }
 let sessionOK=false;
 function lockScreen(){
-  document.title="Ընթերցարան";
+  document.title="Gayane Torosyan | English Reading Room";
   app.innerHTML=`
   <section class="lock">
-    <div class="logo" aria-hidden="true">🔒</div>
-    <h1>Ընթերցարան</h1>
-    <p class="lead">Մուտք միայն ուսուցչի համար</p>
+    ${logoMark(84,"big anim")}
+    <h1>Gayane Torosyan</h1>
+    <p class="tag">English Reading Room</p>
+    <p class="lead">🔒 Մուտք միայն ուսուցչի համար</p>
     <form id="lockForm" autocomplete="off">
       <label for="pin" class="label">PIN կոդ</label>
       <input id="pin" class="pin" type="password" inputmode="numeric" autocomplete="current-password" required>
@@ -206,11 +244,13 @@ function lockScreen(){
   document.getElementById("lockForm").onsubmit=async ev=>{
     ev.preventDefault();
     const h=await sha256(pin.value.trim());
+    const err=document.getElementById("err");
+    if(!err||!pin.isConnected) return;       // the page changed while checking
     if(h===TEACHER_PIN_HASH){
       sessionOK=true; try{ localStorage.setItem(LS_KEY,h); }catch{}
       teacher();
     }else{
-      document.getElementById("err").textContent= h===null
+      err.textContent= h===null
         ? "Բացիր կայքը https:// հասցեով (օր.՝ GitHub Pages-ով)"
         : "Սխալ PIN, փորձիր նորից";
       pin.value=""; pin.focus();
@@ -220,23 +260,23 @@ function lockScreen(){
 function logout(){ sessionOK=false; try{ localStorage.removeItem(LS_KEY); }catch{} lockScreen(); }
 
 /* ================= Teacher ================= */
-let filter="all";
-function teacher(){
+let filter="all", firstPaint=true;
+function teacher(listAnim){
   if(!isTeacher()&&!sessionOK){ lockScreen(); return; }
-  document.title="Ընթերցարան";
+  document.title="Gayane Torosyan | English Reading Room";
   const shown=ESSAYS.filter(e=>filter==="all"||e.level===filter);
   app.innerHTML=`
   <header>
-    <div class="brand"><div class="logo" aria-hidden="true">📖</div><h1>Ընթերցարան</h1><button class="out" id="logout">Դուրս գալ</button></div>
+    <div class="brand">${logoMark(52, firstPaint?"anim":"")}<div><h1>Gayane Torosyan</h1><p class="tag">English Reading Room</p></div><button class="out" id="logout">Դուրս գալ</button></div>
     <p class="lead">Ընտրիր դասը և ուղարկիր աշակերտին ցանկացած հավելվածով։ Աշակերտը կկարդա տեքստը, կլսի այն և կպատասխանի հարցերին։</p>
   </header>
   <nav class="levels" aria-label="Մակարդակ">
     <button class="chip" data-f="all" aria-pressed="${filter==="all"}">Բոլորը · ${ESSAYS.length}</button>
     ${LEVELS.map(l=>`<button class="chip" data-f="${l}" aria-pressed="${filter===l}" style="--lv:var(--${l})"><span class="dot"></span>${l}</button>`).join("")}
   </nav>
-  <section class="list">
-    ${shown.map(e=>`
-    <article class="item" style="--lv:var(--${e.level})">
+  <section class="list${listAnim?" rise":""}">
+    ${shown.map((e,i)=>`
+    <article class="item" style="--lv:var(--${e.level});--d:${Math.min(i,10)}">
       <h2>${esc(e.title)}</h2>
       <p class="meta"><span class="lv">${e.level}</span><span>${esc(e.topic)}</span><span>${wordCount(e)} բառ</span><span>${e.qs.length} հարց</span><span data-audio="${e.id}"></span></p>
       <div class="actions">
@@ -246,22 +286,23 @@ function teacher(){
     </article>`).join("")}
   </section>`;
   document.getElementById("logout").onclick=logout;
-  app.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{filter=b.dataset.f;teacher()});
+  app.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{filter=b.dataset.f;teacher(true)});
+  firstPaint=false;
   app.querySelectorAll("[data-go]").forEach(a=>a.onclick=ev=>{ev.preventDefault();go("?e="+a.dataset.go)});
   app.querySelectorAll("[data-share]").forEach(b=>b.onclick=()=>openSheet(ESSAYS.find(x=>x.id===b.dataset.share)));
   shown.forEach(async e=>{ if(await hasAudio(e.id)){ const s=app.querySelector(`[data-audio="${e.id}"]`); if(s) s.textContent="🎧 ձայն"; }});
 }
 
 /* ---- message texts ---- */
+const BRAND = "📘 Gayane Torosyan | English Reading Room";
 function message(e){
-  const from = TEACHER_NAME ? `\n— ${TEACHER_NAME}` : "";
-  return `Hello! 📖 Your reading for today: "${e.title}" (${e.level})\nRead it, listen to it and answer the questions:\n${linkFor(e)}${from}`;
+  return `${BRAND}\n\nToday's reading: "${e.title}" (${e.level})\nRead it, listen to it and answer the questions 👇\n${linkFor(e)}`;
 }
 function fullLesson(e){
-  const lines=[`📖 ${e.title} (${e.level})`,"",...e.text.flatMap(p=>[p,""]),
+  const lines=[BRAND,"━━━━━━━━━━━━━━━━",`📖 ${e.title} (${e.level})`,"",...e.text.flatMap(p=>[p,""]),
     "📝 New words:",...e.words.map(w=>`• ${w[0]} — ${w[1]}`),"",
     "❓ Questions:",...e.qs.map((q,i)=>`${i+1}. ${q[0]}\n   ${q[1].slice().sort().map((o,j)=>String.fromCharCode(97+j)+") "+o).join("   ")}`),"",
-    `🎧 Listen online: ${linkFor(e)}`];
+    "━━━━━━━━━━━━━━━━",`🎧 Listen and check your answers: ${linkFor(e)}`,`— ${TEACHER_NAME}, English teacher`];
   return lines.join("\n");
 }
 
@@ -275,9 +316,14 @@ const ICON={
 };
 
 /* ---- share sheet ---- */
-let sheetEl=null;
+let sheetEl=null, sheetBusy=false;
 async function openSheet(e){
-  const audio=await hasAudio(e.id);
+  if(sheetBusy||sheetEl) return;               // ignore double taps
+  sheetBusy=true;
+  let audio=false;
+  try{ audio=await hasAudio(e.id); } finally { sheetBusy=false; }
+  if(sheetEl||!app.querySelector("[data-share]")) return;   // user already left the list
+  document.querySelectorAll(".sheet,.backdrop").forEach(n=>n.remove());   // a sheet still sliding away
   const canShare=!!navigator.share;
   const msg=message(e), link=linkFor(e);
   const apps=[
@@ -355,12 +401,12 @@ function closeSheet(now){
 
 /* ================= Student ================= */
 let sentences=[], cur=0, playing=false, voice=null, token=0;
-let audioEl=null, starts=null, fracs=[];
+let audioEl=null, starts=null, span=null, fracs=[];
 const RATES=[0.75,0.9,1]; let rate=0.9;
 const split=p=>p.match(/[^.!?]+[.!?]+["”]?\s*|[^.!?]+$/g)||[p];
 
 function student(e){
-  document.title=e.title;
+  document.title=e.title+" | Gayane Torosyan";
   sentences=[];
   const paras=e.text.map(p=>"<p>"+split(p).map(s=>{sentences.push(s.trim());return `<span class="s" data-i="${sentences.length-1}">${esc(s)}</span>`}).join("")+"</p>").join("");
   let acc=0; const total=sentences.reduce((a,s)=>a+s.length,0);
@@ -368,6 +414,7 @@ function student(e){
   const order=e.qs.map(q=>q[1].map((t,i)=>({t,ok:i===0})).sort(()=>Math.random()-.5));
   app.style.setProperty("--lv",`var(--${e.level})`);
   app.innerHTML=`
+  <div class="sbrand">${logoMark(34)}<div><b>Gayane Torosyan</b><span>English Reading Room</span></div></div>
   ${isTeacher()||sessionOK?`<a class="back" href="./" id="back">← Բոլոր դասերը</a>`:""}
   <header class="essay-head">
     <h1>${esc(e.title)}</h1>
@@ -405,14 +452,19 @@ async function setupPlayer(e){
   if(myRoute!==token) return;
   if(mp3){
     audioEl=new Audio(AUDIO_DIR+e.id+".mp3"); audioEl.preload="metadata"; audioEl.playbackRate=rate;
-    try{ const r=await fetch(AUDIO_DIR+e.id+".json"); if(r.ok){ const j=await r.json(); if(j.length===sentences.length) starts=j; } }catch{}
+    try{
+      const r=await fetch(AUDIO_DIR+e.id+".json");
+      if(r.ok){
+        const j=await r.json();
+        const list=Array.isArray(j)?j:(j&&j.starts)||[];
+        if(!Array.isArray(j)&&j&&j.end>j.start) span={start:+j.start,end:+j.end};
+        if(list.length===sentences.length) starts=list;
+      }
+    }catch{}
     audioEl.ontimeupdate=()=>{
       const d=audioEl.duration||0, t=audioEl.currentTime;
       document.getElementById("prog").style.width=d?(t/d*100)+"%":"0";
-      let i=0;
-      if(starts){ while(i+1<starts.length&&starts[i+1]<=t) i++; }
-      else if(d){ const f=t/d; while(i+1<fracs.length&&fracs[i+1]<=f) i++; }
-      if(playing) mark(i);
+      if(playing) mark(sentenceAt(t,d));
     };
     audioEl.onended=()=>{playing=false;mark(-1);setBtn()};
   }else if(!("speechSynthesis" in window)){
@@ -431,7 +483,7 @@ async function setupPlayer(e){
 function playFrom(i){
   if(audioEl){
     if(i!=null){
-      const seek=()=>{ audioEl.currentTime=starts?starts[i]:fracs[i]*(audioEl.duration||0); };
+      const seek=()=>{ audioEl.currentTime=timeOf(i); };
       audioEl.readyState>=1?seek():audioEl.addEventListener("loadedmetadata",seek,{once:true});
     }
     playing=true; setBtn(); audioEl.play().catch(()=>{playing=false;setBtn()}); return;
@@ -451,12 +503,27 @@ function playFrom(i){
   };
   next();
 }
+// which sentence is being read at time t (-1 = sound logo, title or outro)
+function sentenceAt(t,d){
+  if(starts){
+    if(t<starts[0]-0.05||(span&&t>span.end)) return -1;
+    let i=0; while(i+1<starts.length&&starts[i+1]<=t) i++; return i;
+  }
+  const a=span?span.start:0, b=span?span.end:d;
+  if(!(b>a)||t<a||t>b) return -1;
+  const f=(t-a)/(b-a); let i=0; while(i+1<fracs.length&&fracs[i+1]<=f) i++; return i;
+}
+function timeOf(i){
+  if(starts) return starts[i];
+  const a=span?span.start:0, b=span?span.end:(audioEl&&audioEl.duration)||0;
+  return a+fracs[i]*(b-a);
+}
 function pause(){
   playing=false; setBtn();
   if(audioEl) audioEl.pause(); else if("speechSynthesis" in window){token++;speechSynthesis.cancel();}
 }
 function stopAll(){
-  playing=false; token++; cur=0; starts=null; lastMark=-2;
+  playing=false; token++; cur=0; starts=null; span=null; lastMark=-2;
   if(audioEl){audioEl.pause();audioEl=null;}
   if("speechSynthesis" in window) speechSynthesis.cancel();
 }
@@ -482,15 +549,31 @@ function setBtn(){ const b=document.getElementById("play"); if(b) b.textContent=
 function checkQuiz(e){
   let right=0, answered=0;
   e.qs.forEach((_,qi)=>{
-    app.querySelectorAll(`input[name=q${qi}]`).forEach(inp=>{
-      const l=inp.closest(".opt"); l.classList.remove("right","wrong");
+    const inputs=[...app.querySelectorAll(`input[name=q${qi}]`)];
+    const chosen=inputs.find(i=>i.checked);
+    inputs.forEach(inp=>{ const l=inp.closest(".opt"); l.classList.remove("right","wrong","flash"); });
+    if(!chosen) return;                       // unanswered: don't reveal the answer
+    answered++;
+    inputs.forEach(inp=>{
+      const l=inp.closest(".opt");
       if(l.dataset.ok==="true") l.classList.add("right");
-      if(inp.checked){ answered++; if(l.dataset.ok==="true") right++; else l.classList.add("wrong"); }
+      if(inp===chosen&&l.dataset.ok!=="true") l.classList.add("wrong");
     });
+    if(chosen.closest(".opt").dataset.ok==="true") right++;
+    void app.offsetWidth;                     // restart the small animation on every check
+    inputs.forEach(inp=>{ const l=inp.closest(".opt"); if(l.classList.contains("right")||l.classList.contains("wrong")) l.classList.add("flash"); });
   });
-  document.getElementById("score").textContent = answered<e.qs.length
-    ? `You answered ${answered} of ${e.qs.length}. Correct: ${right}.`
-    : `You got ${right} of ${e.qs.length} ${right===e.qs.length?"🎉 Excellent!":"— read it again and try once more!"}`;
+  const sc=document.getElementById("score"), n=e.qs.length, perfect=answered===n&&right===n;
+  sc.classList.remove("win");
+  if(answered<n){ sc.textContent=`You answered ${answered} of ${n}. Correct: ${right}. Answer all the questions.`; return; }
+  const tail=perfect?" 🎉 Excellent!":" Read it again and try once more!";
+  if(REDUCED()){ sc.textContent=`You got ${right} of ${n}.${tail}`; }
+  else{
+    let k=0; sc.textContent=`You got 0 of ${n}.`;
+    const step=()=>{ sc.textContent=`You got ${k} of ${n}.${k===right?tail:""}`; if(k<right){ k++; setTimeout(step,140); } };
+    step();
+  }
+  if(perfect){ void sc.offsetWidth; sc.classList.add("win"); chime(); }
 }
 
 window.addEventListener("popstate",route);
