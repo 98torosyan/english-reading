@@ -22,13 +22,13 @@ def load_essays():
 async def make(essay, voice, force):
     mp3 = OUT / f"{essay['id']}.mp3"
     if mp3.exists() and not force:
-        print("  skip", essay["id"]); return True
+        print("  skip", essay["id"], flush=True); return True
     for attempt in range(3):
         try:
-            await _make(essay, voice, mp3)
+            await asyncio.wait_for(_make(essay, voice, mp3), timeout=90)
             return True
         except Exception as ex:
-            print(f"  retry {essay['id']} ({attempt + 1}/3): {ex}")
+            print(f"  retry {essay['id']} ({attempt + 1}/3): {type(ex).__name__} {ex}", flush=True)
             mp3.unlink(missing_ok=True)
             await asyncio.sleep(3)
     print("  FAILED", essay["id"], "- the site will use the phone's voice for it")
@@ -49,7 +49,7 @@ async def _make(essay, voice, mp3):
                 starts.append(round(ch["offset"] / 1e7, 2))
     if starts:  # sentence timings for highlighting on the page
         (OUT / f"{essay['id']}.json").write_text(json.dumps(starts))
-    print("  ok  ", essay["id"])
+    print("  ok  ", essay["id"], flush=True)
 
 async def main():
     ap = argparse.ArgumentParser()
@@ -59,7 +59,14 @@ async def main():
     OUT.mkdir(exist_ok=True)
     essays = load_essays()
     print(f"{len(essays)} essays, voice {a.voice}")
-    results = [await make(e, a.voice, a.force) for e in essays]
+    results, fails_in_row = [], 0
+    for e in essays:
+        ok = await make(e, a.voice, a.force)
+        results.append(ok)
+        fails_in_row = 0 if ok else fails_in_row + 1
+        if fails_in_row >= 3:
+            print("Voice service is not answering - stopping. The site will use the phone's voice.")
+            break
     print(f"done: {sum(results)}/{len(results)} voices ready")
 
 asyncio.run(main())
