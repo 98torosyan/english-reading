@@ -146,7 +146,7 @@ async function walk(w, env, steps, errors, studentOnly) {
   ok(d.querySelectorAll(".lvcard").length === 5 && !d.querySelector("[data-share]"), "after the right PIN: 5 level cards, lessons come after choosing a level");
   ok(d.querySelector(".mark.anim .st") !== null, "animated logo on first screen");
   d.querySelector('[data-lv="C1"]').click(); await wait(10);
-  ok(d.querySelector(".list.rise") && d.querySelectorAll("[data-share]").length === 20, "level C1 opens its lessons with a soft reveal");
+  ok(d.querySelector(".list.rise") && d.querySelectorAll("[data-share]").length === E.filter(e => e.level === "C1").length, "level C1 opens its lessons with a soft reveal");
   d.querySelector("[data-share]").click(); await wait(30);
   ok(d.querySelectorAll(".tri").length === 3, "share sheet: Text / Voice / Together");
   const msg = w.eval("message(ESSAYS[0])");

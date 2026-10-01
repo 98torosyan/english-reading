@@ -9,6 +9,10 @@
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Gayane English">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&family=Noto+Sans+Armenian:wght@400;500;600;700&family=Noto+Serif+Armenian:wght@600;700&display=swap" rel="stylesheet">
@@ -52,6 +56,7 @@ a{color:inherit}
 .chip .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--lv);margin-right:6px;vertical-align:1px}
 .list{display:grid;gap:12px}
 .lvgrid{display:grid;gap:10px;margin-top:6px}
+.item h2 .num{display:inline-grid;place-items:center;min-width:1.7em;height:1.7em;margin-right:.5em;padding:0 .35em;border-radius:999px;background:var(--tint);color:var(--lv);font-family:var(--ui);font-size:.72em;font-weight:800;vertical-align:.12em}
 .lvcard{display:flex;align-items:center;gap:14px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow);text-decoration:none;color:var(--ink);transition:transform .12s ease}
 .lvcard:active{transform:scale(.98)}
 .lvbig{width:54px;height:54px;flex:none;border-radius:16px;background:var(--lv);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.15rem;letter-spacing:.02em;box-shadow:0 6px 14px color-mix(in srgb,var(--lv) 35%,transparent)}
@@ -275,6 +280,8 @@ const LEVELS = ["A1","A2","B1","B2","C1"];
 const app = document.getElementById("app");
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const wordCount = e => e.text.join(" ").split(/\s+/).length;
+const WPM = {A1:70, A2:85, B1:100, B2:115, C1:125};          // calm learner reading speed
+const readMins = e => Math.max(1, Math.round(wordCount(e) / (WPM[e.level] || 100)));
 const baseUrl = () => location.origin + location.pathname;
 const dirUrl = () => location.origin + location.pathname.replace(/[^/]*$/, "");
 const linkFor = e => dirUrl() + "l/" + e.id + ".html";   // branded preview page (built by build_pages.py)
@@ -391,8 +398,8 @@ function teacher(listAnim){
   <section class="list rise">
     ${shown.map((e,i)=>`
     <article class="item" style="--lv:var(--${e.level});--d:${Math.min(i,10)}">
-      <h2>${esc(e.title)}</h2>
-      <p class="meta"><span class="lv">${e.level}</span><span>${esc(e.topic)}</span><span>${wordCount(e)} բառ</span><span>${e.qs.length} հարց</span><span data-audio="${e.id}"></span></p>
+      <h2><span class="num">${i+1}</span>${esc(e.title)}</h2>
+      <p class="meta"><span class="lv">${e.level}</span><span>${esc(e.topic)}</span><span>~${readMins(e)} րոպե</span><span>${e.qs.length} հարց</span><span data-audio="${e.id}"></span></p>
       <div class="actions">
         <button class="btn btn-main" data-share="${e.id}">Ուղարկել</button>
         <a class="btn btn-ghost" href="?e=${e.id}" data-go="${e.id}">Դիտել</a>
@@ -412,7 +419,7 @@ function teacher(listAnim){
 /* ---- message texts ---- */
 const BRAND = "📘 Gayane Torosyan | English Reading Room";
 function message(e){
-  return `${BRAND}\n\nToday's reading: "${e.title}" (${e.level})\nRead it, listen to it and answer the questions 👇\n${linkFor(e)}`;
+  return `${BRAND}\n\n📖 ${e.title}\nLevel ${e.level} · ~${readMins(e)} min · ${e.qs.length} questions\n\nRead, listen and answer 👇\n${linkFor(e)}`;
 }
 function fullLesson(e){
   const lines=[BRAND,"━━━━━━━━━━━━━━━━",`📖 ${e.title} (${e.level})`,"",...e.text.flatMap(p=>[p,""]),
@@ -444,7 +451,7 @@ async function openSheet(e){
   const msg=message(e), link=linkFor(e);
   const apps=[
     {k:"wa",n:"WhatsApp",c:"#1FA855",href:"https://wa.me/?text="+encodeURIComponent(msg)},
-    {k:"tg",n:"Telegram",c:"#229ED9",href:"https://t.me/share/url?url="+encodeURIComponent(link)+"&text="+encodeURIComponent(msg.replace("\n"+link,""))},
+    {k:"tg",n:"Telegram",c:"#229ED9",href:"https://t.me/share/url?url="+encodeURIComponent(msg)},
     {k:"vb",n:"Viber",c:"#7360F2",href:"viber://forward?text="+encodeURIComponent(msg)},
     {k:"ms",n:"Messenger",c:"#0A7CFF",href:isPhone?"fb-messenger://share/?link="+encodeURIComponent(link):"https://www.facebook.com/dialog/send?link="+encodeURIComponent(link)+"&redirect_uri="+encodeURIComponent(link)},
     {k:"ig",n:"Instagram",c:"#D62976",ig:true}
@@ -555,6 +562,7 @@ let miniIO=null;
 let audioEl=null, starts=null, span=null, fracs=[];
 let loopOn=false, loopIdx=-1, scrubbing=false, scrubT=0, playerReady=false, keyWords=new Map();
 const RATES=[0.75,0.9,1,1.25]; let rate=0.9;
+const LEVEL_RATE={A1:0.75,A2:0.9,B1:0.9,B2:1,C1:1};
 const split=p=>p.match(/[^.!?]+[.!?]+["”]?\s*|[^.!?]+$/g)||[p];
 const fmt=t=>{ t=+t; t=isFinite(t)&&t>0?Math.floor(t):0; return Math.floor(t/60)+":"+String(t%60).padStart(2,"0"); };
 function seekAudio(t){ if(audioEl&&isFinite(t)&&t>=0){ try{ audioEl.currentTime=t; }catch{} } }   // never set a non-finite time (browsers throw)
@@ -677,11 +685,10 @@ document.addEventListener("keydown",ev=>{ if(ev.key==="Escape") closeWordCard();
 
 function student(e){
   document.title=e.title+" | Gayane Torosyan";
-  closeWordCard(); keyWords=buildKeys(e);
+  closeWordCard(); keyWords=buildKeys(e); rate=LEVEL_RATE[e.level]||0.9;
   if(miniIO){ miniIO.disconnect(); miniIO=null; }
   envArr=null; waveT=0; waveScrub=null;
   loopOn=false; loopIdx=-1; scrubbing=false; playerReady=false;
-  envArr=null; waveT=0; waveScrub=null;
   sentences=[];
   const paras=e.text.map(p=>"<p>"+split(p).map(s=>{sentences.push(s.trim());return `<span class="s" data-i="${sentences.length-1}">${wordify(s)}</span>`}).join("")+"</p>").join("");
   let acc=0; const total=sentences.reduce((a,s)=>a+s.length,0);
@@ -693,7 +700,7 @@ function student(e){
   ${isTeacher()||sessionOK?`<a class="back" href="./?lv=${e.level}" id="back">${ICO.chevL}${e.level} դասեր</a>`:""}
   <header class="essay-head">
     <h1>${esc(e.title)}</h1>
-    <p class="meta"><span class="lv">${e.level}</span><span>${esc(e.topic)}</span><span>${wordCount(e)} words</span></p>
+    <p class="meta"><span class="lv">${e.level}</span><span>${esc(e.topic)}</span><span>~${readMins(e)} min</span></p>
   </header>
   <div class="player" id="player" hidden>
     <canvas class="wave" id="wave" aria-hidden="true"></canvas>
@@ -1081,6 +1088,9 @@ function checkQuiz(e){
 loadPrefs(); applyPrefs();
 window.addEventListener("popstate",route);
 route();
+</script>
+<script>
+if("serviceWorker" in navigator && location.protocol==="https:"){ addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{})); }
 </script>
 </body>
 </html>

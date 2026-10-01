@@ -66,6 +66,10 @@ def og_svg(e, F):
     lvw = 84
     lv = f'<rect x="470" y="{y0 - size - 62:.0f}" width="{lvw}" height="44" rx="22" fill="{LV[e["level"]]}"/>' \
          f'<path d="{tp(txt, e["level"], 28, 491, y0 - size - 30)[0]}" fill="#fff"/>'
+    words = len(" ".join(e["text"]).split())
+    mins = max(1, round(words / {"A1": 70, "A2": 85, "B1": 100, "B2": 115, "C1": 125}.get(e["level"], 100)))
+    info_y = y0 + (len(lines) - 1) * size * 1.15 + 62
+    info = tp(sub, f"Read · Listen · {len(e['qs'])} questions · ~{mins} min", 28, 472, info_y)[0]
     name = tp(txt, "Gayane Torosyan", 36, 470, 520)[0]
     room = tp(sub, "English Reading Room", 26, 470, 560)[0]
     icon = (ROOT / "icon.svg").read_text()
@@ -74,11 +78,12 @@ def og_svg(e, F):
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
 <rect width="1200" height="630" fill="{INK}"/>
 <g transform="translate(70,125) scale(.66)">{inner.replace('fill="#172241"', 'fill="#22315C"', 1)}</g>
-{lv}{title}<path d="{name}" fill="#fff"/><path d="{room}" fill="#A9B3CE"/>{stripes}
+{lv}{title}<path d="{info}" fill="#C9D2EA"/><path d="{name}" fill="#fff"/><path d="{room}" fill="#A9B3CE"/>{stripes}
 </svg>'''
 
 import hashlib
-logo_tag = hashlib.sha1((ROOT / "icon.svg").read_bytes()).hexdigest()[:12]
+CARD_DESIGN = "card-v2"   # change to redraw every card
+logo_tag = hashlib.sha1((ROOT / "icon.svg").read_bytes() + CARD_DESIGN.encode()).hexdigest()[:12]
 tag_file = ROOT / "og" / ".logo"
 if not tag_file.exists() or tag_file.read_text().strip() != logo_tag:      # new logo -> redraw every card
     for old in (ROOT / "og").glob("*.png"):
@@ -87,7 +92,8 @@ if not tag_file.exists() or tag_file.read_text().strip() != logo_tag:      # new
 fonts = None
 made = 0
 for e in E:
-    desc = "Read, listen and answer 4 questions. Gayane Torosyan's English Reading Room."
+    mins = max(1, round(len(" ".join(e["text"]).split()) / {"A1": 70, "A2": 85, "B1": 100, "B2": 115, "C1": 125}.get(e["level"], 100)))
+    desc = f"Level {e['level']} · ~{mins} min · {len(e['qs'])} questions. Read, listen and answer — Gayane Torosyan's English Reading Room."
     (ROOT / "l" / f"{e['id']}.html").write_text(PAGE.format(
         title=html.escape(e["title"]), level=e["level"], id=e["id"], base=BASE, desc=desc), encoding="utf-8")
     png = ROOT / "og" / f"{e['id']}.png"

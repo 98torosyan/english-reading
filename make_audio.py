@@ -14,6 +14,24 @@ ROOT = pathlib.Path(__file__).parent
 OUT = ROOT / "audio"
 CHIME = ROOT / "brand" / "chime.wav"
 VERSION = "chime-outro-2"      # change to re-make every voice
+# British voices; an essay can choose one with "voice": "sonia" | "libby" | "ryan" | "thomas"
+VOICES = {"sonia": "en-GB-SoniaNeural", "libby": "en-GB-LibbyNeural",
+          "ryan": "en-GB-RyanNeural", "thomas": "en-GB-ThomasNeural"}
+
+DEFAULT_VOICE = "en-GB-SoniaNeural"
+
+def voice_for(essay, default):
+    return VOICES.get(str(essay.get("voice", "")).lower(), default)
+
+def tag_for(voice):
+    return f"{VERSION}|{voice}"
+
+def current_tag(essay):
+    try:
+        j = json.loads((OUT / f"{essay['id']}.json").read_text())
+        return j.get("tag") if isinstance(j, dict) else None
+    except Exception:
+        return None
 GAP = 0.35                     # seconds of silence between parts
 OUTRO = "Gayane's Reading Room."
 TIMEOUT = float(os.environ.get("AUDIO_TIMEOUT", "90"))
@@ -118,13 +136,16 @@ async def build(essay, voice, mp3):
         start = duration(CHIME) + GAP + duration(d / "t.mp3") + GAP
         end = start + duration(d / "b.mp3")
         tmp.replace(mp3)
-    timing = {"start": round(start, 2), "end": round(end, 2), "starts": [round(t + start, 2) for t in starts]}
+    timing = {"start": round(start, 2), "end": round(end, 2), "starts": [round(t + start, 2) for t in starts], "tag": tag_for(voice)}
     (OUT / f"{essay['id']}.json").write_text(json.dumps(timing))
     # the loudness data is added right after (ensure_envelopes) so one failure never loses a voice
 
 async def make(essay, voice, force):
     mp3 = OUT / f"{essay['id']}.mp3"
-    if mp3.exists() and not force:
+    # a voice is re-made only when it is missing or was made with another voice/version
+    # voices made before tags existed were all made with Sonia (same VERSION)
+    made_with = current_tag(essay) or f"chime-outro-2|{DEFAULT_VOICE}"
+    if mp3.exists() and not force and made_with == tag_for(voice):
         print("  skip", essay["id"], flush=True); return True
     for attempt in range(3):
         try:
@@ -139,7 +160,7 @@ async def make(essay, voice, force):
 
 async def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--voice", default="en-GB-SoniaNeural")
+    ap.add_argument("--voice", default=DEFAULT_VOICE)
     ap.add_argument("--force", action="store_true")
     a = ap.parse_args(argv)
     OUT.mkdir(exist_ok=True)
@@ -148,10 +169,10 @@ async def main(argv=None):
         print(f"voice version changed -> re-making all voices ({VERSION})")
         a.force = True
     essays = load_essays()
-    print(f"{len(essays)} essays, voice {a.voice}")
+    print(f"{len(essays)} essays, default voice {a.voice}")
     results, fails_in_row = [], 0
     for e in essays:
-        ok = await make(e, a.voice, a.force)
+        ok = await make(e, voice_for(e, a.voice), a.force)
         results.append(ok)
         fails_in_row = 0 if ok else fails_in_row + 1
         if fails_in_row >= 3:
