@@ -29,7 +29,7 @@ for t, n in titles.items():
     if n > 1: errors.append(f"duplicate title: {t}")
 per = collections.Counter(e["level"] for e in E)
 for lv in RULES:
-    if per[lv] != 10: errors.append(f"level {lv} has {per[lv]} essays (need 10)")
+    if per[lv] < 10: errors.append(f"level {lv} has {per[lv]} essays (need at least 10)")
 
 def syl(w):
     w = w.lower().strip("'’-")

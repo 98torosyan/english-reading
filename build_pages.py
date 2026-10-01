@@ -77,6 +77,13 @@ def og_svg(e, F):
 {lv}{title}<path d="{name}" fill="#fff"/><path d="{room}" fill="#A9B3CE"/>{stripes}
 </svg>'''
 
+import hashlib
+logo_tag = hashlib.sha1((ROOT / "icon.svg").read_bytes()).hexdigest()[:12]
+tag_file = ROOT / "og" / ".logo"
+if not tag_file.exists() or tag_file.read_text().strip() != logo_tag:      # new logo -> redraw every card
+    for old in (ROOT / "og").glob("*.png"):
+        old.unlink()
+    tag_file.write_text(logo_tag)
 fonts = None
 made = 0
 for e in E:

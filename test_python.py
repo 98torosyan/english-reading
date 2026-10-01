@@ -43,7 +43,7 @@ MUTATIONS = {
   "template phrase":         lambda E: E[30]["text"].append("In conclusion, this matters a lot."),
   "unbalanced quote":        lambda E: E[31]["text"].__setitem__(0, E[31]["text"][0] + ' "oops.'),
   "too short C1":            lambda E: next(e for e in E if e["level"] == "C1").__setitem__("text", ["Too short."]),
-  "missing level essay":     lambda E: E.remove(next(e for e in E if e["level"] == "B2")),
+  "level with < 10 essays":  lambda E: E.__setitem__(slice(None), [e for e in E if e["level"] != "B2"] + [e for e in E if e["level"] == "B2"][:9]),
   "unknown level":           lambda E: E[3].__setitem__("level", "D9"),
   "bad id characters":       lambda E: E[4].__setitem__("id", "Bad Id!"),
   "double space":            lambda E: E[6]["text"].__setitem__(0, E[6]["text"][0].replace(" ", "  ", 1)),
@@ -122,6 +122,14 @@ chime = dur(d / "brand" / "chime.wav")
 ok(j["start"] > chime + 2 * ma.GAP, "essay starts after the sound logo and the title")
 ok(j["end"] > j["start"] and abs(j["starts"][0] - j["start"]) < 0.05, "first sentence starts exactly where the essay starts")
 ok(all(a <= b for a, b in zip(j["starts"], j["starts"][1:])), "sentence times are in order")
+mp3len = dur(d / "audio" / f"{E[0]['id']}.mp3")
+ok(isinstance(j.get("env"), list) and all(isinstance(v, int) and 0 <= v <= 100 for v in j["env"]) and j.get("hop") == 0.05, "voice gets loudness data (0-100) for the live waveform")
+ok(abs(len(j["env"]) * 0.05 - mp3len) < 0.6, "loudness data covers the whole recording")
+(d / "audio" / f"{E[0]['id']}.json").write_text(json.dumps({k: v for k, v in j.items() if k not in ("env", "hop")}))
+ma.ensure_envelopes(E)
+j2 = json.loads((d / "audio" / f"{E[0]['id']}.json").read_text())
+ok("env" in j2 and len(j2["env"]) == len(j["env"]), "older voices get loudness data later, without new TTS calls")
+ok(j2["starts"] == j["starts"], "existing sentence times stay untouched")
 total = dur(d / "audio" / f"{E[0]['id']}.mp3")
 ok(total > j["end"] + ma.GAP, "name outro comes after the essay")
 ok((d / "audio" / ".version").read_text() == ma.VERSION, "voice version saved after a full run")

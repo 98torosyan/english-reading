@@ -710,6 +710,716 @@ window.ESSAYS = [
   ]
  },
  {
+  "id": "my-garden",
+  "level": "A1",
+  "topic": "Nature",
+  "title": "My Little Garden",
+  "text": [
+   "Behind our house, there is a small garden. It is my garden! I have tomatoes, carrots and some yellow flowers there. Every morning before school, I water my plants. In the evening, I look at them again.",
+   "My tomatoes are green now, but in summer they are red and sweet. Small birds often sit on the fence and watch me. I think they want my tomatoes too!",
+   "My mum says a garden needs three things: sun, water and love. My garden gets all three. When I eat a tomato from my garden, it tastes better than a tomato from the shop."
+  ],
+  "words": [
+   [
+    "behind",
+    "ետևում"
+   ],
+   [
+    "carrots",
+    "գազար"
+   ],
+   [
+    "water",
+    "ջրել"
+   ],
+   [
+    "sweet",
+    "քաղցր"
+   ],
+   [
+    "fence",
+    "ցանկապատ"
+   ],
+   [
+    "love",
+    "սեր"
+   ]
+  ],
+  "qs": [
+   [
+    "What does the writer have in the garden?",
+    [
+     "Tomatoes, carrots and yellow flowers",
+     "Apples and potatoes",
+     "Only red roses"
+    ]
+   ],
+   [
+    "When does the writer water the plants?",
+    [
+     "Every morning before school",
+     "Only on Sundays",
+     "At night"
+    ]
+   ],
+   [
+    "What colour are the tomatoes now?",
+    [
+     "Green",
+     "Red",
+     "Yellow"
+    ]
+   ],
+   [
+    "What does a garden need, according to Mum?",
+    [
+     "Sun, water and love",
+     "Money and time",
+     "Birds and music"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "bus-driver",
+  "level": "A1",
+  "topic": "People",
+  "title": "Mr. Aram, the Bus Driver",
+  "text": [
+   "Every morning at eight o'clock, I take the number 12 bus to school. The driver is Mr. Aram. He is old, and he has a big grey moustache.",
+   "Mr. Aram is always happy. He says \"Good morning!\" to every person on the bus. He knows the names of all the children. When an old woman gets on, he waits for her to sit down. When it rains, he stops very close to the door of the school.",
+   "Some days I am tired or sad, but Mr. Aram always makes me smile. He is not a teacher, but he teaches me something every day: a kind word can change someone's morning."
+  ],
+  "words": [
+   [
+    "moustache",
+    "բեղ"
+   ],
+   [
+    "always",
+    "միշտ"
+   ],
+   [
+    "every",
+    "ամեն"
+   ],
+   [
+    "wait",
+    "սպասել"
+   ],
+   [
+    "close",
+    "մոտ"
+   ],
+   [
+    "change",
+    "փոխել"
+   ]
+  ],
+  "qs": [
+   [
+    "What number is the writer's bus?",
+    [
+     "12",
+     "8",
+     "20"
+    ]
+   ],
+   [
+    "What does Mr. Aram say to every person?",
+    [
+     "Good morning!",
+     "Hurry up!",
+     "Sit down!"
+    ]
+   ],
+   [
+    "What does he do when an old woman gets on?",
+    [
+     "He waits for her to sit down",
+     "He drives fast",
+     "He sings a song"
+    ]
+   ],
+   [
+    "What does the writer learn from Mr. Aram?",
+    [
+     "A kind word can change someone's morning",
+     "Buses are always late",
+     "Old people are slow"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "class-fish",
+  "level": "A1",
+  "topic": "School",
+  "title": "Bubbles, Our Class Fish",
+  "text": [
+   "There is a fish in our classroom. His name is Bubbles. He is orange and white, and he lives in a big glass tank near the window.",
+   "Every week, a different student looks after Bubbles. This week it is my turn! Every morning, I give him a little food. I check the water, and I say hello to him. Bubbles swims to the front of the tank when he sees me.",
+   "Our teacher says fish do not need much, but they need clean water and the right food. Looking after Bubbles is a big job for me. It is fun, and now I want a fish at home too."
+  ],
+  "words": [
+   [
+    "tank",
+    "ակվարիում"
+   ],
+   [
+    "near",
+    "մոտ"
+   ],
+   [
+    "week",
+    "շաբաթ"
+   ],
+   [
+    "turn",
+    "հերթ"
+   ],
+   [
+    "clean",
+    "մաքուր"
+   ],
+   [
+    "swim",
+    "լողալ"
+   ]
+  ],
+  "qs": [
+   [
+    "Where does Bubbles live?",
+    [
+     "In a glass tank near the window",
+     "In a pond in the garden",
+     "In the teacher's bag"
+    ]
+   ],
+   [
+    "Whose turn is it this week?",
+    [
+     "The writer's",
+     "The teacher's",
+     "Nobody's"
+    ]
+   ],
+   [
+    "What does Bubbles do when he sees the writer?",
+    [
+     "He swims to the front of the tank",
+     "He hides",
+     "He jumps out"
+    ]
+   ],
+   [
+    "What do fish need, according to the teacher?",
+    [
+     "Clean water and the right food",
+     "A lot of toys",
+     "Music and light"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "picnic",
+  "level": "A1",
+  "topic": "Family",
+  "title": "A Picnic in the Park",
+  "text": [
+   "It is Sunday, and my family is in the park. We are having a picnic under a big tree. Mum opens the basket. In it there is bread, cheese, cucumbers, tomatoes and a big watermelon.",
+   "Dad is lying on the blanket. He is reading a book. My little brother is running after a red ball. Our dog, Toto, is running after my brother!",
+   "Now we are eating. The watermelon is cold and sweet. Some ants are on the blanket, but it is OK. The sun is shining and the birds are singing. I am very happy."
+  ],
+  "words": [
+   [
+    "picnic",
+    "խնջույք բացօթյա"
+   ],
+   [
+    "basket",
+    "զամբյուղ"
+   ],
+   [
+    "cucumbers",
+    "վարունգներ"
+   ],
+   [
+    "blanket",
+    "ծածկոց"
+   ],
+   [
+    "ants",
+    "մրջյուններ"
+   ],
+   [
+    "shining",
+    "շողում է"
+   ]
+  ],
+  "qs": [
+   [
+    "Where is the family?",
+    [
+     "In the park",
+     "At the beach",
+     "At home"
+    ]
+   ],
+   [
+    "What is Dad doing?",
+    [
+     "Reading a book",
+     "Cooking",
+     "Playing football"
+    ]
+   ],
+   [
+    "Who is running after the brother?",
+    [
+     "Toto, the dog",
+     "Mum",
+     "A cat"
+    ]
+   ],
+   [
+    "How is the watermelon?",
+    [
+     "Cold and very sweet",
+     "Hot and salty",
+     "Small and green"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "grandpa-chess",
+  "level": "A1",
+  "topic": "Family",
+  "title": "Grandpa and Chess",
+  "text": [
+   "My grandfather loves chess. He plays it every day. He has a beautiful old chessboard with black and white wooden pieces.",
+   "On Saturdays, I go to his flat, and we play together. Grandpa is very good, and I usually lose. But he is a good teacher. He shows me how the pieces move. The horse, or knight, is my favourite piece. It can jump!",
+   "Grandpa always says, \"Think first, then move.\" Now I think before I move in chess, and sometimes in life too. Today I am almost winning! Maybe next Saturday I can win."
+  ],
+  "words": [
+   [
+    "chess",
+    "շախմատ"
+   ],
+   [
+    "pieces",
+    "խաղաքարեր"
+   ],
+   [
+    "usually",
+    "սովորաբար"
+   ],
+   [
+    "lose",
+    "պարտվել"
+   ],
+   [
+    "move",
+    "քայլ անել, շարժվել"
+   ],
+   [
+    "almost",
+    "գրեթե"
+   ]
+  ],
+  "qs": [
+   [
+    "How often does Grandpa play chess?",
+    [
+     "Every day",
+     "Once a year",
+     "Only on holidays"
+    ]
+   ],
+   [
+    "Which piece is the writer's favourite?",
+    [
+     "The knight",
+     "The king",
+     "The queen"
+    ]
+   ],
+   [
+    "What does Grandpa always say?",
+    [
+     "Think first, then move",
+     "Play fast",
+     "Never lose"
+    ]
+   ],
+   [
+    "Who usually wins?",
+    [
+     "Grandpa",
+     "The writer",
+     "Nobody"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "what-animals-eat",
+  "level": "A1",
+  "topic": "Animals",
+  "title": "What Do Animals Eat?",
+  "text": [
+   "Animals eat many different things. Cows eat grass. They eat for many hours every day. Rabbits like grass too, and they also eat leaves and vegetables.",
+   "Lions and tigers eat meat. They are hunters. Pandas are big bears, but they eat almost only bamboo. Bees drink nectar from flowers, and they make honey from it.",
+   "Some animals eat almost everything. Bears eat fish, fruit, nuts and even honey. Our cat eats fish and meat, but she also likes a little milk. What does your pet eat?"
+  ],
+  "words": [
+   [
+    "cows",
+    "կովեր"
+   ],
+   [
+    "grass",
+    "խոտ"
+   ],
+   [
+    "meat",
+    "միս"
+   ],
+   [
+    "hunters",
+    "որսորդներ"
+   ],
+   [
+    "honey",
+    "մեղր"
+   ],
+   [
+    "nuts",
+    "ընկույզներ"
+   ]
+  ],
+  "qs": [
+   [
+    "What do cows eat?",
+    [
+     "Grass",
+     "Meat",
+     "Fish"
+    ]
+   ],
+   [
+    "What do pandas eat almost only?",
+    [
+     "Bamboo",
+     "Honey",
+     "Fish"
+    ]
+   ],
+   [
+    "What do bees make from nectar?",
+    [
+     "Honey",
+     "Milk",
+     "Bread"
+    ]
+   ],
+   [
+    "Which animals are hunters?",
+    [
+     "Lions and tigers",
+     "Cows and rabbits",
+     "Pandas and bees"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "sunday-khorovats",
+  "level": "A1",
+  "topic": "Food",
+  "title": "Khorovats on Sunday",
+  "text": [
+   "In summer, my family often makes khorovats on Sunday. Khorovats is Armenian barbecue. My dad is the chef. He cuts the meat into big pieces. Then he puts the pieces on long metal sticks.",
+   "My uncle makes the fire. My mum and my aunt wash tomatoes and peppers. They cook them on the fire too. I put lavash and green herbs on the table.",
+   "The smell is great! We are all hungry. We sit in the garden, eat and talk for hours. For me, khorovats is not only food. It is time with my family."
+  ],
+  "words": [
+   [
+    "chef",
+    "խոհարար"
+   ],
+   [
+    "cuts",
+    "կտրում է"
+   ],
+   [
+    "metal sticks",
+    "շամփուրներ"
+   ],
+   [
+    "fire",
+    "կրակ"
+   ],
+   [
+    "herbs",
+    "կանաչի"
+   ],
+   [
+    "smell",
+    "հոտ, բույր"
+   ]
+  ],
+  "qs": [
+   [
+    "What is khorovats?",
+    [
+     "Armenian barbecue",
+     "A kind of soup",
+     "A sweet cake"
+    ]
+   ],
+   [
+    "Who makes the fire?",
+    [
+     "The uncle",
+     "The dad",
+     "The writer"
+    ]
+   ],
+   [
+    "What does the writer put on the table?",
+    [
+     "Lavash and green herbs",
+     "Plates and cups",
+     "Ice cream"
+    ]
+   ],
+   [
+    "What is khorovats for the writer?",
+    [
+     "Time with the family",
+     "Only food",
+     "Hard work"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "saturday-market",
+  "level": "A1",
+  "topic": "Places",
+  "title": "The Saturday Market",
+  "text": [
+   "Every Saturday, my grandmother and I go to the market. It is big and loud. There is fruit everywhere: red apples, yellow lemons, green peppers and purple grapes.",
+   "The sellers call to us: \"Come here! Try this! It is fresh!\" My grandmother is clever. She touches the fruit and smells it. She always asks the price. Sometimes the price goes down!",
+   "I carry the bag. It is heavy, but I do not mind. At the end, my grandmother always buys me something sweet. Today it is dried apricots. They are my favourite."
+  ],
+  "words": [
+   [
+    "market",
+    "շուկա"
+   ],
+   [
+    "loud",
+    "աղմկոտ"
+   ],
+   [
+    "sellers",
+    "վաճառողներ"
+   ],
+   [
+    "clever",
+    "խելացի"
+   ],
+   [
+    "price",
+    "գին"
+   ],
+   [
+    "dried apricots",
+    "չիր, չորացրած ծիրան"
+   ]
+  ],
+  "qs": [
+   [
+    "When do they go to the market?",
+    [
+     "Every Saturday",
+     "Every Monday",
+     "Once a month"
+    ]
+   ],
+   [
+    "What does the grandmother always ask?",
+    [
+     "The price",
+     "The seller's name",
+     "The time"
+    ]
+   ],
+   [
+    "Who carries the bag?",
+    [
+     "The writer",
+     "The grandmother",
+     "A seller"
+    ]
+   ],
+   [
+    "What does the writer get today?",
+    [
+     "Dried apricots",
+     "Chocolate",
+     "Grapes"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "robot-toy",
+  "level": "A1",
+  "topic": "Technology",
+  "title": "My Robot Friend",
+  "text": [
+   "I have a small robot. His name is Zip. He is blue and silver, and he has two green eyes. Zip can walk, turn and say a few words in English.",
+   "When I press the button on his back, Zip says, \"Hello! How are you?\" He can also dance. His dance is very funny, and my little sister laughs every time.",
+   "Zip is not a real friend, of course. He cannot think or feel. But he helps me to practise English, because I answer him every day. Sometimes I teach my sister new English words with Zip. Robots are fun, but people are better friends."
+  ],
+  "words": [
+   [
+    "robot",
+    "ռոբոտ"
+   ],
+   [
+    "silver",
+    "արծաթագույն"
+   ],
+   [
+    "press",
+    "սեղմել"
+   ],
+   [
+    "button",
+    "կոճակ"
+   ],
+   [
+    "real",
+    "իրական"
+   ],
+   [
+    "practise",
+    "վարժվել"
+   ]
+  ],
+  "qs": [
+   [
+    "What colour is Zip?",
+    [
+     "Blue and silver",
+     "Red and gold",
+     "Black and white"
+    ]
+   ],
+   [
+    "What happens when the writer presses the button?",
+    [
+     "Zip says hello",
+     "Zip goes to sleep",
+     "Zip turns off"
+    ]
+   ],
+   [
+    "Who laughs at Zip's dance?",
+    [
+     "The little sister",
+     "The teacher",
+     "The dog"
+    ]
+   ],
+   [
+    "What is the main idea of the ending?",
+    [
+     "Robots are fun, but people are better friends",
+     "Robots are better than people",
+     "Robots can think and feel"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "rainbow",
+  "level": "A1",
+  "topic": "Science",
+  "title": "The Colours of the Rainbow",
+  "text": [
+   "After rain, when the sun comes out, we sometimes see a rainbow. A rainbow has many colours. People usually name seven: red, orange, yellow, green, blue, indigo and violet.",
+   "Where do the colours come from? Sunlight looks white, but it has all these colours in it. Small drops of water in the air separate the colours. Then we see a beautiful arc in the sky.",
+   "Do you want to see a rainbow? Stand with the sun behind you and look at the rain. In my family, we have a game. When someone sees a rainbow, they shout \"Rainbow!\" Then everybody runs to the window."
+  ],
+  "words": [
+   [
+    "rainbow",
+    "ծիածան"
+   ],
+   [
+    "seven",
+    "յոթ"
+   ],
+   [
+    "sunlight",
+    "արևի լույս"
+   ],
+   [
+    "drops",
+    "կաթիլներ"
+   ],
+   [
+    "separate",
+    "բաժանել"
+   ],
+   [
+    "arc",
+    "աղեղ"
+   ]
+  ],
+  "qs": [
+   [
+    "When can we see a rainbow?",
+    [
+     "After rain, when the sun comes out",
+     "At night",
+     "Only in winter"
+    ]
+   ],
+   [
+    "How many colours do people usually name?",
+    [
+     "Seven",
+     "Five",
+     "Ten"
+    ]
+   ],
+   [
+    "What separates the colours of sunlight?",
+    [
+     "Small drops of water in the air",
+     "The wind",
+     "The clouds"
+    ]
+   ],
+   [
+    "Where should the sun be when you look for a rainbow?",
+    [
+     "Behind you",
+     "In front of you",
+     "Under you"
+    ]
+   ]
+  ]
+ },
+ {
   "id": "trees",
   "level": "A2",
   "topic": "Nature",
@@ -1417,6 +2127,718 @@ window.ESSAYS = [
      "UNESCO added lavash to its list",
      "Lavash was invented",
      "The first tonir was built"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "lost-in-market",
+  "level": "A2",
+  "topic": "Story",
+  "title": "The Day I Got Lost",
+  "text": [
+   "When I was seven, my mother took me to the big market in the city centre. It was full of people, noise and colours. She told me, \"Hold my hand and don't let go.\" But then I saw a man with a cage of yellow birds, and I stopped to look. When I turned around, my mother wasn't there.",
+   "I felt cold with fear. Everybody was taller than me, and all the faces were strangers. I started to cry. A woman who was selling cheese came out from behind her table. She gave me a piece of cheese and asked my name. Then she shouted it very loudly, again and again.",
+   "Two minutes later, my mother ran towards us. She was crying too. I was so happy to see her. Now I am older, but I still remember the kind cheese seller, and I always tell little children: if you are lost, stay where you are and ask a seller for help."
+  ],
+  "words": [
+   [
+    "noise",
+    "աղմուկ"
+   ],
+   [
+    "cage",
+    "վանդակ"
+   ],
+   [
+    "fear",
+    "վախ"
+   ],
+   [
+    "strangers",
+    "անծանոթներ"
+   ],
+   [
+    "shouted",
+    "բղավեց"
+   ],
+   [
+    "towards",
+    "դեպի"
+   ]
+  ],
+  "qs": [
+   [
+    "Why did the writer stop?",
+    [
+     "To look at a man with yellow birds",
+     "To buy cheese",
+     "To tie a shoe"
+    ]
+   ],
+   [
+    "Who helped the writer?",
+    [
+     "A woman selling cheese",
+     "A police officer",
+     "Another child"
+    ]
+   ],
+   [
+    "How did the woman find the mother?",
+    [
+     "She shouted the child's name",
+     "She phoned the police",
+     "She used a microphone"
+    ]
+   ],
+   [
+    "What advice does the writer give?",
+    [
+     "Stay where you are and ask a seller for help",
+     "Run and look for your parents",
+     "Go home alone"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "first-phone-call",
+  "level": "A2",
+  "topic": "Language",
+  "title": "My First Phone Call in English",
+  "text": [
+   "Last spring, my school had a project with a school in Canada. Each of us got a partner, and we had to call them on a video app. My partner's name was Emma. I was very nervous before the call. I wrote all my questions on a piece of paper, and I practised them in front of the mirror.",
+   "When Emma answered, I forgot everything! My mind was empty. But Emma smiled and said slowly, \"Hi! Is it cold in Armenia now?\" I understood her, and I answered. After that, it was easier. We talked about our families, our favourite food and our pets. She has a horse!",
+   "The call was only fifteen minutes, but I was very proud. I made some mistakes, but Emma understood me, and I understood her. Now we talk every two weeks. I learned that you don't need perfect English to have a real conversation."
+  ],
+  "words": [
+   [
+    "partner",
+    "զուգընկեր"
+   ],
+   [
+    "nervous",
+    "լարված"
+   ],
+   [
+    "mirror",
+    "հայելի"
+   ],
+   [
+    "forgot",
+    "մոռացա"
+   ],
+   [
+    "proud",
+    "հպարտ"
+   ],
+   [
+    "conversation",
+    "զրույց"
+   ]
+  ],
+  "qs": [
+   [
+    "Where was the partner school?",
+    [
+     "In Canada",
+     "In England",
+     "In Australia"
+    ]
+   ],
+   [
+    "What happened when Emma answered?",
+    [
+     "The writer forgot everything",
+     "The call stopped",
+     "Emma spoke Armenian"
+    ]
+   ],
+   [
+    "What pet does Emma have?",
+    [
+     "A horse",
+     "A dog",
+     "A parrot"
+    ]
+   ],
+   [
+    "What did the writer learn?",
+    [
+     "You don't need perfect English to have a real conversation",
+     "Phone calls are always difficult",
+     "Only teachers speak good English"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "lake-sevan",
+  "level": "A2",
+  "topic": "Travel",
+  "title": "A Weekend at Lake Sevan",
+  "text": [
+   "Last August, my family spent a weekend at Lake Sevan. The lake is high in the mountains, so the air was cooler and fresher than in Yerevan. The water was very blue, but it was also very cold! My father swam for a few minutes. I only put my feet in.",
+   "On Saturday, we climbed the steps to Sevanavank, the old monastery on the peninsula. From the top, we could see the whole lake and the mountains around it. My grandmother told us that it was an island long ago, before the water level went down.",
+   "In the evening, we ate fresh fish in a small restaurant near the water and watched the sun go down. It was the best weekend of the summer. Next year, I'm going to learn to swim better, so I can swim in the lake too."
+  ],
+  "words": [
+   [
+    "mountains",
+    "լեռներ"
+   ],
+   [
+    "cooler",
+    "ավելի զով"
+   ],
+   [
+    "climbed",
+    "բարձրացանք"
+   ],
+   [
+    "monastery",
+    "վանք"
+   ],
+   [
+    "peninsula",
+    "թերակղզի"
+   ],
+   [
+    "island",
+    "կղզի"
+   ]
+  ],
+  "qs": [
+   [
+    "Why was the air cooler at the lake?",
+    [
+     "The lake is high in the mountains",
+     "It was winter",
+     "It rained all weekend"
+    ]
+   ],
+   [
+    "What did they visit on Saturday?",
+    [
+     "Sevanavank monastery",
+     "A museum in Yerevan",
+     "A zoo"
+    ]
+   ],
+   [
+    "What did the grandmother say about the peninsula?",
+    [
+     "It was an island long ago",
+     "It is new",
+     "It is in Georgia"
+    ]
+   ],
+   [
+    "What is the writer going to do next year?",
+    [
+     "Learn to swim better",
+     "Visit Paris",
+     "Buy a boat"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "cooking-dinner",
+  "level": "A2",
+  "topic": "Family",
+  "title": "The Night I Cooked Dinner",
+  "text": [
+   "Last Friday, my mother came home late from work, and she looked very tired. So I decided to cook dinner for the whole family. I was twelve, and I had never cooked a real dinner before.",
+   "I chose an easy recipe: pasta with tomato sauce and a salad. First, I boiled water and added salt. Then I cut onions. My eyes cried more than at a sad film! I cooked the onions with tomatoes and a little garlic. My little brother helped me with the salad. He washed the cucumbers and broke the lettuce into pieces.",
+   "The pasta was a bit too soft, and the sauce needed more salt. But my parents said it was the best dinner of the week. My mother smiled and said, \"Now I know who is cooking next Friday!\" I'm happy, because cooking was more fun than I expected."
+  ],
+  "words": [
+   [
+    "decided",
+    "որոշեցի"
+   ],
+   [
+    "recipe",
+    "բաղադրատոմս"
+   ],
+   [
+    "boiled",
+    "եռացրի"
+   ],
+   [
+    "onions",
+    "սոխ"
+   ],
+   [
+    "garlic",
+    "սխտոր"
+   ],
+   [
+    "sauce",
+    "սոուս"
+   ]
+  ],
+  "qs": [
+   [
+    "Why did the writer cook dinner?",
+    [
+     "The mother was tired after work",
+     "It was a birthday",
+     "The father asked"
+    ]
+   ],
+   [
+    "What did the writer cook?",
+    [
+     "Pasta with tomato sauce and a salad",
+     "Chicken soup",
+     "Pizza"
+    ]
+   ],
+   [
+    "What was wrong with the dinner?",
+    [
+     "The pasta was too soft and the sauce needed salt",
+     "It was burnt",
+     "It was too spicy"
+    ]
+   ],
+   [
+    "What did the mother say?",
+    [
+     "Now I know who is cooking next Friday",
+     "Never cook again",
+     "Let's go to a restaurant"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "dogs-or-cats",
+  "level": "A2",
+  "topic": "Animals",
+  "title": "Dogs or Cats?",
+  "text": [
+   "In my class, there are two teams: the dog people and the cat people. Last week, our teacher asked us to write about which pet is better. Here is my answer.",
+   "Dogs are friendlier than cats. A dog is always happy to see you, and it wants to play. Dogs are also more active, so if you have a dog, you walk more and you are healthier. But dogs need more time. You have to walk them every day, even when it rains or snows.",
+   "Cats are more independent. They clean themselves, and they don't need walks. They are quieter than dogs, so they are better for small flats. But cats can be less friendly. Sometimes my cat ignores me for the whole day!",
+   "So which is better? I think it depends on your life. If you have a lot of time and energy, a dog is a great friend. If you are busy, a cat is easier. Me? I have a cat, but I want a dog too!"
+  ],
+  "words": [
+   [
+    "friendlier",
+    "ավելի ընկերասեր"
+   ],
+   [
+    "active",
+    "ակտիվ"
+   ],
+   [
+    "healthier",
+    "ավելի առողջ"
+   ],
+   [
+    "independent",
+    "անկախ"
+   ],
+   [
+    "ignores",
+    "անտեսում է"
+   ],
+   [
+    "depends",
+    "կախված է"
+   ]
+  ],
+  "qs": [
+   [
+    "Why are dogs good for your health?",
+    [
+     "You walk more",
+     "They eat less",
+     "They sleep a lot"
+    ]
+   ],
+   [
+    "Why are cats better for small flats?",
+    [
+     "They are quieter",
+     "They are bigger",
+     "They like water"
+    ]
+   ],
+   [
+    "What does the writer's cat sometimes do?",
+    [
+     "Ignores the writer all day",
+     "Sings",
+     "Walks the dog"
+    ]
+   ],
+   [
+    "What is the writer's final answer?",
+    [
+     "It depends on your life",
+     "Dogs are always better",
+     "Cats are always better"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "old-photograph",
+  "level": "A2",
+  "topic": "Family",
+  "title": "The Old Photograph",
+  "text": [
+   "Last winter, I was looking for my old toys in a box under my grandparents' bed. Instead, I found a small black-and-white photograph. In it, a young woman with short hair was standing next to a motorbike. She was wearing big glasses and laughing.",
+   "I showed the photo to my grandmother. \"Who is this?\" I asked. She laughed and said, \"That's me! I was twenty-two.\" I couldn't believe it. My quiet grandmother, who loves knitting, rode a motorbike!",
+   "She told me the story. In the summer of 1978, she and her friend travelled to three cities on that motorbike. They slept in small hotels and ate in cheap cafés. It was the most exciting summer of her life. Now, when I look at my grandmother, I see two people: the kind old woman who makes my favourite cake, and the brave young woman on the motorbike."
+  ],
+  "words": [
+   [
+    "photograph",
+    "լուսանկար"
+   ],
+   [
+    "motorbike",
+    "մոտոցիկլետ"
+   ],
+   [
+    "glasses",
+    "ակնոց"
+   ],
+   [
+    "believe",
+    "հավատալ"
+   ],
+   [
+    "knitting",
+    "գործելը (ասեղով)"
+   ],
+   [
+    "brave",
+    "համարձակ"
+   ]
+  ],
+  "qs": [
+   [
+    "Where did the writer find the photograph?",
+    [
+     "In a box under the grandparents' bed",
+     "In a library book",
+     "In a museum"
+    ]
+   ],
+   [
+    "What was next to the young woman?",
+    [
+     "A motorbike",
+     "A horse",
+     "A car"
+    ]
+   ],
+   [
+    "Who was the woman in the photograph?",
+    [
+     "The writer's grandmother",
+     "A film star",
+     "The writer's teacher"
+    ]
+   ],
+   [
+    "What does the writer see in the grandmother now?",
+    [
+     "Two people: a kind old woman and a brave young woman",
+     "Only an old woman",
+     "A stranger"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "summer-plans",
+  "level": "A2",
+  "topic": "Plans",
+  "title": "My Plans for the Summer",
+  "text": [
+   "School finishes in three weeks, and I already have big plans for the summer holidays. I don't want to spend the whole summer in front of a screen, so I made a list.",
+   "First, I'm going to read five books in English. My teacher gave me a list of easy novels. I'm going to start with a detective story. Second, I'm going to learn to cook three dishes from my grandmother: dolma, gata and ghapama. She is the best cook in our family, and she promised to teach me.",
+   "Third, I'm going to go hiking in Dilijan with my cousins. We're going to sleep in a tent for two nights. I've never slept in a tent before. I'm a little nervous, but very excited.",
+   "Finally, I'm going to help my neighbour with his shopping. He is an old man, and he can't walk well. Summer is long, and I think it's better when it's useful and fun at the same time."
+  ],
+  "words": [
+   [
+    "already",
+    "արդեն"
+   ],
+   [
+    "screen",
+    "էկրան"
+   ],
+   [
+    "novels",
+    "վեպեր"
+   ],
+   [
+    "dishes",
+    "ճաշատեսակներ"
+   ],
+   [
+    "hiking",
+    "արշավ"
+   ],
+   [
+    "tent",
+    "վրան"
+   ]
+  ],
+  "qs": [
+   [
+    "How many books is the writer going to read?",
+    [
+     "Five",
+     "Two",
+     "Ten"
+    ]
+   ],
+   [
+    "Who is going to teach the writer to cook?",
+    [
+     "The grandmother",
+     "The mother",
+     "A chef"
+    ]
+   ],
+   [
+    "Where is the writer going hiking?",
+    [
+     "In Dilijan",
+     "In Paris",
+     "In Gyumri"
+    ]
+   ],
+   [
+    "How is the writer going to help the neighbour?",
+    [
+     "With his shopping",
+     "With his homework",
+     "With his garden"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "football-rain",
+  "level": "A2",
+  "topic": "Sport",
+  "title": "Football in the Rain",
+  "text": [
+   "It was the last match of the season, and our school team needed only a draw to win the cup. Ten minutes before the game, it started to rain heavily. The pitch became muddy, and the ball was slow and heavy.",
+   "The other team scored first. We were all wet, cold and angry. At half-time, our coach didn't shout at us. He just said, \"Stop thinking about the rain. Think about each other.\" In the second half, we passed the ball more and ran faster.",
+   "With five minutes left, I got the ball near the goal. I slipped in the mud, but I still kicked it, and the ball rolled slowly into the net. It wasn't a beautiful goal, but it was the most important goal of my life. The match ended 1–1, and we won the cup. We were covered in mud, but nobody cared."
+  ],
+  "words": [
+   [
+    "draw",
+    "ոչ-ոքի"
+   ],
+   [
+    "pitch",
+    "խաղադաշտ"
+   ],
+   [
+    "muddy",
+    "ցեխոտ"
+   ],
+   [
+    "scored",
+    "գոլ խփեց"
+   ],
+   [
+    "slipped",
+    "սայթաքեցի"
+   ],
+   [
+    "covered",
+    "ծածկված"
+   ]
+  ],
+  "qs": [
+   [
+    "What did the team need to win the cup?",
+    [
+     "A draw",
+     "Three goals",
+     "Good weather"
+    ]
+   ],
+   [
+    "What did the coach say at half-time?",
+    [
+     "Think about each other",
+     "You are terrible",
+     "Go home"
+    ]
+   ],
+   [
+    "How did the writer score?",
+    [
+     "Slipped in the mud but still kicked the ball",
+     "With a beautiful header",
+     "From a penalty"
+    ]
+   ],
+   [
+    "What was the final score?",
+    [
+     "1–1",
+     "2–0",
+     "0–1"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "grandma-farm",
+  "level": "A2",
+  "topic": "Nature",
+  "title": "A Week on Grandma's Farm",
+  "text": [
+   "Last summer, I spent a week on my grandmother's farm in a village near Ijevan. In the city, I wake up at eight o'clock. On the farm, everybody gets up at six! My first job was to feed the chickens. They ran towards me very fast, and I was a bit scared.",
+   "Then my grandmother taught me to milk the cow. It was much more difficult than I thought. The cow didn't like me at first, and she moved her tail into my face! On the third day, I finally got a full cup of warm milk.",
+   "In the afternoons, we picked cherries and made jam. In the evenings, there was no internet, so we played cards and talked. On my last day, I was sad to leave. The farm was harder than my life in the city, but it was also calmer and happier."
+  ],
+  "words": [
+   [
+    "farm",
+    "ագարակ"
+   ],
+   [
+    "feed",
+    "կերակրել"
+   ],
+   [
+    "chickens",
+    "հավեր"
+   ],
+   [
+    "milk",
+    "կթել"
+   ],
+   [
+    "tail",
+    "պոչ"
+   ],
+   [
+    "cherries",
+    "բալ, կեռաս"
+   ]
+  ],
+  "qs": [
+   [
+    "What time does everybody get up on the farm?",
+    [
+     "At six",
+     "At eight",
+     "At ten"
+    ]
+   ],
+   [
+    "What was the writer's first job?",
+    [
+     "To feed the chickens",
+     "To milk the cow",
+     "To pick cherries"
+    ]
+   ],
+   [
+    "What did the cow do at first?",
+    [
+     "Moved her tail into the writer's face",
+     "Ran away",
+     "Sang"
+    ]
+   ],
+   [
+    "How does the writer describe life on the farm?",
+    [
+     "Harder but calmer and happier",
+     "Boring and easy",
+     "Dangerous"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "new-teacher",
+  "level": "A2",
+  "topic": "School",
+  "title": "Our New English Teacher",
+  "text": [
+   "In September, we got a new English teacher, Ms. Lilit. On the first day, she didn't open the textbook. Instead, she put a big box on her desk and asked us to guess what was inside. We asked questions in English: \"Is it big? Is it alive? Can you eat it?\"",
+   "It was a very old radio! She told us that she learned English when she was a child by listening to songs on that radio. Then she played a song, and we tried to write the words we heard.",
+   "Ms. Lilit is different from our old teacher. Her lessons are louder and more active. We work in groups, we play games, and we talk more than we write. Some students thought it was strange at first, but now English is everybody's favourite lesson. I think the best teachers don't only teach a subject. They make you want to learn it."
+  ],
+  "words": [
+   [
+    "textbook",
+    "դասագիրք"
+   ],
+   [
+    "guess",
+    "գուշակել"
+   ],
+   [
+    "alive",
+    "կենդանի"
+   ],
+   [
+    "radio",
+    "ռադիո"
+   ],
+   [
+    "groups",
+    "խմբեր"
+   ],
+   [
+    "subject",
+    "առարկա"
+   ]
+  ],
+  "qs": [
+   [
+    "What did Ms. Lilit put on her desk?",
+    [
+     "A big box",
+     "A cake",
+     "A computer"
+    ]
+   ],
+   [
+    "What was inside?",
+    [
+     "A very old radio",
+     "A cat",
+     "New books"
+    ]
+   ],
+   [
+    "How did Ms. Lilit learn English as a child?",
+    [
+     "By listening to songs on the radio",
+     "By living in London",
+     "By watching films"
+    ]
+   ],
+   [
+    "What does the writer think the best teachers do?",
+    [
+     "Make you want to learn",
+     "Give a lot of tests",
+     "Only use the textbook"
     ]
    ]
   ]
@@ -2134,6 +3556,726 @@ window.ESSAYS = [
      "Communication does not always need words",
      "Bees are dangerous",
      "Dancing is good exercise"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "why-we-dream",
+  "level": "B1",
+  "topic": "Science",
+  "title": "Why Do We Dream?",
+  "text": [
+   "Every night, you probably spend around two hours dreaming, even if you remember nothing in the morning. Some dreams are strange, some are frightening, and some feel so real that you wake up confused. But why does the brain create these night-time stories at all?",
+   "Scientists know that the most vivid dreams usually happen during a stage of sleep called REM sleep, when the eyes move quickly under the eyelids and the brain is almost as active as when we are awake. What they still disagree about is the purpose of dreaming.",
+   "One popular theory says that dreams help us process emotions. By replaying difficult experiences in a safe place, the brain may reduce their power over us. Another theory suggests that dreams help us practise reacting to danger, which could explain why so many dreams involve being chased. A third view is more modest: perhaps dreams are simply a side effect of the brain organising memories while we sleep.",
+   "Nobody has proved which explanation is right, and the truth may include a little of each. What is clear is that sleep is not a waste of time. While our bodies rest, our minds are busier than we think."
+  ],
+  "words": [
+   [
+    "vivid",
+    "վառ"
+   ],
+   [
+    "stage",
+    "փուլ"
+   ],
+   [
+    "purpose",
+    "նպատակ"
+   ],
+   [
+    "process",
+    "մշակել"
+   ],
+   [
+    "chased",
+    "հետապնդված"
+   ],
+   [
+    "side effect",
+    "կողմնակի ազդեցություն"
+   ]
+  ],
+  "qs": [
+   [
+    "When do the most vivid dreams usually happen?",
+    [
+     "During REM sleep",
+     "Just before we fall asleep",
+     "When we are awake"
+    ]
+   ],
+   [
+    "What does the first theory say?",
+    [
+     "Dreams help us process emotions",
+     "Dreams predict the future",
+     "Dreams are messages from others"
+    ]
+   ],
+   [
+    "Why might so many dreams involve being chased?",
+    [
+     "Dreams may help us practise reacting to danger",
+     "We watch too many films",
+     "We eat too late"
+    ]
+   ],
+   [
+    "What is the writer's conclusion?",
+    [
+     "Nobody has proved which explanation is right",
+     "Dreams have no purpose",
+     "Only one theory is correct"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "children-smartphones",
+  "level": "B1",
+  "topic": "Technology",
+  "title": "Should Children Have Smartphones?",
+  "text": [
+   "At what age should a child get a smartphone? Ask ten parents and you may get ten different answers. Many children in my school got their first phone at nine or ten, while others are still waiting at fourteen.",
+   "Parents who say yes usually mention safety. With a phone, a child can call home if something goes wrong, and parents can see where their child is. Phones can also be useful for learning: dictionaries, maps and educational apps fit in a pocket.",
+   "On the other hand, a smartphone is not just a phone. It also brings games, social media and endless videos, which are designed to keep us looking at the screen. Many teachers say that students who spend hours on their phones sleep less and find it harder to concentrate. There is also the risk of meeting strangers online.",
+   "In my opinion, the question is not only \"when\" but \"how\". A simple phone for calls at nine, and a smartphone with clear rules a few years later, seems sensible to me. Whatever families decide, the most important thing is to talk about it openly, so that the phone becomes a tool and not a boss."
+  ],
+  "words": [
+   [
+    "safety",
+    "անվտանգություն"
+   ],
+   [
+    "mention",
+    "նշել"
+   ],
+   [
+    "endless",
+    "անվերջ"
+   ],
+   [
+    "designed",
+    "նախագծված"
+   ],
+   [
+    "sensible",
+    "խելամիտ"
+   ],
+   [
+    "openly",
+    "բացահայտ, անկեղծ"
+   ]
+  ],
+  "qs": [
+   [
+    "Why do many parents give children phones?",
+    [
+     "For safety",
+     "For fashion",
+     "To stop homework"
+    ]
+   ],
+   [
+    "What problem do many teachers mention?",
+    [
+     "Students sleep less and find it harder to concentrate",
+     "Phones are too cheap",
+     "Students read too much"
+    ]
+   ],
+   [
+    "What does the writer suggest?",
+    [
+     "A simple phone first, a smartphone with rules later",
+     "No phones until twenty",
+     "A smartphone at five"
+    ]
+   ],
+   [
+    "What does \"a tool and not a boss\" mean here?",
+    [
+     "We should control the phone, not the other way round",
+     "Phones should be used for work only",
+     "Bosses need phones"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "pyramid-builders",
+  "level": "B1",
+  "topic": "History",
+  "title": "Who Really Built the Pyramids?",
+  "text": [
+   "For centuries, many people believed that the Great Pyramids of Egypt were built by thousands of slaves, forced to work under the whip. Films and novels repeated the image so often that it became a kind of fact. However, archaeologists now tell a different story.",
+   "In the 1990s, researchers working near the pyramids of Giza discovered the remains of a town where the builders had lived. They found bakeries, places for brewing beer and the bones of cattle, which suggests that the workers were well fed. Even more importantly, they found the workers' own tombs, built close to the pyramids. Slaves would hardly have been buried with such honour next to the king's monument.",
+   "Most experts now believe that the pyramids were built by skilled, paid workers, helped by many ordinary farmers who worked for the state for a few months each year, possibly when the Nile flooded their fields.",
+   "The old myth is not completely surprising. It is easier to imagine cruelty than careful organisation. But the real story is more impressive: one of the greatest building projects in history was achieved through planning, teamwork and food for thousands of people."
+  ],
+  "words": [
+   [
+    "slaves",
+    "ստրուկներ"
+   ],
+   [
+    "archaeologists",
+    "հնագետներ"
+   ],
+   [
+    "remains",
+    "մնացորդներ"
+   ],
+   [
+    "tombs",
+    "դամբարաններ"
+   ],
+   [
+    "skilled",
+    "հմուտ"
+   ],
+   [
+    "flooded",
+    "հեղեղեց"
+   ]
+  ],
+  "qs": [
+   [
+    "What did many people believe for centuries?",
+    [
+     "The pyramids were built by slaves",
+     "The pyramids were built by aliens",
+     "The pyramids were built in one year"
+    ]
+   ],
+   [
+    "What did researchers discover near Giza?",
+    [
+     "A town where the builders lived",
+     "A secret room full of gold",
+     "A modern factory"
+    ]
+   ],
+   [
+    "Why are the workers' tombs important evidence?",
+    [
+     "Slaves would hardly have been buried with such honour",
+     "They were made of gold",
+     "They were very far away"
+    ]
+   ],
+   [
+    "What do most experts now believe?",
+    [
+     "Skilled, paid workers and farmers built the pyramids",
+     "Only slaves built them",
+     "Nobody knows anything"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "how-vaccines-work",
+  "level": "B1",
+  "topic": "Health",
+  "title": "How Do Vaccines Work?",
+  "text": [
+   "Imagine that your body is a city, and your immune system is its police force. When a dangerous germ arrives for the first time, the police don't recognise it. It takes them several days to understand who the criminal is and how to stop it, and during that time you may become very ill.",
+   "A vaccine is like showing the police a photograph of the criminal before the crime happens. It contains a harmless version of the germ, a small piece of it, or instructions that help the body make one of its proteins. The immune system studies this \"photograph\" and produces special cells and antibodies that remember it.",
+   "Later, if the real germ ever enters the body, the immune system recognises it immediately and reacts much faster. Often the person doesn't become ill at all, or the illness is much milder.",
+   "Vaccines have helped to control many serious diseases. Smallpox, which killed millions of people, was completely eradicated by 1980 thanks to vaccination. Like all medicines, vaccines can have side effects, usually mild ones such as a sore arm. Doctors compare these small risks with the much bigger risk of the disease itself."
+  ],
+  "words": [
+   [
+    "immune system",
+    "իմունային համակարգ"
+   ],
+   [
+    "germ",
+    "մանրէ"
+   ],
+   [
+    "recognise",
+    "ճանաչել"
+   ],
+   [
+    "harmless",
+    "անվնաս"
+   ],
+   [
+    "antibodies",
+    "հակամարմիններ"
+   ],
+   [
+    "eradicated",
+    "արմատախիլ արված"
+   ]
+  ],
+  "qs": [
+   [
+    "In the comparison, what is the immune system?",
+    [
+     "The police force of a city",
+     "A hospital",
+     "A criminal"
+    ]
+   ],
+   [
+    "What does a vaccine contain?",
+    [
+     "A harmless version or piece of the germ, or instructions to make one of its proteins",
+     "A strong dangerous germ",
+     "Vitamins only"
+    ]
+   ],
+   [
+    "What happens if the real germ enters later?",
+    [
+     "The immune system recognises it and reacts faster",
+     "Nothing changes",
+     "The vaccine stops working"
+    ]
+   ],
+   [
+    "Which disease was eradicated thanks to vaccination?",
+    [
+     "Smallpox",
+     "The common cold",
+     "Flu"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "blue-sky",
+  "level": "B1",
+  "topic": "Science",
+  "title": "Why Is the Sky Blue?",
+  "text": [
+   "It is one of the first questions children ask, and many adults cannot answer it: why is the sky blue and not white, green or purple? The answer has to do with sunlight and the air around us.",
+   "Sunlight looks white, but it is really a mixture of all the colours of the rainbow. Each colour travels as a wave, and the waves have different lengths. Red light has long waves, while blue and violet light have short ones.",
+   "When sunlight enters the atmosphere, it hits tiny molecules of gas. These molecules scatter short waves much more strongly than long ones, sending blue light in all directions across the sky. So wherever we look, we see blue light coming towards us. Violet is scattered even more, but our eyes are less sensitive to it, and some of it is absorbed high in the atmosphere, so the sky looks blue to us.",
+   "The same idea explains red sunsets. In the evening, sunlight travels through much more air to reach us. Most of the blue light is scattered away before it arrives, and the reds and oranges remain. The sky, in other words, is painted by physics."
+  ],
+  "words": [
+   [
+    "mixture",
+    "խառնուրդ"
+   ],
+   [
+    "wave",
+    "ալիք"
+   ],
+   [
+    "atmosphere",
+    "մթնոլորտ"
+   ],
+   [
+    "molecules",
+    "մոլեկուլներ"
+   ],
+   [
+    "scatter",
+    "ցրել"
+   ],
+   [
+    "sunsets",
+    "մայրամուտներ"
+   ]
+  ],
+  "qs": [
+   [
+    "What is sunlight really?",
+    [
+     "A mixture of all the colours",
+     "Only yellow light",
+     "Blue light"
+    ]
+   ],
+   [
+    "Which light is scattered more strongly?",
+    [
+     "Short waves, like blue",
+     "Long waves, like red",
+     "All light equally"
+    ]
+   ],
+   [
+    "Why don't we see a violet sky?",
+    [
+     "Our eyes are less sensitive to violet, and some is absorbed",
+     "Violet light does not exist",
+     "The sun has no violet"
+    ]
+   ],
+   [
+    "Why are sunsets red?",
+    [
+     "Sunlight travels through more air and blue is scattered away",
+     "The sun becomes colder",
+     "Clouds are red"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "fast-food-home",
+  "level": "B1",
+  "topic": "Food",
+  "title": "Fast Food or Home Cooking?",
+  "text": [
+   "It's seven in the evening, you've just come home from school or work, and you're hungry. You can spend forty minutes cooking, or you can order a burger that arrives in twenty. For millions of people, this choice happens every day.",
+   "Fast food has obvious advantages. It's quick, it usually tastes good, and it requires no washing up. For busy families, it can feel like a small gift of time. It's also a social habit: meeting friends for pizza is part of many young people's lives.",
+   "However, there are good reasons to cook at home more often. Restaurant and fast food meals usually contain more salt, sugar and fat than home-cooked food, and portions are often larger than we need. Cooking also saves money, because a bag of rice and vegetables can feed a family for several meals. Perhaps most importantly, when we cook, we know exactly what is on our plate.",
+   "I don't think fast food has to disappear from our lives. But if we treated it as an occasional treat rather than a daily solution, we would probably be healthier and richer. And learning to cook three or four simple meals is one of the most useful skills anyone can have."
+  ],
+  "words": [
+   [
+    "advantages",
+    "առավելություններ"
+   ],
+   [
+    "requires",
+    "պահանջում է"
+   ],
+   [
+    "habit",
+    "սովորություն"
+   ],
+   [
+    "portions",
+    "բաժիններ"
+   ],
+   [
+    "occasional",
+    "երբեմնի"
+   ],
+   [
+    "treat",
+    "հյուրասիրություն, պարգև"
+   ]
+  ],
+  "qs": [
+   [
+    "What is one advantage of fast food?",
+    [
+     "It's quick and needs no washing up",
+     "It is always healthy",
+     "It is always cheaper"
+    ]
+   ],
+   [
+    "What do fast food meals usually contain more of?",
+    [
+     "Salt, sugar and fat",
+     "Vitamins",
+     "Water"
+    ]
+   ],
+   [
+    "How does cooking at home save money?",
+    [
+     "Simple ingredients can feed a family for several meals",
+     "Supermarkets are free",
+     "Restaurants are closed"
+    ]
+   ],
+   [
+    "What does the writer suggest?",
+    [
+     "Treat fast food as an occasional treat",
+     "Never eat fast food",
+     "Eat fast food every day"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "afraid-to-speak",
+  "level": "B1",
+  "topic": "Story",
+  "title": "The Girl Who Was Afraid to Speak",
+  "text": [
+   "Until I was fifteen, I hated speaking in front of people. When a teacher asked me a question, my face turned red, my voice disappeared, and I forgot words I knew perfectly well. I always sat in the last row and hoped nobody would notice me.",
+   "Then my English teacher made an unexpected suggestion: she invited me to join the school debate club. I laughed. \"Me? I can't even say my name without shaking.\" But she said something I've never forgotten: \"Courage isn't the absence of fear. It's doing the thing while you're afraid.\"",
+   "The first debate was a disaster. I read from my paper without looking up, and I spoke so fast that nobody understood me. But the club met every week, and slowly things changed. I learned to prepare notes instead of full sentences, to breathe before I began, and to look at one friendly face in the audience.",
+   "Last month, our team reached the city final. I still felt nervous, but I spoke clearly and even made the judges laugh. We didn't win, but that didn't matter. The quiet girl in the last row had found her voice."
+  ],
+  "words": [
+   [
+    "hated",
+    "ատում էի"
+   ],
+   [
+    "row",
+    "շարք"
+   ],
+   [
+    "debate",
+    "բանավեճ"
+   ],
+   [
+    "courage",
+    "քաջություն"
+   ],
+   [
+    "absence",
+    "բացակայություն"
+   ],
+   [
+    "audience",
+    "հանդիսատես"
+   ]
+  ],
+  "qs": [
+   [
+    "What happened when a teacher asked the writer a question?",
+    [
+     "Her face turned red and her voice disappeared",
+     "She answered perfectly",
+     "She left the class"
+    ]
+   ],
+   [
+    "What did the English teacher suggest?",
+    [
+     "Joining the debate club",
+     "Changing schools",
+     "Sitting in the first row"
+    ]
+   ],
+   [
+    "What did the teacher say about courage?",
+    [
+     "It's doing the thing while you're afraid",
+     "It's never feeling fear",
+     "It's only for adults"
+    ]
+   ],
+   [
+    "What happened in the city final?",
+    [
+     "They didn't win, but she spoke clearly",
+     "They won the cup",
+     "She didn't go"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "if-animals-talked",
+  "level": "B1",
+  "topic": "Imagination",
+  "title": "If Animals Could Talk",
+  "text": [
+   "If animals could talk, what would they tell us? It's a children's question, but thinking about it seriously says a lot about how we treat the creatures around us.",
+   "My cat would probably complain. She would tell me that her food is boring, that I come home too late, and that the vacuum cleaner is a monster. Dogs, I imagine, would be more polite, but they would ask for longer walks.",
+   "Wild animals would have harder things to say. If bees could speak, they might ask us to stop using some of the chemicals that harm them, since we depend on them to pollinate many of our crops. Polar bears would describe the ice melting under their feet. Fish might tell us what it is like to swim through plastic.",
+   "Of course, animals will never give interviews. But in a way, they are already talking to us through the changes we can see: fewer insects, smaller forests, disappearing species. Scientists spend their lives learning to read these signals. If we listened to them as carefully as we would listen to a talking animal, we might treat the planet very differently."
+  ],
+  "words": [
+   [
+    "creatures",
+    "արարածներ"
+   ],
+   [
+    "complain",
+    "բողոքել"
+   ],
+   [
+    "polite",
+    "քաղաքավարի"
+   ],
+   [
+    "pollinate",
+    "փոշոտել"
+   ],
+   [
+    "crops",
+    "բերք, մշակաբույսեր"
+   ],
+   [
+    "species",
+    "տեսակներ"
+   ]
+  ],
+  "qs": [
+   [
+    "What would the writer's cat complain about?",
+    [
+     "Boring food, coming home late and the vacuum cleaner",
+     "The weather",
+     "Other cats"
+    ]
+   ],
+   [
+    "Why are bees important to us?",
+    [
+     "They pollinate many of our crops",
+     "They clean the water",
+     "They eat plastic"
+    ]
+   ],
+   [
+    "What would polar bears describe?",
+    [
+     "The ice melting under their feet",
+     "Hot summers in the city",
+     "Their favourite food"
+    ]
+   ],
+   [
+    "How are animals \"already talking to us\"?",
+    [
+     "Through the changes we can see in nature",
+     "Through the internet",
+     "Through dreams"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "secret-life-trees",
+  "level": "B1",
+  "topic": "Nature",
+  "title": "The Secret Life of Trees",
+  "text": [
+   "A forest looks peaceful and still, but under our feet there is a busy, hidden world. The roots of many trees are connected to fungi, tiny threads that spread through the soil like an underground internet. Scientists call these partnerships mycorrhizal networks.",
+   "The relationship helps both sides. The fungi help trees to take water and minerals from the soil, and in return the trees give the fungi sugar, which they make from sunlight. This kind of partnership is extremely common: most plants on Earth live with fungi in this way.",
+   "Some researchers have gone further. They have suggested that trees use these networks to share food with their young or to send warning signals to their neighbours. These ideas became very popular in books and documentaries. However, other scientists have argued that the evidence is weaker than the popular stories suggest, and that more careful studies are needed.",
+   "Even with this healthy disagreement, one thing is clear: a forest is not just a collection of separate trees. It is a community of living things that depend on each other in ways we are only beginning to understand."
+  ],
+  "words": [
+   [
+    "roots",
+    "արմատներ"
+   ],
+   [
+    "fungi",
+    "սնկեր"
+   ],
+   [
+    "threads",
+    "թելեր"
+   ],
+   [
+    "soil",
+    "հող"
+   ],
+   [
+    "minerals",
+    "հանքանյութեր"
+   ],
+   [
+    "evidence",
+    "ապացույց"
+   ]
+  ],
+  "qs": [
+   [
+    "What are trees' roots often connected to?",
+    [
+     "Fungi",
+     "Electric cables",
+     "Stones"
+    ]
+   ],
+   [
+    "What do trees give the fungi?",
+    [
+     "Sugar made from sunlight",
+     "Water",
+     "Minerals"
+    ]
+   ],
+   [
+    "What have some scientists argued about the popular stories?",
+    [
+     "The evidence is weaker than the stories suggest",
+     "They are completely proven",
+     "Trees can talk like humans"
+    ]
+   ],
+   [
+    "What is the writer's final point?",
+    [
+     "A forest is a community of living things that depend on each other",
+     "Trees live completely alone",
+     "Fungi are dangerous for trees"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "never-too-late",
+  "level": "B1",
+  "topic": "Learning",
+  "title": "Is It Ever Too Late to Learn?",
+  "text": [
+   "When my grandfather turned seventy, he announced that he was going to learn English. The family smiled politely. My uncle joked that his brain was \"full\". Two years later, Grandpa reads simple novels in English and video-calls his granddaughter in Canada without help.",
+   "There is a common belief that learning becomes impossible as we get older. It is true that children usually find it easier to pick up a perfect accent. But research on adult learning shows that older people have their own advantages. They have bigger vocabularies in their first language, more life experience to connect new information to, and often more patience and discipline than teenagers.",
+   "Grandpa's method was simple. He studied for twenty minutes every morning with his coffee, never more. He watched cartoons in English because the language was simple and the stories were easy to follow. Most importantly, he wasn't afraid of making mistakes, because, as he says, \"At my age, what's a little embarrassment?\"",
+   "His story has changed how our family thinks. My mother has started piano lessons at forty-five. Learning, it seems, doesn't have an age limit. It has only one real requirement: the decision to begin."
+  ],
+  "words": [
+   [
+    "announced",
+    "հայտարարեց"
+   ],
+   [
+    "belief",
+    "համոզմունք"
+   ],
+   [
+    "accent",
+    "առոգանություն"
+   ],
+   [
+    "vocabularies",
+    "բառապաշարներ"
+   ],
+   [
+    "discipline",
+    "կարգապահություն"
+   ],
+   [
+    "requirement",
+    "պահանջ"
+   ]
+  ],
+  "qs": [
+   [
+    "When did the grandfather start learning English?",
+    [
+     "At seventy",
+     "At forty-five",
+     "At twenty"
+    ]
+   ],
+   [
+    "What advantages do older learners have?",
+    [
+     "Bigger vocabularies, more experience and more patience",
+     "Better accents than children",
+     "Faster memory than teenagers"
+    ]
+   ],
+   [
+    "How long did Grandpa study every morning?",
+    [
+     "Twenty minutes",
+     "Two hours",
+     "Five minutes"
+    ]
+   ],
+   [
+    "What is the only real requirement for learning, according to the writer?",
+    [
+     "The decision to begin",
+     "Being young",
+     "Having money"
     ]
    ]
   ]
@@ -2857,6 +4999,732 @@ window.ESSAYS = [
   ]
  },
  {
+  "id": "science-of-habits",
+  "level": "B2",
+  "topic": "Psychology",
+  "title": "The Hidden Machinery of Habits",
+  "text": [
+   "Think about how you brushed your teeth this morning. Which hand held the brush? Where did you start? Most people cannot answer, because they did it without thinking. A surprisingly large part of what we do each day is not the result of conscious decisions but of habits, behaviours the brain has automated to save effort.",
+   "Psychologists often describe a habit as a loop with three parts: a cue that triggers the behaviour, the routine itself, and a reward that makes the brain want to repeat it. The smell of coffee in the kitchen, for instance, may trigger the routine of checking the phone, rewarded by a small burst of news or messages. Repeat the loop often enough in the same context, and the behaviour starts to run on its own.",
+   "This explains why willpower alone is such a poor tool for change. Researchers who study habits have found that people who seem disciplined often rely less on self-control and more on arranging their environment so that good behaviour is easy and bad behaviour is inconvenient. They keep fruit on the table and biscuits in a high cupboard; they leave their running shoes by the door.",
+   "The encouraging conclusion is that habits are not character flaws. They are learned, and what is learned can be redesigned. Rather than fighting yourself every day, it may be wiser to change the cue, make the routine easier, and wait patiently for the new loop to become automatic."
+  ],
+  "words": [
+   [
+    "conscious",
+    "գիտակցված"
+   ],
+   [
+    "automated",
+    "ավտոմատացված"
+   ],
+   [
+    "triggers",
+    "գործարկում է"
+   ],
+   [
+    "willpower",
+    "կամքի ուժ"
+   ],
+   [
+    "inconvenient",
+    "անհարմար"
+   ],
+   [
+    "flaws",
+    "թերություններ"
+   ]
+  ],
+  "qs": [
+   [
+    "Why can't most people describe how they brushed their teeth?",
+    [
+     "They did it automatically, by habit",
+     "They didn't brush them",
+     "They have bad memories"
+    ]
+   ],
+   [
+    "What are the three parts of the habit loop?",
+    [
+     "Cue, routine and reward",
+     "Plan, effort and result",
+     "Problem, solution and test"
+    ]
+   ],
+   [
+    "What do apparently disciplined people often do?",
+    [
+     "Arrange their environment to make good behaviour easy",
+     "Use only willpower",
+     "Avoid all routines"
+    ]
+   ],
+   [
+    "What is the writer's conclusion?",
+    [
+     "Habits are learned and can be redesigned",
+     "Habits can never change",
+     "Bad habits are character flaws"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "space-cost",
+  "level": "B2",
+  "topic": "Science",
+  "title": "Is Space Exploration Worth the Cost?",
+  "text": [
+   "Every time a rocket is launched, someone asks the same question: with so many problems on Earth, why are we spending billions on space? It is a fair question, and it deserves a better answer than enthusiasm alone.",
+   "Critics point out that the money could be used to fight poverty, improve hospitals or tackle climate change. Space missions are expensive, risky and often delayed, and their benefits can seem distant from ordinary life.",
+   "Supporters reply that space research has given us more practical benefits than most people realise. Satellites provide weather forecasts, navigation and much of the data scientists use to monitor climate change itself. Technologies developed for space programmes, from improved water filters to memory foam, have found their way into everyday products. And observing other planets has helped scientists understand how fragile our own atmosphere is.",
+   "There is also a less measurable argument. The image of Earth photographed from space, a small blue sphere in the darkness, has arguably done more to make people care about the planet than many speeches. Exploration feeds curiosity, and curiosity inspires young people to study science.",
+   "Perhaps the real question is not whether we should explore space, but how much and in what way. Spending on space is a small part of most national budgets. Used wisely, it is less a competitor to solving Earth's problems than one of the tools for doing so."
+  ],
+  "words": [
+   [
+    "launched",
+    "արձակված"
+   ],
+   [
+    "enthusiasm",
+    "խանդավառություն"
+   ],
+   [
+    "tackle",
+    "լուծել, պայքարել"
+   ],
+   [
+    "satellites",
+    "արբանյակներ"
+   ],
+   [
+    "fragile",
+    "փխրուն"
+   ],
+   [
+    "curiosity",
+    "հետաքրքրասիրություն"
+   ]
+  ],
+  "qs": [
+   [
+    "What do critics say about space spending?",
+    [
+     "The money could be used for problems on Earth",
+     "It is too cheap",
+     "It has no risks"
+    ]
+   ],
+   [
+    "Which practical benefit of space research is mentioned?",
+    [
+     "Satellites for weather forecasts and navigation",
+     "Cheaper cars",
+     "Faster trains"
+    ]
+   ],
+   [
+    "What effect did the image of Earth from space have?",
+    [
+     "It made people care more about the planet",
+     "It made people afraid of space",
+     "It had no effect"
+    ]
+   ],
+   [
+    "What is the writer's final view?",
+    [
+     "Used wisely, space spending helps solve Earth's problems",
+     "Space exploration should stop",
+     "Space is more important than Earth"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "dying-languages",
+  "level": "B2",
+  "topic": "Language",
+  "title": "Why Do Languages Die?",
+  "text": [
+   "Somewhere in the world, an elderly person is the last fluent speaker of a language. When they die, a way of naming the world, with its own jokes, songs and knowledge of plants and seasons, will disappear with them. Linguists estimate that thousands of the world's roughly seven thousand languages are endangered.",
+   "Languages rarely die because people are forbidden to speak them, although that has happened. More often, the process is quiet. Parents who want their children to succeed choose to speak the language of school, business and television at home. The children understand their grandparents' language but answer in the dominant one, and their own children never learn it at all. Within three generations, a language can vanish.",
+   "Why should this matter to anyone outside the community? One reason is scientific: each language encodes observations about the natural world that may exist nowhere else. Another is human: for many communities, language is tied to identity, dignity and memory.",
+   "Fortunately, decline is not always final. Hebrew, which for centuries was used mainly in religious texts, was revived as an everyday language in the late nineteenth and twentieth centuries, and Welsh has been strengthened by Welsh-language schools and media. These cases show that languages survive not through nostalgia but through use: when children hear them at home, learn them at school and see a future in them."
+  ],
+  "words": [
+   [
+    "fluent",
+    "սահուն խոսող"
+   ],
+   [
+    "endangered",
+    "վտանգված"
+   ],
+   [
+    "forbidden",
+    "արգելված"
+   ],
+   [
+    "dominant",
+    "գերիշխող"
+   ],
+   [
+    "vanish",
+    "անհետանալ"
+   ],
+   [
+    "revived",
+    "վերակենդանացված"
+   ]
+  ],
+  "qs": [
+   [
+    "How many languages exist in the world, roughly?",
+    [
+     "Seven thousand",
+     "Seven hundred",
+     "Seventy thousand"
+    ]
+   ],
+   [
+    "How do languages usually die, according to the writer?",
+    [
+     "Quietly, as families switch to the dominant language",
+     "Only because of laws",
+     "Because of wars only"
+    ]
+   ],
+   [
+    "Which language was revived as an everyday language?",
+    [
+     "Hebrew",
+     "Latin",
+     "Ancient Greek"
+    ]
+   ],
+   [
+    "How do languages survive, according to the writer?",
+    [
+     "Through use at home, at school and in the future",
+     "Through nostalgia",
+     "Through dictionaries alone"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "placebo-effect",
+  "level": "B2",
+  "topic": "Health",
+  "title": "The Strange Power of the Placebo",
+  "text": [
+   "Give a patient a sugar pill, tell them it is a powerful painkiller, and there is a real chance that their pain will decrease. This is the placebo effect, and it is one of the most fascinating puzzles in medicine.",
+   "Placebos have no active ingredient, so how can they work? The answer seems to lie in expectation. When we believe a treatment will help, the brain can change how it processes signals such as pain, partly by releasing its own natural painkillers. Context matters too: the white coat, the reassuring voice of a doctor and even the colour and price of a pill can influence how much benefit people report.",
+   "This is why modern drug trials compare new medicines with placebos rather than with nothing. A drug is only considered effective if it works better than a pill that patients merely believe in.",
+   "Placebos are not magic. They cannot shrink tumours or cure infections, and their effects are strongest for symptoms that the brain helps to shape, such as pain, nausea or fatigue. Using them dishonestly also raises ethical problems, since patients have a right to know what they are taking. Interestingly, some studies have found that placebos can help even when patients are told openly that the pills contain no medicine.",
+   "The placebo effect reminds us that the boundary between mind and body is less clear than we often assume. Care, trust and expectation are not just pleasant extras in medicine; they are part of the treatment."
+  ],
+  "words": [
+   [
+    "placebo",
+    "պլացեբո"
+   ],
+   [
+    "ingredient",
+    "բաղադրիչ"
+   ],
+   [
+    "expectation",
+    "ակնկալիք"
+   ],
+   [
+    "reassuring",
+    "հանգստացնող"
+   ],
+   [
+    "trials",
+    "փորձարկումներ"
+   ],
+   [
+    "ethical",
+    "էթիկական"
+   ]
+  ],
+  "qs": [
+   [
+    "What is a placebo?",
+    [
+     "A treatment with no active ingredient",
+     "A very strong medicine",
+     "A type of surgery"
+    ]
+   ],
+   [
+    "Why do drug trials use placebos?",
+    [
+     "A drug must work better than a pill people only believe in",
+     "Placebos are cheaper",
+     "Doctors prefer sugar pills"
+    ]
+   ],
+   [
+    "What can placebos NOT do?",
+    [
+     "Shrink tumours or cure infections",
+     "Reduce some pain",
+     "Influence how people feel"
+    ]
+   ],
+   [
+    "What surprising finding is mentioned?",
+    [
+     "Placebos can help even when patients know they are placebos",
+     "Placebos are dangerous",
+     "Placebos only work on children"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "museum-return",
+  "level": "B2",
+  "topic": "Society",
+  "title": "Should Museums Return What They Took?",
+  "text": [
+   "Walk through the great museums of London, Paris or Berlin, and you will see treasures from every corner of the world: Greek sculptures, Egyptian mummies, bronze plaques from the Kingdom of Benin. Many of these objects arrived during periods of empire, war and colonial rule. Today, a growing number of countries are asking for them back.",
+   "Those who support returning objects argue that many were taken by force or under conditions where the original owners had no real choice. For the communities they came from, these objects are not decorations but parts of their history and religion. Keeping them abroad, they say, continues an old injustice.",
+   "Museums have traditionally responded with several arguments. Some objects were acquired legally under the laws of their time. Large international museums allow millions of visitors to compare cultures side by side. And there have been concerns about whether returned objects would be safely conserved.",
+   "In recent years, the balance has begun to shift. In 2022, for example, Germany began returning hundreds of Benin Bronzes to Nigeria, and several other museums have made similar decisions. Others, such as the British Museum with the Parthenon Sculptures claimed by Greece, remain at the centre of long disputes.",
+   "No single rule can settle every case. Yet the question is changing from \"Who owns this object?\" to \"Whose story does it tell, and who should be allowed to tell it?\""
+  ],
+  "words": [
+   [
+    "treasures",
+    "գանձեր"
+   ],
+   [
+    "empire",
+    "կայսրություն"
+   ],
+   [
+    "injustice",
+    "անարդարություն"
+   ],
+   [
+    "acquired",
+    "ձեռք բերված"
+   ],
+   [
+    "conserved",
+    "պահպանված"
+   ],
+   [
+    "disputes",
+    "վեճեր"
+   ]
+  ],
+  "qs": [
+   [
+    "Why do some people want objects returned?",
+    [
+     "Many were taken by force or without real choice",
+     "They are too expensive to keep",
+     "Museums are closing"
+    ]
+   ],
+   [
+    "What is one argument museums have used?",
+    [
+     "Some objects were acquired legally under the laws of their time",
+     "The objects are fake",
+     "Nobody visits museums"
+    ]
+   ],
+   [
+    "What happened in 2022?",
+    [
+     "Germany began returning Benin Bronzes to Nigeria",
+     "Greece bought the British Museum",
+     "All museums closed"
+    ]
+   ],
+   [
+    "How is the question changing, according to the writer?",
+    [
+     "From who owns an object to whose story it tells",
+     "From history to science",
+     "From old to new museums"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "urban-farming",
+  "level": "B2",
+  "topic": "Environment",
+  "title": "Can Cities Feed Themselves?",
+  "text": [
+   "On the roof of a supermarket in a busy city, lettuce is growing in neat rows under the open sky. A few streets away, inside a former warehouse, herbs grow on shelves stacked to the ceiling, lit by purple LED lamps. Urban farming, once a hobby for enthusiasts, is increasingly presented as part of the answer to feeding growing cities.",
+   "Its advantages are easy to see. Food grown close to consumers travels shorter distances, arrives fresher and can be harvested at the moment it is needed. Rooftop gardens can cool buildings and absorb rainwater, while community gardens bring neighbours together and teach children where food comes from. Indoor vertical farms use far less water than traditional fields and are not affected by droughts or storms.",
+   "However, enthusiasm should not hide the limits. Vertical farms consume large amounts of electricity for lighting and climate control, which can make their produce expensive and, depending on the energy source, less environmentally friendly than it first appears. They work well for leafy greens and herbs, but growing staple crops such as wheat or rice indoors remains economically unrealistic.",
+   "The most realistic conclusion is that cities will not feed themselves entirely. Urban farms are best understood as a complement to rural agriculture rather than a replacement: valuable for fresh produce, education and resilience, but not a substitute for the countryside."
+  ],
+  "words": [
+   [
+    "warehouse",
+    "պահեստ"
+   ],
+   [
+    "consumers",
+    "սպառողներ"
+   ],
+   [
+    "harvested",
+    "հավաքված (բերքը)"
+   ],
+   [
+    "droughts",
+    "երաշտներ"
+   ],
+   [
+    "staple crops",
+    "հիմնական մշակաբույսեր"
+   ],
+   [
+    "complement",
+    "լրացում"
+   ]
+  ],
+  "qs": [
+   [
+    "Where are herbs grown in the example?",
+    [
+     "On shelves inside a former warehouse",
+     "In a forest",
+     "In a desert"
+    ]
+   ],
+   [
+    "What is one advantage of vertical farms?",
+    [
+     "They use far less water than traditional fields",
+     "They need no electricity",
+     "They grow rice cheaply"
+    ]
+   ],
+   [
+    "What is a limit of vertical farms?",
+    [
+     "They consume a lot of electricity",
+     "They use too much water",
+     "They only grow wheat"
+    ]
+   ],
+   [
+    "What is the writer's conclusion?",
+    [
+     "Urban farms complement rural agriculture but don't replace it",
+     "Cities can feed themselves entirely",
+     "Urban farming is useless"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "self-driving-ethics",
+  "level": "B2",
+  "topic": "Technology",
+  "title": "Who Should a Self-Driving Car Save?",
+  "text": [
+   "Imagine a self-driving car whose brakes fail. Ahead are five pedestrians; to the side, a single person. The car must choose. This scenario is a modern version of the \"trolley problem\", a thought experiment philosophers have debated for decades. With autonomous vehicles, it has moved from the seminar room to the engineering office.",
+   "In 2018, researchers at MIT published the results of an online experiment called the Moral Machine, which collected millions of decisions from people in over two hundred countries and territories. Participants were asked whom the car should spare in various dilemmas. Some preferences were widely shared, such as saving more lives rather than fewer and saving humans rather than animals. Others varied between cultures, for example how strongly people favoured the young over the old.",
+   "Critics argue that such dramatic dilemmas distract from the real ethical questions. Cars rarely face a clean choice between two groups of victims. The more pressing issues are ordinary ones: how cautious the software should be, how it should behave around cyclists and children, who is legally responsible after an accident, and how transparent companies must be about their systems.",
+   "Perhaps the deepest lesson of the debate is that technology does not remove moral choices; it makes them explicit. Decisions that human drivers make instinctively in a fraction of a second must now be written, in advance, into code. Someone has to decide, and society should have a say in how."
+  ],
+  "words": [
+   [
+    "pedestrians",
+    "հետիոտներ"
+   ],
+   [
+    "scenario",
+    "սցենար"
+   ],
+   [
+    "autonomous",
+    "ինքնավար"
+   ],
+   [
+    "dilemmas",
+    "երկընտրանքներ"
+   ],
+   [
+    "cautious",
+    "զգույշ"
+   ],
+   [
+    "explicit",
+    "բացահայտ"
+   ]
+  ],
+  "qs": [
+   [
+    "What is the \"trolley problem\"?",
+    [
+     "A thought experiment about choosing whom to save",
+     "A problem with old trains",
+     "A type of traffic jam"
+    ]
+   ],
+   [
+    "What was the Moral Machine?",
+    [
+     "An online experiment collecting people's decisions about dilemmas",
+     "A new type of car",
+     "A robot judge"
+    ]
+   ],
+   [
+    "What do critics say about dramatic dilemmas?",
+    [
+     "They distract from more ordinary ethical issues",
+     "They happen every day",
+     "They are the only important question"
+    ]
+   ],
+   [
+    "What is the writer's deepest lesson?",
+    [
+     "Technology makes moral choices explicit",
+     "Technology removes moral choices",
+     "Cars should never be automated"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "the-interview",
+  "level": "B2",
+  "topic": "Story",
+  "title": "The Interview",
+  "text": [
+   "Narek had prepared for weeks. He had researched the company, practised answers in front of the mirror and ironed his only good shirt twice. The job, a junior position at a design studio, was the one he had wanted since university.",
+   "The interview began well. Then the manager asked a question he had not expected: \"Tell me about a project that failed.\" Narek panicked. Determined to seem perfect, he said that he had never really failed, only learned. The manager nodded politely and wrote something down. Two days later, a short email informed him that another candidate had been chosen.",
+   "Disappointed, he asked for feedback, expecting no reply. To his surprise, the manager answered. \"Your portfolio was strong,\" she wrote, \"but everyone fails sometimes. We wanted to hear how you deal with it. Your answer suggested that you might hide problems instead of solving them.\"",
+   "The words stung, but Narek recognised that they were fair. Over the following months, he thought honestly about his mistakes and what they had taught him. At his next interview, when the same question came, he described a website he had designed that nobody had used, and how he had learned to test his ideas with real users first.",
+   "He got that job. Years later, now hiring designers himself, he always asks about failure. The best candidates, he has found, are not the ones who never fall, but the ones who can explain how they got up."
+  ],
+  "words": [
+   [
+    "ironed",
+    "արդուկեց"
+   ],
+   [
+    "junior",
+    "կրտսեր"
+   ],
+   [
+    "panicked",
+    "խուճապի մատնվեց"
+   ],
+   [
+    "candidate",
+    "թեկնածու"
+   ],
+   [
+    "feedback",
+    "հետադարձ կապ"
+   ],
+   [
+    "stung",
+    "խոցեցին, ցավեցրին"
+   ]
+  ],
+  "qs": [
+   [
+    "Which question surprised Narek?",
+    [
+     "Tell me about a project that failed",
+     "What is your name?",
+     "Why do you want this job?"
+    ]
+   ],
+   [
+    "How did Narek answer it?",
+    [
+     "He said he had never really failed",
+     "He described a real failure",
+     "He refused to answer"
+    ]
+   ],
+   [
+    "What did the manager's feedback suggest?",
+    [
+     "His answer suggested he might hide problems",
+     "His portfolio was weak",
+     "He was too old"
+    ]
+   ],
+   [
+    "What does Narek look for in candidates now?",
+    [
+     "People who can explain how they got up after failing",
+     "People who never fail",
+     "People with expensive shirts"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "algorithms-feed",
+  "level": "B2",
+  "topic": "Technology",
+  "title": "Who Decides What You See Online?",
+  "text": [
+   "Two friends open the same social media app at the same moment and see completely different worlds. One scrolls through football clips and cooking videos; the other sees political debates and travel photos. Neither chose these feeds directly. They were assembled by recommendation algorithms, computer programs that predict what each user is most likely to watch, like or share.",
+   "These systems learn from behaviour. Every pause, click and replay is a signal. If you watch a video to the end, the algorithm concludes that you want more like it. Because companies earn money from advertising, their systems are generally designed to maximise the time people spend on the platform.",
+   "Critics worry that this design has side effects. Content that provokes strong emotions such as anger tends to attract attention, so it may be promoted more than calm, accurate information. Some have warned of \"filter bubbles\", in which people see only views that confirm what they already believe. Interestingly, research on filter bubbles has produced mixed results: many users still encounter a variety of opinions, though often in an angrier tone.",
+   "What can individuals do? Small habits help: following sources with different perspectives, using chronological feeds where available, and noticing when an app leaves you feeling worse rather than better. Regulators in several countries are also debating rules that would force platforms to explain how their algorithms work.",
+   "Algorithms are not evil, but they are not neutral either. Understanding that someone designed your feed is the first step towards using it, rather than being used by it."
+  ],
+  "words": [
+   [
+    "assembled",
+    "հավաքված"
+   ],
+   [
+    "predict",
+    "կանխատեսել"
+   ],
+   [
+    "maximise",
+    "առավելագույնի հասցնել"
+   ],
+   [
+    "provokes",
+    "հրահրում է"
+   ],
+   [
+    "chronological",
+    "ժամանակագրական"
+   ],
+   [
+    "neutral",
+    "չեզոք"
+   ]
+  ],
+  "qs": [
+   [
+    "Who assembles each user's feed?",
+    [
+     "Recommendation algorithms",
+     "The user's friends",
+     "Journalists"
+    ]
+   ],
+   [
+    "What are these systems generally designed to do?",
+    [
+     "Maximise the time people spend on the platform",
+     "Show only news",
+     "Reduce screen time"
+    ]
+   ],
+   [
+    "What has research on filter bubbles found?",
+    [
+     "Mixed results",
+     "That they don't exist at all",
+     "That everyone is trapped completely"
+    ]
+   ],
+   [
+    "What is the writer's final point?",
+    [
+     "Understanding that feeds are designed helps us use them wisely",
+     "Algorithms are evil",
+     "We should stop using the internet"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "sleep-memory",
+  "level": "B2",
+  "topic": "Science",
+  "title": "Why Sleep Is the Secret to Learning",
+  "text": [
+   "It is the night before an exam, and a student decides to stay awake until three in the morning, reviewing notes. It feels responsible. According to a large body of research, however, it may be one of the least effective study strategies available.",
+   "Memory is not formed at the moment we read something. Information first enters a fragile, temporary state, and much of it is then stabilised, or consolidated, over the following hours, especially during sleep. During deep sleep, the brain appears to replay the day's experiences, strengthening important connections and transferring memories into more lasting storage. Studies have repeatedly shown that people who sleep after learning remember more than those who stay awake for the same period.",
+   "Sleep deprivation also damages the next day's performance. A tired brain struggles to concentrate, makes more careless mistakes and finds it harder to retrieve what it knows. Teenagers are especially vulnerable, since their natural sleep rhythm shifts later just as school demands early starts.",
+   "None of this means that sleep can replace studying. The brain cannot consolidate what it never learned. But it does suggest a smarter approach: spreading revision over several days, testing yourself rather than simply rereading, and protecting a full night's sleep before important exams.",
+   "The student awake at three in the morning is not working harder than the one asleep. In an important sense, the sleeper is still studying."
+  ],
+  "words": [
+   [
+    "strategies",
+    "ռազմավարություններ"
+   ],
+   [
+    "temporary",
+    "ժամանակավոր"
+   ],
+   [
+    "consolidated",
+    "ամրապնդված"
+   ],
+   [
+    "deprivation",
+    "զրկում"
+   ],
+   [
+    "vulnerable",
+    "խոցելի"
+   ],
+   [
+    "revision",
+    "կրկնություն"
+   ]
+  ],
+  "qs": [
+   [
+    "What happens to memories during sleep?",
+    [
+     "They are consolidated and strengthened",
+     "They are deleted",
+     "Nothing happens"
+    ]
+   ],
+   [
+    "What have studies repeatedly shown?",
+    [
+     "People who sleep after learning remember more",
+     "Staying awake improves memory",
+     "Sleep has no effect"
+    ]
+   ],
+   [
+    "Why are teenagers especially vulnerable?",
+    [
+     "Their sleep rhythm shifts later while school starts early",
+     "They sleep too much",
+     "They study too little"
+    ]
+   ],
+   [
+    "What study approach does the writer suggest?",
+    [
+     "Spread revision, test yourself and sleep before exams",
+     "Study all night",
+     "Only reread notes"
+    ]
+   ]
+  ]
+ },
+ {
   "id": "boredom",
   "level": "C1",
   "topic": "Mind",
@@ -3571,6 +6439,737 @@ window.ESSAYS = [
      "The question is a false opposition; aim practice at what we can't yet do",
      "Talent decides everything",
      "Practice is useless"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "gene-editing",
+  "level": "C1",
+  "topic": "Science",
+  "title": "Editing the Book of Life",
+  "text": [
+   "In 2012, the biochemists Jennifer Doudna and Emmanuelle Charpentier showed that a bacterial defence system known as CRISPR could be adapted to cut DNA at precisely chosen points. The discovery, which earned them the Nobel Prize in Chemistry in 2020, turned genetic engineering from a slow, expensive craft into something closer to editing a text.",
+   "The potential benefits are difficult to overstate. Researchers are developing treatments for inherited blood disorders, crops that resist disease and drought, and new ways to study how genes cause illness. Several gene-based therapies have already reached patients, offering hope for conditions once considered untreatable.",
+   "Yet the same precision that makes CRISPR promising also makes it unsettling. The crucial ethical line lies between editing the cells of a single patient and editing embryos, whose changes would be inherited by future generations. That line was crossed in 2018, when the scientist He Jiankui announced the birth of twin girls whose genes he had altered. The reaction was almost universally negative: the procedure was medically unnecessary, poorly tested and carried out without adequate consent, and he was later sentenced to prison in China.",
+   "Beyond safety lies a deeper concern. If editing becomes cheap and reliable, the boundary between preventing disease and \"improving\" healthy children may blur, and access to such improvements is unlikely to be fair. Societies would then face questions not only about what is possible, but about what kind of differences between people they are willing to accept.",
+   "CRISPR, in short, does not answer the question of how we should change ourselves. It merely removes the excuse that we cannot."
+  ],
+  "words": [
+   [
+    "precisely",
+    "ճշգրտորեն"
+   ],
+   [
+    "inherited",
+    "ժառանգական"
+   ],
+   [
+    "unsettling",
+    "անհանգստացնող"
+   ],
+   [
+    "embryos",
+    "սաղմեր"
+   ],
+   [
+    "consent",
+    "համաձայնություն"
+   ],
+   [
+    "blur",
+    "մշուշոտվել"
+   ]
+  ],
+  "qs": [
+   [
+    "What did Doudna and Charpentier show in 2012?",
+    [
+     "CRISPR could be adapted to cut DNA at chosen points",
+     "How to clone animals",
+     "How to read the full human genome"
+    ]
+   ],
+   [
+    "Where does the writer place the crucial ethical line?",
+    [
+     "Between editing one patient's cells and editing embryos",
+     "Between plants and animals",
+     "Between old and young patients"
+    ]
+   ],
+   [
+    "Why was He Jiankui's experiment criticised?",
+    [
+     "It was unnecessary, poorly tested and lacked adequate consent",
+     "It was too slow",
+     "It used plants"
+    ]
+   ],
+   [
+    "What does the final sentence mean?",
+    [
+     "CRISPR forces us to decide how we should change ourselves",
+     "CRISPR solves all ethical questions",
+     "CRISPR cannot change genes"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "smart-false-beliefs",
+  "level": "C1",
+  "topic": "Psychology",
+  "title": "Why Clever People Believe Untrue Things",
+  "text": [
+   "It is tempting to assume that false beliefs are the product of ignorance, and that better education would cure them. The reality is less flattering to the educated. Intelligence does not reliably protect people from error; in some situations it may even help them defend their mistakes more skilfully.",
+   "Psychologists use the term motivated reasoning to describe our tendency to evaluate evidence in light of the conclusions we would like to reach. When information supports a belief tied to our identity, political group or self-image, we accept it readily; when it threatens that belief, we scrutinise it for flaws. A more intelligent person, armed with greater knowledge and verbal skill, is simply better equipped to find those flaws, or to invent them.",
+   "Several studies have found that on politically charged questions, people with greater scientific literacy are sometimes more divided along partisan lines, not less. Knowledge, in such cases, functions less as a compass than as a lawyer, building the best possible case for a verdict already reached.",
+   "This does not mean that reasoning is useless. Certain habits reliably reduce the problem: actively seeking the strongest version of opposing arguments, asking what evidence would change one's mind before examining the data, and valuing accuracy as part of one's identity rather than loyalty to a side. Intellectual humility, the recognition that one might be wrong, turns out to be a better predictor of sound judgement than raw intelligence.",
+   "The uncomfortable lesson is that none of us is exempt. The question is not whether we are biased, but whether we have built habits that allow the truth to reach us anyway."
+  ],
+  "words": [
+   [
+    "ignorance",
+    "տգիտություն"
+   ],
+   [
+    "flattering",
+    "շողոքորթող, հաճելի"
+   ],
+   [
+    "motivated reasoning",
+    "շահագրգռված դատողություն"
+   ],
+   [
+    "scrutinise",
+    "մանրազնին քննել"
+   ],
+   [
+    "partisan",
+    "կուսակցական"
+   ],
+   [
+    "humility",
+    "խոնարհություն, համեստություն"
+   ]
+  ],
+  "qs": [
+   [
+    "What is motivated reasoning?",
+    [
+     "Evaluating evidence in light of the conclusions we want to reach",
+     "Reasoning only with numbers",
+     "Thinking when we are motivated to study"
+    ]
+   ],
+   [
+    "Why may intelligence make the problem worse?",
+    [
+     "Clever people are better at finding or inventing flaws in unwelcome evidence",
+     "Clever people never read",
+     "Clever people trust everyone"
+    ]
+   ],
+   [
+    "In the metaphor, what does knowledge act like?",
+    [
+     "A lawyer defending a verdict already reached",
+     "A compass",
+     "A teacher"
+    ]
+   ],
+   [
+    "What predicts sound judgement better than raw intelligence?",
+    [
+     "Intellectual humility",
+     "Speed of reading",
+     "Political loyalty"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "attention-economy",
+  "level": "C1",
+  "topic": "Society",
+  "title": "The Price of Attention",
+  "text": [
+   "In 1971, the economist and psychologist Herbert Simon made an observation that now seems prophetic: a wealth of information creates a poverty of attention. When information is scarce, it is valuable. When it is abundant, what becomes scarce is the human capacity to notice it.",
+   "Half a century later, entire industries are built on this insight. Many of the most used digital services are free to their users because the users' attention is what is being sold, packaged as advertising space. The longer people stay, the more valuable they become, which gives companies a powerful incentive to design products that are difficult to put down: infinite scrolling, autoplaying videos, notifications timed to pull us back.",
+   "Defenders of this model point out that it has made extraordinary resources freely available to billions of people, from maps to encyclopaedias to video lessons. Charging for every service would exclude those who cannot pay. Critics respond that \"free\" conceals a cost, paid in fragmented concentration, disrupted sleep and the subtle shaping of what we think about.",
+   "The difficulty is that attention, unlike money, is not easily measured or protected by law. We notice when someone takes our wallet; we rarely notice when our afternoon has been quietly divided into hundreds of interruptions.",
+   "Perhaps the first step is conceptual: to recognise attention as a resource as finite as time itself, and to ask, of every app and habit, not only what it gives us but what it costs. What we attend to, after all, is in large part what our lives consist of."
+  ],
+  "words": [
+   [
+    "prophetic",
+    "մարգարեական"
+   ],
+   [
+    "scarce",
+    "սակավ"
+   ],
+   [
+    "abundant",
+    "առատ"
+   ],
+   [
+    "incentive",
+    "խթան"
+   ],
+   [
+    "conceals",
+    "թաքցնում է"
+   ],
+   [
+    "finite",
+    "վերջավոր"
+   ]
+  ],
+  "qs": [
+   [
+    "What did Herbert Simon observe?",
+    [
+     "A wealth of information creates a poverty of attention",
+     "Information is always scarce",
+     "Attention is unlimited"
+    ]
+   ],
+   [
+    "Why are many digital services free?",
+    [
+     "Users' attention is sold as advertising space",
+     "Governments pay for them",
+     "They cost nothing to make"
+    ]
+   ],
+   [
+    "What do defenders of the model say?",
+    [
+     "It makes extraordinary resources freely available",
+     "It improves sleep",
+     "It reduces advertising"
+    ]
+   ],
+   [
+    "What does the writer suggest as a first step?",
+    [
+     "Recognising attention as a finite resource",
+     "Deleting all apps",
+     "Paying for everything"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "objective-history",
+  "level": "C1",
+  "topic": "History",
+  "title": "Can History Ever Be Objective?",
+  "text": [
+   "School textbooks often present history as a settled list of facts: dates, battles, treaties. Historians themselves are far less certain. The past, after all, cannot be observed directly. It survives only in fragments, documents, objects and memories, which someone must select, interpret and arrange into a story.",
+   "In his influential lectures published as What Is History? in 1961, the British historian E. H. Carr argued that facts do not speak for themselves. A fact becomes historical only when a historian decides it matters. Countless people crossed small rivers in the ancient world, he observed, but only Caesar's crossing of the Rubicon is remembered, because historians judged it significant.",
+   "If selection is unavoidable, so is perspective. The sources themselves are uneven: the powerful and literate left far more records than peasants, women or the colonised, whose experiences historians have often had to reconstruct indirectly. Each generation, moreover, asks new questions of the past, shaped by the concerns of its own time.",
+   "Does this mean that history is merely opinion? Most historians firmly reject that conclusion. Interpretations can be better or worse: more faithful to the evidence, more aware of what is missing, more open to criticism. Footnotes, archives and peer review exist precisely so that claims can be checked. Some statements, such as whether a particular massacre took place, can be established beyond reasonable doubt.",
+   "Objectivity, then, may be best understood not as a state historians reach but as a discipline they practise: an honest effort to let the evidence correct the story, even when the story is one they would prefer to tell."
+  ],
+  "words": [
+   [
+    "fragments",
+    "բեկորներ"
+   ],
+   [
+    "influential",
+    "ազդեցիկ"
+   ],
+   [
+    "significant",
+    "նշանակալի"
+   ],
+   [
+    "peasants",
+    "գյուղացիներ"
+   ],
+   [
+    "peer review",
+    "գործընկերային գրախոսություն"
+   ],
+   [
+    "discipline",
+    "կարգապահություն, մասնագիտական պրակտիկա"
+   ]
+  ],
+  "qs": [
+   [
+    "Why can the past not be observed directly?",
+    [
+     "It survives only in fragments that must be interpreted",
+     "Historians are not allowed to",
+     "It is too far away"
+    ]
+   ],
+   [
+    "What did E. H. Carr argue?",
+    [
+     "Facts become historical only when historians decide they matter",
+     "Facts always speak for themselves",
+     "History is pure fiction"
+    ]
+   ],
+   [
+    "Why are sources uneven?",
+    [
+     "The powerful and literate left far more records",
+     "Old paper is fragile",
+     "Historians lose documents"
+    ]
+   ],
+   [
+    "How does the writer define objectivity in the end?",
+    [
+     "As a discipline historians practise",
+     "As a state that is easy to reach",
+     "As impossible and meaningless"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "paradox-tolerance",
+  "level": "C1",
+  "topic": "Philosophy",
+  "title": "The Paradox of Tolerance",
+  "text": [
+   "Should a tolerant society tolerate the intolerant? At first glance, consistency seems to demand that it should: if tolerance means accepting views we dislike, exceptions look like hypocrisy. Yet in 1945, in a footnote to The Open Society and Its Enemies, the philosopher Karl Popper warned that unlimited tolerance could lead to the disappearance of tolerance itself.",
+   "Popper's reasoning was straightforward. If a society extends tolerance even to those who intend to destroy it, the intolerant may eventually gain enough power to suppress everyone else. Having experienced the collapse of European democracies in the 1930s, he had seen how freedoms could be used to abolish freedom.",
+   "Crucially, Popper did not argue that offensive or even intolerant opinions should be silenced. As long as they could be countered by rational argument and kept in check by public opinion, he believed suppression would be unwise. The right to refuse tolerance applied, in his view, to movements that reject argument altogether and turn instead to violence or the threat of it.",
+   "This careful distinction is often lost in contemporary debates, where \"the paradox of tolerance\" is cited to justify silencing views that are merely unpopular or offensive. Such uses risk reversing Popper's point, making intolerance of disagreement the very thing that a free society was meant to prevent.",
+   "The paradox, therefore, does not provide a simple rule. It offers a test: whether a given opinion can still be met with argument, or whether its holders have already abandoned argument for force. Drawing that line wisely is one of the most demanding responsibilities of any open society."
+  ],
+  "words": [
+   [
+    "consistency",
+    "հետևողականություն"
+   ],
+   [
+    "hypocrisy",
+    "կեղծավորություն"
+   ],
+   [
+    "suppress",
+    "ճնշել"
+   ],
+   [
+    "abolish",
+    "վերացնել"
+   ],
+   [
+    "contemporary",
+    "ժամանակակից"
+   ],
+   [
+    "abandoned",
+    "լքել, հրաժարվել"
+   ]
+  ],
+  "qs": [
+   [
+    "Where did Popper write about the paradox?",
+    [
+     "In a footnote to The Open Society and Its Enemies",
+     "In a newspaper interview",
+     "In a novel"
+    ]
+   ],
+   [
+    "What did Popper warn about?",
+    [
+     "Unlimited tolerance could lead to the disappearance of tolerance",
+     "Tolerance is always dangerous",
+     "Democracy cannot survive"
+    ]
+   ],
+   [
+    "When did Popper think tolerance could be refused?",
+    [
+     "For movements that reject argument and turn to violence",
+     "For any offensive opinion",
+     "For unpopular views"
+    ]
+   ],
+   [
+    "What risk does the writer see in contemporary uses of the idea?",
+    [
+     "It may be used to silence merely unpopular views",
+     "It is never mentioned",
+     "It protects violence"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "wisdom-crowds",
+  "level": "C1",
+  "topic": "Society",
+  "title": "When Are Crowds Wise?",
+  "text": [
+   "In 1906, the scientist Francis Galton visited a livestock fair in Plymouth, England, where visitors paid to guess the weight of an ox once it had been slaughtered and dressed. Galton, who had little faith in the judgement of ordinary people, collected about eight hundred tickets expecting to prove his point. Instead, he found that the middle estimate was within one per cent of the true weight, closer than most individual experts.",
+   "The episode became the founding anecdote of what the journalist James Surowiecki later called \"the wisdom of crowds\". Under the right conditions, the aggregated judgement of many people can outperform that of the best individuals within the group. Modern examples range from prediction markets to the simple practice of averaging several forecasts.",
+   "The phrase \"under the right conditions\" is doing a great deal of work. Crowds are wise when their members are diverse, when they form their opinions independently, and when there is a fair way to combine those opinions. Individual errors then point in different directions and largely cancel out.",
+   "When these conditions break down, crowds can be spectacularly foolish. If people watch each other before deciding, errors stop cancelling and start reinforcing each other. Financial bubbles, in which investors buy because others are buying, and viral rumours, which spread because everyone seems to believe them, are crowds in which independence has collapsed into imitation.",
+   "The lesson for institutions is subtle. Consulting many people is not enough; what matters is designing the process so that each voice is genuinely independent before the votes are counted. A crowd is wise not because it is large, but because it is made of minds that have not yet copied one another."
+  ],
+  "words": [
+   [
+    "livestock",
+    "անասուններ"
+   ],
+   [
+    "estimate",
+    "գնահատական"
+   ],
+   [
+    "aggregated",
+    "համախմբված"
+   ],
+   [
+    "outperform",
+    "գերազանցել"
+   ],
+   [
+    "independently",
+    "անկախ կերպով"
+   ],
+   [
+    "imitation",
+    "նմանակում"
+   ]
+  ],
+  "qs": [
+   [
+    "What did Galton expect to prove at the fair?",
+    [
+     "That ordinary people have poor judgement",
+     "That oxen are heavy",
+     "That experts are always wrong"
+    ]
+   ],
+   [
+    "What did he actually find?",
+    [
+     "The middle estimate was within one per cent of the true weight",
+     "Nobody guessed correctly",
+     "Experts were the most accurate"
+    ]
+   ],
+   [
+    "When are crowds wise?",
+    [
+     "When members are diverse, independent and fairly combined",
+     "When they are very large",
+     "When they copy the best person"
+    ]
+   ],
+   [
+    "Why do financial bubbles happen, according to the writer?",
+    [
+     "Independence collapses into imitation",
+     "People are too diverse",
+     "Markets are always wise"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "measuring-happiness",
+  "level": "C1",
+  "topic": "Economics",
+  "title": "Can a Country Measure Happiness?",
+  "text": [
+   "For most of the twentieth century, the health of a nation was judged largely by a single number: gross domestic product, the total value of goods and services it produced. Yet even Simon Kuznets, the economist who helped develop national income accounts in the 1930s, cautioned that such figures could not measure a nation's welfare.",
+   "In 1974, the economist Richard Easterlin published a finding that became known as the Easterlin paradox. Within a country at a given moment, richer people tended to report greater happiness than poorer people; yet over long periods, as entire countries grew richer, average reported happiness did not seem to rise as much as income. The paradox remains debated, with later researchers finding stronger links between income and well-being, but it opened an important question: are we measuring the right things?",
+   "Some governments have tried to answer differently. Bhutan made \"Gross National Happiness\" a guiding principle of its policy, and since 2012 the World Happiness Report has ranked countries using surveys in which people evaluate their own lives. Several countries, including New Zealand, have experimented with budgets organised around well-being rather than growth alone.",
+   "Sceptics raise reasonable objections. Happiness is subjective, varies with culture and mood, and could be manipulated by governments eager for good headlines. Income and life expectancy, by contrast, are relatively hard to fake.",
+   "Perhaps the most defensible position is not to replace economic measures but to stop treating them as sufficient. A society can grow richer while its citizens grow lonelier, more anxious or less trusting. Measuring how people actually live is not a substitute for prosperity; it is a reminder of what prosperity is for."
+  ],
+  "words": [
+   [
+    "gross domestic product",
+    "համախառն ներքին արդյունք"
+   ],
+   [
+    "welfare",
+    "բարեկեցություն"
+   ],
+   [
+    "paradox",
+    "պարադոքս"
+   ],
+   [
+    "subjective",
+    "սուբյեկտիվ"
+   ],
+   [
+    "life expectancy",
+    "կյանքի սպասվող տևողություն"
+   ],
+   [
+    "prosperity",
+    "բարգավաճում"
+   ]
+  ],
+  "qs": [
+   [
+    "What did Kuznets caution about national income figures?",
+    [
+     "They could not measure a nation's welfare",
+     "They were always wrong",
+     "They should be secret"
+    ]
+   ],
+   [
+    "What is the Easterlin paradox?",
+    [
+     "As countries grew richer, average happiness did not rise as much as income",
+     "Poor people are always happier",
+     "Money has no effect on anyone"
+    ]
+   ],
+   [
+    "What has the World Happiness Report done since 2012?",
+    [
+     "Ranked countries using people's evaluations of their own lives",
+     "Measured only income",
+     "Replaced GDP everywhere"
+    ]
+   ],
+   [
+    "What is the writer's final position?",
+    [
+     "Economic measures are useful but not sufficient",
+     "Happiness should replace all economic measures",
+     "Happiness cannot be discussed"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "free-will",
+  "level": "C1",
+  "topic": "Philosophy",
+  "title": "Is Free Will an Illusion?",
+  "text": [
+   "Raise your hand, now, whenever you decide. It feels obvious that you chose the moment. In the early 1980s, the neuroscientist Benjamin Libet designed an experiment that seemed to challenge this certainty. Participants made simple spontaneous movements while their brain activity was recorded and they reported when they first felt the urge to move.",
+   "Libet found that a slow build-up of electrical activity, called the readiness potential, began several hundred milliseconds before participants reported their conscious decision. To many commentators, the implication was dramatic: the brain \"decides\" before we are aware of deciding, and our sense of choosing is a story told afterwards.",
+   "Later research has complicated this interpretation considerably. In 2012, Aaron Schurger and colleagues proposed that the readiness potential may reflect random fluctuations in neural activity that happen to cross a threshold, rather than a hidden decision. Others pointed out that pressing a button at an arbitrary moment is a poor model of the decisions people care about, such as choosing a career or keeping a promise. Libet himself argued that consciousness might retain a power of veto, stopping actions the brain had begun to prepare.",
+   "The philosophical question, meanwhile, predates any experiment. Many philosophers argue that free will does not require decisions to arise from nowhere, only that they flow from our own reasons, values and deliberation rather than from external coercion. On this view, the fact that choices have neural causes no more threatens freedom than the fact that thoughts have neurons.",
+   "Neuroscience has not abolished free will. What it has done is force us to define it more carefully, and to notice how much of what we call choosing happens in conversation between the conscious mind and processes it cannot see."
+  ],
+  "words": [
+   [
+    "spontaneous",
+    "ինքնաբուխ"
+   ],
+   [
+    "readiness potential",
+    "պատրաստվածության պոտենցիալ"
+   ],
+   [
+    "fluctuations",
+    "տատանումներ"
+   ],
+   [
+    "threshold",
+    "շեմ"
+   ],
+   [
+    "veto",
+    "արգելանք, վետո"
+   ],
+   [
+    "coercion",
+    "հարկադրանք"
+   ]
+  ],
+  "qs": [
+   [
+    "What did Libet's participants do?",
+    [
+     "Made simple spontaneous movements while brain activity was recorded",
+     "Solved maths problems",
+     "Slept in a laboratory"
+    ]
+   ],
+   [
+    "What did Libet find?",
+    [
+     "Brain activity began before people reported deciding",
+     "People decided before any brain activity",
+     "Nothing happened in the brain"
+    ]
+   ],
+   [
+    "How did Schurger and colleagues reinterpret the readiness potential?",
+    [
+     "As random fluctuations crossing a threshold",
+     "As proof of a hidden decision",
+     "As a measurement error"
+    ]
+   ],
+   [
+    "What do many philosophers say free will requires?",
+    [
+     "That decisions flow from our own reasons rather than coercion",
+     "That decisions come from nowhere",
+     "That the brain plays no role"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "last-bookshop",
+  "level": "C1",
+  "topic": "Story",
+  "title": "The Last Bookshop on Abovyan Street",
+  "text": [
+   "For forty-one years, Mr. Hakobyan opened his bookshop at exactly nine o'clock, raised the metal shutter with the same hook, and placed a single book in the window, chosen that morning with the seriousness of a priest selecting a reading. Around him, the street had changed beyond recognition. The tailor had become a phone shop, the bakery a chain café, and the cinema a car park. Only the bookshop remained, smelling of paper, dust and coffee.",
+   "Customers had grown fewer. Students bought their textbooks online; tourists photographed the window without entering. His nephew, practical and affectionate, urged him to sell. \"The building is worth more than every book in it,\" he said, which Mr. Hakobyan did not dispute. He simply did not regard that as the relevant calculation.",
+   "One winter afternoon, a girl of about twelve came in to escape the rain. She wandered between the shelves without the hurried manner of a customer, and stopped at a worn copy of an Armenian translation of The Little Prince. When she reached the end of a chapter, she looked up and asked, in a whisper, whether it was allowed to read in a shop without buying.",
+   "\"That,\" said Mr. Hakobyan, \"is precisely what a bookshop is for.\"",
+   "She came back every Saturday that winter, and then with a friend, and then with her younger brother. By spring, there was a small reading table near the window, a handwritten sign announcing a children's story hour, and a jar for donations that, to his nephew's astonishment, paid the electricity bill.",
+   "The bookshop did not become profitable. But Mr. Hakobyan understood something his nephew's arithmetic could not capture: that some places survive not because they make money, but because someone, somewhere, still needs a quiet room full of other people's voices."
+  ],
+  "words": [
+   [
+    "shutter",
+    "փեղկ, վարագույր"
+   ],
+   [
+    "recognition",
+    "ճանաչում"
+   ],
+   [
+    "affectionate",
+    "սիրալիր"
+   ],
+   [
+    "urged",
+    "համոզում էր"
+   ],
+   [
+    "dispute",
+    "վիճարկել"
+   ],
+   [
+    "donations",
+    "նվիրատվություններ"
+   ]
+  ],
+  "qs": [
+   [
+    "How had the street changed?",
+    [
+     "Most old shops had become modern businesses",
+     "It became a park",
+     "It was closed to cars"
+    ]
+   ],
+   [
+    "What did the nephew want?",
+    [
+     "To sell the building",
+     "To open a café",
+     "To buy more books"
+    ]
+   ],
+   [
+    "What did the girl ask?",
+    [
+     "Whether she could read without buying",
+     "Where the café was",
+     "How much the book cost"
+    ]
+   ],
+   [
+    "What does the ending suggest?",
+    [
+     "Some places survive because people still need them",
+     "Bookshops must be profitable",
+     "The nephew was right"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "measuring-intelligence",
+  "level": "C1",
+  "topic": "Psychology",
+  "title": "What Do IQ Tests Really Measure?",
+  "text": [
+   "In 1905, the French psychologist Alfred Binet and his colleague Théodore Simon published a test designed for a modest, practical purpose: to identify children who needed extra help in school. Binet himself warned that his scale did not measure a fixed, inborn quantity, and that intelligence was too complex to be captured by a single number.",
+   "The century that followed often ignored his warning. Intelligence tests were used to sort soldiers, schoolchildren and immigrants, and in some countries to justify discriminatory policies. This troubled history explains why IQ remains one of the most emotionally charged topics in psychology.",
+   "Scientifically, however, IQ tests are among the most studied instruments in the field. Scores tend to be stable over time and predict, on average, outcomes such as academic performance. Yet prediction is not destiny: the correlation leaves enormous room for motivation, opportunity, health and chance.",
+   "One of the most striking findings concerns change over time. The researcher James Flynn documented that average scores on intelligence tests rose substantially across the twentieth century in many countries, so quickly that genetics could not explain it. The likely causes, including better nutrition, more schooling and a world that increasingly demands abstract thinking, suggest that measured intelligence is shaped by environment more than early theorists assumed.",
+   "What IQ tests measure, then, is real but limited: a set of reasoning and problem-solving abilities valued in modern education and work. They say little about creativity, wisdom, practical judgement or character. Binet's original caution remains the soundest guide: a test can be a useful tool for helping individuals, and a dangerous one when it is mistaken for a verdict on their worth."
+  ],
+  "words": [
+   [
+    "inborn",
+    "բնածին"
+   ],
+   [
+    "discriminatory",
+    "խտրական"
+   ],
+   [
+    "instruments",
+    "գործիքներ"
+   ],
+   [
+    "correlation",
+    "հարաբերակցություն"
+   ],
+   [
+    "nutrition",
+    "սնուցում"
+   ],
+   [
+    "abstract",
+    "վերացական"
+   ]
+  ],
+  "qs": [
+   [
+    "What was Binet's original purpose?",
+    [
+     "To identify children who needed extra help in school",
+     "To select soldiers",
+     "To rank countries"
+    ]
+   ],
+   [
+    "What did Binet warn?",
+    [
+     "Intelligence was too complex to be captured by a single number",
+     "Intelligence never changes",
+     "Tests are useless"
+    ]
+   ],
+   [
+    "What is the Flynn effect?",
+    [
+     "Average test scores rose substantially across the twentieth century",
+     "Scores fell every year",
+     "Only children's scores changed"
+    ]
+   ],
+   [
+    "What is the writer's final view of IQ tests?",
+    [
+     "Useful but limited, dangerous if treated as a verdict on worth",
+     "They measure everything important",
+     "They should be banned"
     ]
    ]
   ]

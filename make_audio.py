@@ -8,7 +8,7 @@
              python make_audio.py --force      (բոլորը նորից)
              python make_audio.py --voice en-US-AvaNeural
 """
-import argparse, asyncio, json, os, pathlib, subprocess, sys, tempfile
+import argparse, array, asyncio, json, math, os, pathlib, subprocess, sys, tempfile
 
 ROOT = pathlib.Path(__file__).parent
 OUT = ROOT / "audio"
@@ -23,6 +23,49 @@ import edge_tts  # imported after constants so tests can replace it
 def load_essays():
     src = (ROOT / "essays.js").read_text(encoding="utf-8")
     return json.loads(src[src.index("["): src.rindex("]") + 1])
+
+ENV_HOP = 0.05   # seconds between loudness samples (the page draws the live waveform from them)
+
+def envelope(mp3):
+    """Loudness 0-100 every 50 ms, measured from the finished MP3 (pure Python, only needs ffmpeg)."""
+    r = subprocess.run(["ffmpeg", "-v", "error", "-i", str(mp3), "-f", "s16le", "-ac", "1", "-ar", "8000", "-"],
+                       capture_output=True, check=True)
+    pcm = array.array("h")
+    pcm.frombytes(r.stdout[: len(r.stdout) // 2 * 2])
+    if sys.byteorder == "big":
+        pcm.byteswap()
+    step = int(8000 * ENV_HOP)
+    rms = []
+    for i in range(0, len(pcm), step):
+        seg = pcm[i:i + step]
+        if seg:
+            rms.append(math.sqrt(sum(x * x for x in seg) / len(seg)))
+    if len(rms) < 11:
+        return []
+    ref = sorted(rms)[int(len(rms) * 0.97)] or 1.0      # 97th percentile = "loud"
+    out = [min(100, round(100 * v / ref)) for v in rms]
+    return [0 if v < 6 else v for v in out]             # tiny noise counts as silence
+
+def ensure_envelopes(essays):
+    """Adds the loudness data to every ready voice that does not have it yet (no new TTS calls)."""
+    n = 0
+    for e in essays:
+        mp3, js = OUT / f"{e['id']}.mp3", OUT / f"{e['id']}.json"
+        if not (mp3.exists() and js.exists()):
+            continue
+        try:
+            j = json.loads(js.read_text())
+            if isinstance(j, dict) and j.get("env"):
+                continue
+            if isinstance(j, list):                       # very old format
+                j = {"start": j[0] if j else 0, "end": 0, "starts": j}
+            j["env"], j["hop"] = envelope(mp3), ENV_HOP
+            js.write_text(json.dumps(j, separators=(",", ":")))
+            n += 1
+        except Exception as ex:
+            print(f"  envelope skipped for {e['id']}: {type(ex).__name__} {ex}", flush=True)
+    if n:
+        print(f"  loudness data added to {n} voices", flush=True)
 
 def duration(path):
     r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
@@ -77,6 +120,7 @@ async def build(essay, voice, mp3):
         tmp.replace(mp3)
     timing = {"start": round(start, 2), "end": round(end, 2), "starts": [round(t + start, 2) for t in starts]}
     (OUT / f"{essay['id']}.json").write_text(json.dumps(timing))
+    # the loudness data is added right after (ensure_envelopes) so one failure never loses a voice
 
 async def make(essay, voice, force):
     mp3 = OUT / f"{essay['id']}.mp3"
@@ -113,6 +157,7 @@ async def main(argv=None):
         if fails_in_row >= 3:
             print("Voice service is not answering - stopping. The site will use the phone's voice.")
             break
+    ensure_envelopes(essays)
     print(f"done: {sum(results)}/{len(essays)} voices ready")
     if sum(results) == len(essays):
         vfile.write_text(VERSION)
