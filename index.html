@@ -163,6 +163,19 @@ body.wc-open .wrap{padding-bottom:270px}
 .app svg{width:25px;height:25px;fill:#fff}
 .sheet-foot{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
 .acts{border:1.5px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.qrv{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:18px;background:rgba(10,14,30,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transition:opacity .25s ease}
+.qrv.show{opacity:1}
+.qrbox{width:min(420px,100%);display:flex;flex-direction:column;gap:12px;transform:translateY(14px) scale(.98);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.qrv.show .qrbox{transform:none}
+.qrcard{aspect-ratio:1080/1350;border-radius:var(--r-lg);overflow:hidden;background:#172241;display:grid;place-items:center;box-shadow:0 24px 70px rgba(0,0,0,.45)}
+.qrcv{width:100%;height:100%;display:block}
+.qrload svg{width:46px;height:46px;color:#A9B3CE;animation:qrp 1.1s ease-in-out infinite}
+@keyframes qrp{50%{opacity:.35}}
+.qrerr{color:#fff;padding:24px;text-align:center}
+.qrbtns{display:flex;gap:10px}
+.qrbtns .btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px}
+.qrbtns .btn svg{width:20px;height:20px}
+@media (prefers-reduced-motion:reduce){.qrv,.qrbox{transition:none}.qrload svg{animation:none}}
 .act{width:100%;display:flex;align-items:center;gap:14px;padding:0 16px;min-height:54px;border:0;background:transparent;color:var(--ink);font-weight:600;font-size:.95rem;text-align:left;text-decoration:none}
 .act+.act{border-top:1px solid var(--line)}
 .act>svg{width:20px;height:20px;color:var(--muted);flex:none}
@@ -492,11 +505,13 @@ async function openSheet(e){
       ?`<button class="app" data-ig><i style="background:${a.c}">${ICON[a.k]}</i>${a.n}</button>`
       :`<a class="app" href="${a.href}" target="_blank" rel="noopener"><i style="background:${a.c}">${ICON[a.k]}</i>${a.n}</a>`).join("")}</div>
     <div class="acts">
+      <button class="act" id="shQR">${ICO.qr}<span>QR կոդ</span><small>դասին սկանավորելու համար</small></button>
       <button class="act" id="cpLink">${ICO.link}<span>Պատճենել հղումը</span></button>
       <button class="act" id="cpText">${ICO.copy}<span>Պատճենել ամբողջ դասը</span></button>
       ${audio?`<a class="act" href="${AUDIO_DIR+e.id}.mp3" download="${e.id}.mp3">${ICO.download}<span>Ներբեռնել ձայնը</span><small>MP3</small></a>`:""}
     </div>`;
   document.body.append(bd,sh); sheetEl={bd,sh};
+  const qrb=sh.querySelector("#shQR"); if(qrb) qrb.onclick=()=>openQR(e);
   requestAnimationFrame(()=>{bd.classList.add("show");sh.classList.add("show")});
   bd.onclick=()=>closeSheet();
   sh.querySelector("#close").onclick=()=>closeSheet();
@@ -627,6 +642,7 @@ const ICO={
   lock:SVG('<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>'),
   chevL:SVG('<polyline points="15 18 9 12 15 6"/>'),
   playS:SVG('<polygon points="7 4 20 12 7 20 7 4" fill="currentColor"/>'),
+  qr:SVG('<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM14 20h1M20 14h1"/>'),
   chevR:SVG('<polyline points="9 18 15 12 9 6"/>'),
   sun:SVG('<circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.56 1.56M17.51 17.51l1.56 1.56M2 12h2.2M19.8 12H22M4.93 19.07l1.56-1.56M17.51 6.49l1.56-1.56"/>',' class="sun"'),
   moon:SVG('<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="currentColor" stroke="none"/>',' class="moon"'),
@@ -923,7 +939,7 @@ async function setupPlayer(e){
   byId("fwd10").onclick=()=>skipBy(10);
   byId("speed").onclick=ev=>{
     rate=RATES[(RATES.indexOf(rate)+1)%RATES.length]; ev.currentTarget.textContent=`Speed ${rate}×`;
-    if(audioEl) audioEl.playbackRate=rate; else if(playing) playFrom(cur);
+    if(audioEl){ audioEl.playbackRate=rate; msPos(true); } else if(playing) playFrom(cur);
   };
   byId("loop").onclick=ev=>{
     loopOn=!loopOn; ev.currentTarget.setAttribute("aria-pressed",String(loopOn)); ev.currentTarget.classList.toggle("on",loopOn);
@@ -952,14 +968,127 @@ async function setupPlayer(e){
   };
   wire(byId("seek")); wire(byId("mseek"));
 }
+/* ---- QR code: a branded card mom can show on her phone or print ---- */
+const LV_HEX={A1:"#2E9E6A",A2:"#1C8AA3",B1:"#3E5FD9",B2:"#7A4FD6",C1:"#B23F78"};
+let qrLib=null, qrEl=null;
+function loadQRLib(){
+  if(window.qrcode) return Promise.resolve();
+  return qrLib=qrLib||new Promise((ok,no)=>{ const sc=document.createElement("script"); sc.src="qr.js"; sc.onload=()=>window.qrcode?ok():no(new Error("qr")); sc.onerror=()=>{ qrLib=null; no(new Error("qr")); }; document.head.append(sc); });
+}
+function loadImg(src){ return new Promise(ok=>{ const im=new Image(); im.onload=()=>ok(im); im.onerror=()=>ok(null); im.src=src; }); }
+// mix a level colour with navy so the corner squares stay dark enough for every camera
+function deepen(hex,t){ const a=[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)), b=[0x17,0x22,0x41];
+  return "#"+a.map((v,i)=>Math.round(v*(1-t)+b[i]*t).toString(16).padStart(2,"0")).join(""); }
+function rr(c,x,y,w,h,r){ r=Math.min(r,w/2,h/2); c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); }
+function wrapLines(c,text,maxW){ const words=text.split(/\s+/), out=[]; let line="";
+  for(const w of words){ const t=line?line+" "+w:w; if(c.measureText(t).width>maxW&&line){ out.push(line); line=w; } else line=t; }
+  if(line) out.push(line); return out; }
+async function drawQRCard(e){
+  await loadQRLib();
+  try{ await Promise.all(["700 58px Literata","600 40px Literata","400 28px Literata"].map(f=>document.fonts.load(f))); }catch{}
+  const link=linkFor(e), lv=LV_HEX[e.level]||"#3E5FD9", NAVY="#172241";
+  const q=qrcode(0,"H"); q.addData(link); q.make();
+  const n=q.getModuleCount();
+  const W=1080, H=1350, cv=document.createElement("canvas"); cv.width=W; cv.height=H;
+  const c=cv.getContext("2d");
+  // background: navy with a soft glow in the level colour
+  c.fillStyle=NAVY; c.fillRect(0,0,W,H);
+  const g=c.createRadialGradient(W*.88,0,0,W*.88,0,W*1.1); g.addColorStop(0,lv+"59"); g.addColorStop(.55,lv+"14"); g.addColorStop(1,lv+"00"); c.fillStyle=g; c.fillRect(0,0,W,H);
+  const icon=await loadImg("icon.svg");
+  // header
+  if(icon){ c.save(); rr(c,90,80,76,76,19); c.clip(); c.drawImage(icon,90,80,76,76); c.restore(); c.strokeStyle="rgba(255,255,255,.18)"; c.lineWidth=2; rr(c,90,80,76,76,19); c.stroke(); }
+  c.fillStyle="#fff"; c.textBaseline="alphabetic"; c.font="600 40px Literata, Georgia, serif"; c.fillText("Gayane Torosyan",188,116);
+  c.fillStyle="#A9B3CE"; c.font="400 28px Literata, Georgia, serif"; c.fillText("English Reading Room",188,152);
+  // title + level
+  c.textAlign="center"; c.fillStyle="#fff"; c.font="700 58px Literata, Georgia, serif";
+  const lines=wrapLines(c,e.title,880).slice(0,2); lines.forEach((l,i)=>c.fillText(l,W/2,262+i*68));
+  const ly=262+lines.length*68-8; c.font="800 28px system-ui, -apple-system, sans-serif";
+  const chip=`${e.level} · ${(LEVEL_INFO[e.level]||[""])[0]}`, cw=c.measureText(chip).width+52;
+  c.fillStyle=lv; rr(c,W/2-cw/2,ly,cw,48,24); c.fill(); c.fillStyle="#fff"; c.fillText(chip,W/2,ly+34);
+  // QR panel
+  const P=640, px=(W-P)/2, py=ly+86;
+  c.save(); c.shadowColor="rgba(0,0,0,.35)"; c.shadowBlur=60; c.shadowOffsetY=24; c.fillStyle="#fff"; rr(c,px,py,P,P,48); c.fill(); c.restore();
+  const quiet=4, cell=Math.floor((P-56)/(n+quiet*2)), qs=cell*(n+quiet*2), ox=px+(P-qs)/2+quiet*cell, oy=py+(P-qs)/2+quiet*cell;
+  const inFinder=(r,k)=>(r<7&&k<7)||(r<7&&k>=n-7)||(r>=n-7&&k<7);
+  const logo=Math.round(n*0.16)|1, l0=Math.floor((n-logo)/2), l1=l0+logo;
+  const inLogo=(r,k)=>r>=l0-1&&r<=l1&&k>=l0-1&&k<=l1;
+  c.fillStyle=NAVY;
+  for(let r=0;r<n;r++) for(let k=0;k<n;k++){
+    if(!q.isDark(r,k)||inFinder(r,k)||inLogo(r,k)) continue;
+    rr(c,ox+k*cell-.4,oy+r*cell-.4,cell+.8,cell+.8,cell*.2); c.fill();
+  }
+  for(const [fr,fk] of [[0,0],[0,n-7],[n-7,0]]){
+    const x=ox+fk*cell, y=oy+fr*cell;
+    c.fillStyle=deepen(lv,.6); rr(c,x,y,7*cell,7*cell,cell*.9); c.fill();
+    c.fillStyle="#fff"; rr(c,x+cell,y+cell,5*cell,5*cell,cell*.45); c.fill();
+    c.fillStyle=NAVY; rr(c,x+2*cell,y+2*cell,3*cell,3*cell,cell*.45); c.fill();
+  }
+  if(icon){ const ls=(logo+1)*cell, lx=ox+(l0-0.5)*cell, lyy=oy+(l0-0.5)*cell;
+    c.fillStyle="#fff"; rr(c,lx-cell*.4,lyy-cell*.4,ls+cell*.8,ls+cell*.8,cell*1.6); c.fill();
+    c.save(); rr(c,lx+cell*.3,lyy+cell*.3,ls-cell*.6,ls-cell*.6,cell*1.2); c.clip(); c.drawImage(icon,lx+cell*.3,lyy+cell*.3,ls-cell*.6,ls-cell*.6); c.restore(); }
+  // caption
+  const cy=py+P+92; c.fillStyle="#fff"; c.font="700 38px system-ui, -apple-system, sans-serif"; c.fillText("Scan to open the lesson",W/2,cy);
+  c.fillStyle="#C9D2EA"; c.font="400 32px system-ui, -apple-system, sans-serif"; c.fillText("Սկանավորիր՝ դասը բացելու համար",W/2,cy+52);
+  // level stripes
+  ["#2E9E6A","#1C8AA3","#3E5FD9","#7A4FD6","#B23F78"].forEach((col,i)=>{ c.fillStyle=col; c.fillRect(0,H-40+i*8,W,8); });
+  return cv;
+}
+async function openQR(e){
+  closeQR();
+  const wrap=document.createElement("div"); wrap.className="qrv"; wrap.setAttribute("role","dialog"); wrap.setAttribute("aria-modal","true"); wrap.setAttribute("aria-label","QR code");
+  wrap.innerHTML=`<div class="qrbox"><div class="qrcard" id="qrCard"><div class="qrload">${ICO.qr}</div></div>
+    <div class="qrbtns"><button class="btn btn-main" id="qrSave" type="button" disabled>${ICO.download}<span>Պահել նկարը</span></button>
+    <button class="btn btn-ghost" id="qrClose" type="button">Փակել</button></div></div>`;
+  document.body.append(wrap); qrEl=wrap; requestAnimationFrame(()=>wrap.classList.add("show"));
+  wrap.onclick=ev=>{ if(ev.target===wrap) closeQR(); };
+  wrap.querySelector("#qrClose").onclick=closeQR;
+  let cv;
+  try{ cv=await drawQRCard(e); }catch{ const cd=wrap.querySelector("#qrCard"); if(cd) cd.innerHTML=`<p class="qrerr">QR-ը չստացվեց։ Ստուգիր ինտերնետը և փորձիր նորից։</p>`; return; }
+  if(qrEl!==wrap) return;
+  cv.className="qrcv"; cv.setAttribute("aria-label",`QR code for ${e.title}`);
+  wrap.querySelector("#qrCard").replaceChildren(cv);
+  const sv=wrap.querySelector("#qrSave"); sv.disabled=false;
+  sv.onclick=()=>cv.toBlob(async b=>{
+    if(!b) return; const name=`${e.id}-qr.png`, file=typeof File==="function"?new File([b],name,{type:"image/png"}):null;
+    try{ if(file&&navigator.canShare&&navigator.canShare({files:[file]})){ await navigator.share({files:[file],title:e.title}); return; } }catch(err){ if(err&&err.name==="AbortError") return; }
+    const u=URL.createObjectURL(b), a=document.createElement("a"); a.href=u; a.download=name; document.body.append(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000);
+  },"image/png");
+}
+function closeQR(){ if(!qrEl) return; const w=qrEl; qrEl=null; w.classList.remove("show"); setTimeout(()=>w.remove(),250); }
+document.addEventListener("keydown",ev=>{ if(ev.key==="Escape"&&qrEl) closeQR(); });
+
+/* lock screen, notification and headphone controls (iPhone and Android) */
+const MS_ACTIONS=["play","pause","stop","previoustrack","nexttrack","seekbackward","seekforward","seekto"];
+let msLast=0;
 function setupMediaSession(e){
   try{
     if(!("mediaSession" in navigator)||typeof MediaMetadata==="undefined") return;
-    navigator.mediaSession.metadata=new MediaMetadata({title:e.title,artist:"Gayane Torosyan",album:"English Reading Room"});
-    const set=(n,f)=>{ try{ navigator.mediaSession.setActionHandler(n,f); }catch{} };
-    set("play",()=>playFrom(null)); set("pause",pause);
+    const ms=navigator.mediaSession, abs=u=>new URL(u,location.href).href;
+    ms.metadata=new MediaMetadata({title:e.title,artist:"Gayane Torosyan",album:`English Reading Room · ${e.level}`,
+      artwork:[{src:abs("icon-192.png"),sizes:"192x192",type:"image/png"},{src:abs("icon-512.png"),sizes:"512x512",type:"image/png"}]});
+    const set=(n,f)=>{ try{ ms.setActionHandler(n,f); }catch{} };
+    set("play",()=>playFrom(null)); set("pause",pause); set("stop",pause);
     set("previoustrack",()=>stepSentence(-1)); set("nexttrack",()=>stepSentence(1));
-    set("seekbackward",()=>skipBy(-10)); set("seekforward",()=>skipBy(10));
+    set("seekbackward",d=>skipBy(-((d&&d.seekOffset)||10))); set("seekforward",d=>skipBy((d&&d.seekOffset)||10));
+    set("seekto",d=>{ if(!audioEl||!d||!isFinite(d.seekTime)) return;
+      seekAudio(Math.max(0,d.seekTime)); mark(sentenceAt(audioEl.currentTime,audioEl.duration||0)); updateSeek(); msPos(true); });
+    msState();
+  }catch{}
+}
+function msState(){ try{ if("mediaSession" in navigator) navigator.mediaSession.playbackState=audioEl?(playing?"playing":"paused"):"none"; }catch{} }
+function msPos(force){
+  try{
+    if(!audioEl||!("mediaSession" in navigator)||typeof navigator.mediaSession.setPositionState!=="function") return;
+    const now=Date.now(); if(!force&&now-msLast<1000) return; msLast=now;
+    const d=audioEl.duration; if(!(isFinite(d)&&d>0)) return;
+    navigator.mediaSession.setPositionState({duration:d,playbackRate:audioEl.playbackRate||1,position:Math.min(d,Math.max(0,audioEl.currentTime||0))});
+  }catch{}
+}
+function clearMediaSession(){
+  try{
+    if(!("mediaSession" in navigator)) return;
+    const ms=navigator.mediaSession; ms.metadata=null; ms.playbackState="none";
+    MS_ACTIONS.forEach(n=>{ try{ ms.setActionHandler(n,null); }catch{} });
   }catch{}
 }
 function setupSeek(){
@@ -996,7 +1125,7 @@ function updateSeek(){
 function onTime(){
   if(!audioEl) return;
   const d=audioEl.duration||0, t=audioEl.currentTime||0;
-  updateSeek();
+  updateSeek(); msPos();
   if(playing) mark(sentenceAt(t,d));
   wordTick(t);                                   // also follows the bar while paused
   if(loopOn&&playing&&loopIdx>=0&&loopIdx<sentences.length){      // repeat one sentence
@@ -1087,6 +1216,7 @@ function stopAll(){
   document.body.classList.remove("playing");
   if(audioEl){audioEl.pause();audioEl=null;}
   if("speechSynthesis" in window) speechSynthesis.cancel();
+  clearMediaSession();
 }
 function pickVoice(){
   const choose=()=>{
@@ -1107,7 +1237,7 @@ function mark(i){
 function setBtn(){
   ["play","mplay"].forEach(id=>{ const b=byId(id); if(!b) return; b.innerHTML=playing?ICO.pause:ICO.play; b.setAttribute("aria-label",playing?"Pause":"Play"); });
   document.body.classList.toggle("playing",playing);
-  waveKick();
+  waveKick(); msState(); msPos(true);
 }
 
 function checkQuiz(e){
