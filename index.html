@@ -19,7 +19,7 @@
 <style>
 :root{
   --paper:#F5F7FB; --surface:#FFFFFF; --ink:#172241; --muted:#5A6583; --line:#DDE3EE;
-  --marker:#FFE17A; --good:#1E8A5A; --bad:#C23B3B; --accent:#3E5FD9;
+  --marker:#FFE17A; --sent:rgba(246,196,40,.045); --wordhl:rgba(255,212,59,.55); --good:#1E8A5A; --bad:#C23B3B; --accent:#3E5FD9;
   --A1:#2E9E6A; --A2:#1C8AA3; --B1:#3E5FD9; --B2:#7A4FD6; --C1:#B23F78;
   --ui:"Noto Sans Armenian","Noto Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --read:"Literata","Noto Serif Armenian",Georgia,serif;
@@ -28,11 +28,11 @@
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --paper:#10162A; --surface:#19213A; --ink:#E9EDF7; --muted:#A4AFC9; --line:#2B3654; --marker:#6E5B10;
+  --paper:#10162A; --surface:#19213A; --ink:#E9EDF7; --muted:#A4AFC9; --line:#2B3654; --marker:#6E5B10; --sent:rgba(255,214,64,.03); --wordhl:#EEC65B; --wordink:#141B33;
   --shadow:none;
 }}
 :root[data-theme="dark"]{
-  --paper:#10162A; --surface:#19213A; --ink:#E9EDF7; --muted:#A4AFC9; --line:#2B3654; --marker:#6E5B10;
+  --paper:#10162A; --surface:#19213A; --ink:#E9EDF7; --muted:#A4AFC9; --line:#2B3654; --marker:#6E5B10; --sent:rgba(255,214,64,.03); --wordhl:#EEC65B; --wordink:#141B33;
   --shadow:none;
 }
 :root{--r-sm:10px;--r-md:14px;--r-lg:20px;--tint:color-mix(in srgb,var(--lv,var(--accent)) 13%,transparent)}
@@ -115,7 +115,9 @@ a{color:inherit}
 .sbrand span{color:var(--muted);font-size:.8rem}
 
 .w{border-radius:3px;cursor:pointer;touch-action:manipulation}
-.w.key{text-decoration:underline dotted;text-decoration-color:var(--lv);text-decoration-thickness:2px;text-underline-offset:4px}
+.w{transition:background-color .14s ease,box-shadow .14s ease,color .14s ease}
+.w.wnow{background-color:var(--wordhl);box-shadow:0 0 0 .14em var(--wordhl);border-radius:.3em;color:var(--wordink,inherit)}
+@media (prefers-reduced-motion:reduce){.w{transition:none}}
 .w.sel{background:color-mix(in srgb,var(--accent) 24%,transparent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 50%,transparent)}
 @media (hover:hover){.w:hover{background:color-mix(in srgb,var(--accent) 14%,transparent)}}
 .wcard{position:fixed;left:0;right:0;bottom:0;z-index:15;margin:0 auto;max-width:560px;min-height:190px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-bottom:0;border-radius:18px 18px 0 0;box-shadow:0 -8px 30px rgba(10,15,30,.25);padding:16px 18px calc(16px + env(safe-area-inset-bottom,0px));transform:translateY(100%);transition:transform .22s ease}
@@ -220,9 +222,24 @@ body.wc-open .wrap{padding-bottom:270px}
 .hint{color:var(--muted);font-size:.85rem;margin:8px 0 18px}
 .text{font-family:var(--read);font-size:1.2rem;line-height:1.78;max-width:66ch}
 .text p{margin:0 0 1em}
-.s{border-radius:4px;cursor:pointer;background-image:linear-gradient(var(--marker),var(--marker));background-repeat:no-repeat;background-size:0% 100%;transition:background-size .45s cubic-bezier(.3,.7,.2,1)}
+.s{border-radius:4px;cursor:pointer;background-image:linear-gradient(var(--sent),var(--sent));background-repeat:no-repeat;background-size:0% 100%;transition:background-size .45s cubic-bezier(.3,.7,.2,1)}
 .s.on{background-size:100% 100%}
 .sec{font-size:1.15rem;margin:36px 0 12px}
+.qtoggle{width:100%;display:flex;align-items:center;gap:14px;margin:36px 0 12px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow);color:var(--ink);font:inherit;text-align:left;cursor:pointer;scroll-margin-top:96px;transition:transform .12s ease,border-color .2s ease}
+.qtoggle:active{transform:scale(.985)}
+.qtoggle[aria-expanded="true"]{border-color:color-mix(in srgb,var(--lv,var(--accent)) 45%,var(--line))}
+.qt-ic{width:44px;height:44px;flex:none;border-radius:13px;display:grid;place-items:center;color:#fff;background:var(--lv,var(--accent))}
+.qt-ic svg{width:24px;height:24px}
+.qt-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.qt-tx b{font-size:1.12rem}
+.qt-tx small{color:var(--muted);font-size:.84rem}
+.qt-ch{color:var(--muted);display:grid;place-items:center}
+.qt-ch svg{width:22px;height:22px;transform:rotate(90deg);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.qtoggle[aria-expanded="true"] .qt-ch svg{transform:rotate(-90deg)}
+.qwrap{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .4s cubic-bezier(.2,.8,.2,1),opacity .3s ease}
+.qwrap.open{grid-template-rows:1fr;opacity:1}
+.qwrap>.qin{overflow:hidden;min-height:0}
+@media (prefers-reduced-motion:reduce){.qwrap,.qt-ch svg{transition:none}}
 .say{width:36px;height:36px;flex:none;border:0;border-radius:50%;background:transparent;color:var(--muted);display:grid;place-items:center;padding:0}
 .say svg{width:19px;height:19px}
 .say:hover{background:var(--tint);color:var(--ink)}
@@ -560,6 +577,28 @@ try{ matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{ 
 let sentences=[], cur=0, playing=false, voice=null, token=0;
 let miniIO=null;
 let audioEl=null, starts=null, span=null, fracs=[];
+/* read-along: the word being spoken is softly highlighted */
+let wordIdx=[], wordStart=[], wordEnd=[], wordEls=[], lastWord=-1;
+function setupWords(list){
+  wordIdx=[]; wordStart=[]; wordEnd=[]; lastWord=-1;
+  wordEls=[...app.querySelectorAll(".text .w")];
+  if(!Array.isArray(list)||list.length!==wordEls.length){ wordEls=[]; return; }
+  list.forEach((w,i)=>{ if(Array.isArray(w)&&isFinite(w[0])&&isFinite(w[1])&&w[1]>=w[0]){ wordIdx.push(i); wordStart.push(+w[0]); wordEnd.push(+w[1]); } });
+  if(wordIdx.length<wordEls.length*0.6){ wordIdx=[]; wordStart=[]; wordEnd=[]; wordEls=[]; }   // too few matches: sentences only
+}
+function setWord(i){
+  if(i===lastWord) return;
+  if(lastWord>=0&&wordEls[lastWord]) wordEls[lastWord].classList.remove("wnow");
+  lastWord=i;
+  if(i>=0&&wordEls[i]) wordEls[i].classList.add("wnow");
+}
+function wordTick(t){
+  if(!wordStart.length) return;
+  let lo=0, hi=wordStart.length-1, k=-1;
+  while(lo<=hi){ const m=(lo+hi)>>1; if(wordStart[m]<=t+0.02){ k=m; lo=m+1; } else hi=m-1; }
+  // between sentences (a pause) or before/after the reading: no word is lit
+  setWord(k>=0&&t<=wordEnd[k]+0.35?wordIdx[k]:-1);
+}
 let loopOn=false, loopIdx=-1, scrubbing=false, scrubT=0, playerReady=false, keyWords=new Map();
 const RATES=[0.75,0.9,1,1.25]; let rate=0.9;
 const LEVEL_RATE={A1:0.75,A2:0.9,B1:0.9,B2:1,C1:1};
@@ -567,6 +606,7 @@ const split=p=>p.match(/[^.!?]+[.!?]+["”]?\s*|[^.!?]+$/g)||[p];
 const fmt=t=>{ t=+t; t=isFinite(t)&&t>0?Math.floor(t):0; return Math.floor(t/60)+":"+String(t%60).padStart(2,"0"); };
 function seekAudio(t){ if(audioEl&&isFinite(t)&&t>=0){ try{ audioEl.currentTime=t; }catch{} } }   // never set a non-finite time (browsers throw)
 const byId=id=>document.getElementById(id);
+const QICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.4 2.4c-.6.3-1 .8-1 1.5v.4"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>';
 const SVG=(body,extra="")=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"${extra}>${body}</svg>`;
 const TEN='<text x="12" y="15.2" text-anchor="middle" font-size="7.5" font-weight="700" fill="currentColor" stroke="none" font-family="system-ui,sans-serif">10</text>';
 const ICO={
@@ -735,15 +775,27 @@ function student(e){
   <article class="text">${paras}</article>
 
 
-  <h2 class="sec">Questions</h2>
+  <button class="qtoggle" id="qToggle" type="button" aria-expanded="false" aria-controls="quizWrap">
+    <span class="qt-ic">${QICON}</span>
+    <span class="qt-tx"><b>Questions</b><small>${e.qs.length} questions · check yourself</small></span>
+    <span class="qt-ch">${ICO.chevR}</span>
+  </button>
+  <div class="qwrap" id="quizWrap" inert><div class="qin">
   <div id="quiz">
     ${e.qs.map((q,qi)=>`<fieldset class="q" style="border:1px solid var(--line)"><p>${qi+1}. ${esc(q[0])}</p>
       ${order[qi].map((o,oi)=>`<label class="opt" data-ok="${o.ok}"><input type="radio" name="q${qi}" value="${oi}"><span>${esc(o.t)}</span></label>`).join("")}
     </fieldset>`).join("")}
     <button class="check" id="check" type="button">Check answers</button>
     <p class="score" id="score" aria-live="polite"></p>
-  </div>`;
+  </div></div></div>`;
   const bk=byId("back"); if(bk) bk.onclick=ev=>{ev.preventDefault();go("?lv="+e.level)};
+  const qt=byId("qToggle"), qw=byId("quizWrap");
+  if(qt&&qw) qt.onclick=()=>{
+    const open=!qw.classList.contains("open");
+    qw.classList.toggle("open",open); qt.setAttribute("aria-expanded",String(open));
+    if(open){ qw.removeAttribute("inert"); setTimeout(()=>{ try{ qt.scrollIntoView({behavior:REDUCED()?"auto":"smooth",block:"start"}); }catch{} },120); }
+    else qw.setAttribute("inert","");
+  };
   bindThemeBtn("en");
   app.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>{pause();sayOnce(b.dataset.say)});
   app.querySelector(".text").addEventListener("click",ev=>{
@@ -818,6 +870,7 @@ function waveKick(){
   if(!playing||REDUCED()||typeof requestAnimationFrame!=="function"){ waveDraw(); return; }
   const step=()=>{
     if(!byId("wave")||!playing){ waveRAF=0; waveDraw(); return; }
+    if(audioEl) wordTick(audioEl.currentTime||0);
     const m=byId("mini"); if(!document.hidden&&!(m&&m.classList.contains("show"))) waveDraw();
     waveRAF=requestAnimationFrame(step);
   };
@@ -842,10 +895,10 @@ async function setupPlayer(e){
       }
     }catch{}
     if(myRoute!==token) return;
-    audioEl=a; starts=st; span=sp; parseEnv(jj);
+    audioEl=a; starts=st; span=sp; parseEnv(jj); setupWords(jj&&!Array.isArray(jj)?jj.words:null);
     a.onloadedmetadata=setupSeek; a.ondurationchange=setupSeek;
     a.ontimeupdate=onTime;
-    a.onended=()=>{ playing=false; mark(-1); setBtn(); updateSeek(); };
+    a.onended=()=>{ playing=false; mark(-1); setWord(-1); setBtn(); updateSeek(); };
     setupMediaSession(e);
   }else if(!("speechSynthesis" in window)){
     byId("noaudio").hidden=false; return;
@@ -945,6 +998,7 @@ function onTime(){
   const d=audioEl.duration||0, t=audioEl.currentTime||0;
   updateSeek();
   if(playing) mark(sentenceAt(t,d));
+  wordTick(t);                                   // also follows the bar while paused
   if(loopOn&&playing&&loopIdx>=0&&loopIdx<sentences.length){      // repeat one sentence
     const a=timeOf(loopIdx), b=loopIdx+1<sentences.length?timeOf(loopIdx+1):(span?span.end:d);
     if(b>a+0.2&&t>=b-0.02) seekAudio(a);
@@ -1028,6 +1082,7 @@ function stopAll(){
   if(typeof cancelAnimationFrame==="function") cancelAnimationFrame(waveRAF);
   waveRAF=0; envArr=null; waveScrub=null;
   playing=false; token++; cur=0; starts=null; span=null; lastMark=-2;
+  wordIdx=[]; wordStart=[]; wordEnd=[]; wordEls=[]; lastWord=-1;
   loopOn=false; loopIdx=-1; scrubbing=false; playerReady=false;
   document.body.classList.remove("playing");
   if(audioEl){audioEl.pause();audioEl=null;}

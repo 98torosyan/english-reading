@@ -8,12 +8,12 @@
              python make_audio.py --force      (բոլորը նորից)
              python make_audio.py --voice en-US-AvaNeural
 """
-import argparse, array, asyncio, json, math, os, pathlib, subprocess, sys, tempfile
+import argparse, array, asyncio, json, math, os, pathlib, re, subprocess, sys, tempfile
 
 ROOT = pathlib.Path(__file__).parent
 OUT = ROOT / "audio"
 CHIME = ROOT / "brand" / "chime.wav"
-VERSION = "chime-outro-2"      # change to re-make every voice
+VERSION = "words-1"            # change to re-make every voice (words-1: word timings for read-along)
 # British voices; an essay can choose one with "voice": "sonia" | "libby" | "ryan" | "thomas"
 VOICES = {"sonia": "en-GB-SoniaNeural", "libby": "en-GB-LibbyNeural",
           "ryan": "en-GB-RyanNeural", "thomas": "en-GB-ThomasNeural"}
@@ -90,20 +90,71 @@ def duration(path):
                         "-of", "csv=p=0", str(path)], capture_output=True, text=True, check=True)
     return float(r.stdout.strip())
 
-async def tts(text, voice):
+async def tts(text, voice, boundary="SentenceBoundary"):
+    """Returns (mp3 bytes, sentence starts, words). words = [(start s, end s, text)] when
+    boundary="WordBoundary" and the voice service supports it."""
     try:
-        comm = edge_tts.Communicate(text, voice, rate="-5%", boundary="SentenceBoundary")
+        comm = edge_tts.Communicate(text, voice, rate="-5%", boundary=boundary)
     except TypeError:  # older edge-tts
         comm = edge_tts.Communicate(text, voice, rate="-5%")
-    audio, starts = bytearray(), []
+    audio, starts, words = bytearray(), [], []
     async for ch in comm.stream():
         if ch["type"] == "audio":
             audio += ch["data"]
         elif ch["type"] == "SentenceBoundary":
             starts.append(ch["offset"] / 1e7)
+        elif ch["type"] == "WordBoundary":
+            a = ch["offset"] / 1e7
+            words.append((a, a + ch.get("duration", 0) / 1e7, str(ch.get("text", ""))))
     if not audio:
         raise RuntimeError("empty audio")
-    return bytes(audio), starts
+    return bytes(audio), starts, words
+
+# ---- read-along: the same sentence and word split as the website ----
+SENT_RE = re.compile(r'[^.!?]+[.!?]+["\u201d]?\s*|[^.!?]+$')
+WORD_RE = re.compile(r"[A-Za-z\u00C0-\u00FF][A-Za-z\u00C0-\u00FF'\u2019-]*")
+
+def _norm(w):
+    return re.sub(r"[^a-z\u00e0-\u00ff]", "", w.lower())
+
+def page_tokens(essay):
+    """[(sentence index, word)] exactly as the page turns the text into tappable words."""
+    out, si = [], 0
+    for p in essay["text"]:
+        for sent in (SENT_RE.findall(p) or [p]):
+            for w in WORD_RE.findall(sent):
+                out.append((si, w))
+            si += 1
+    return out, si
+
+def align(tokens, spoken):
+    """Match the voice's words to the page's words in order.
+    tokens: [(sentence, word)]; spoken: [(start, end, text)].
+    Returns one [start, end] (or None) per page word. Handles split hyphenated words,
+    extra spoken words (e.g. numbers) and the odd skipped word."""
+    res = [None] * len(tokens)
+    norm_t = [_norm(w) for _, w in tokens]
+    i, buf, bstart = 0, "", None
+    for a, b, txt in spoken:
+        n = _norm(txt)
+        if not n or i >= len(tokens):
+            continue
+        if buf:                                    # continuing a word the voice split in parts
+            if norm_t[i].startswith(buf + n):
+                buf += n
+                if buf == norm_t[i]:
+                    res[i] = [bstart, b]; i += 1; buf = ""
+                continue
+            buf = ""
+        if n == norm_t[i]:
+            res[i] = [a, b]; i += 1; continue
+        if norm_t[i].startswith(n) and len(n) < len(norm_t[i]):
+            buf, bstart = n, a; continue
+        for j in range(i + 1, min(i + 5, len(tokens))):    # the voice skipped a word or two
+            if norm_t[j] == n:
+                res[j] = [a, b]; i = j + 1; break
+        # otherwise: an extra spoken word (for example a number) - ignore it
+    return res
 
 def assemble(parts, target):
     """parts: list of audio files; joins them with GAP silence, one clean MP3."""
@@ -127,9 +178,9 @@ def assemble(parts, target):
 async def build(essay, voice, mp3):
     with tempfile.TemporaryDirectory() as d:
         d = pathlib.Path(d)
-        title, _ = await tts(f"{essay['title']}.", voice)
-        body, starts = await tts("\n\n".join(essay["text"]), voice)
-        outro, _ = await tts(OUTRO, voice)
+        title, _, _ = await tts(f"{essay['title']}.", voice)
+        body, starts, spoken = await tts("\n\n".join(essay["text"]), voice, boundary="WordBoundary")
+        outro, _, _ = await tts(OUTRO, voice)
         (d / "t.mp3").write_bytes(title); (d / "b.mp3").write_bytes(body); (d / "o.mp3").write_bytes(outro)
         tmp = d / "out.mp3"
         assemble([CHIME, d / "t.mp3", d / "b.mp3", d / "o.mp3"], tmp)
@@ -137,6 +188,19 @@ async def build(essay, voice, mp3):
         end = start + duration(d / "b.mp3")
         tmp.replace(mp3)
     timing = {"start": round(start, 2), "end": round(end, 2), "starts": [round(t + start, 2) for t in starts], "tag": tag_for(voice)}
+    if spoken:
+        tokens, n_sent = page_tokens(essay)
+        words = align(tokens, spoken)
+        timing["words"] = [None if w is None else [round(w[0] + start, 2), round(w[1] + start, 2)] for w in words]
+        # sentence starts from the first matched word of each sentence (same split as the page)
+        firsts = [None] * n_sent
+        for (si, _), w in zip(tokens, words):
+            if w is not None and firsts[si] is None:
+                firsts[si] = round(w[0] + start, 2)
+        if all(x is not None for x in firsts):
+            timing["starts"] = firsts
+        got = sum(w is not None for w in words)
+        print(f"    read-along: {got}/{len(words)} words matched", flush=True)
     (OUT / f"{essay['id']}.json").write_text(json.dumps(timing))
     # the loudness data is added right after (ensure_envelopes) so one failure never loses a voice
 

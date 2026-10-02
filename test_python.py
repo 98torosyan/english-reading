@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Chaos tests for the Python side: essay checker, lesson previews, voice builder.
 Run:  python tests/test_python.py      (needs ffmpeg; fonttools+cairosvg+FONT for the preview test)"""
-import asyncio, copy, json, os, pathlib, random, shutil, subprocess, sys, tempfile, types
+import re, asyncio, copy, json, os, pathlib, random, shutil, subprocess, sys, tempfile, types
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 random.seed(7)
@@ -156,6 +156,25 @@ import time; t0 = time.time()
 n = asyncio.run(ma.main([]))
 ok(n == 0 and time.time() - t0 < 20, "hanging service: stops after 3 essays instead of hanging")
 os.environ["AUDIO_TIMEOUT"] = "90"
+shutil.rmtree(d)
+
+# ---- read-along: the voice's words line up with the page's words in every lesson ----
+d = sandbox()
+ma = load_audio_module(d, "ok")
+bad = []
+for e in load(d / "essays.js"):
+    toks, n_sent = ma.page_tokens(e)
+    spoken, t = [], 0.0
+    for p in e["text"]:                      # simulate the voice service: numbers are read aloud,
+        for raw in re.findall(r"\S+", p):   # hyphenated words may come in two parts
+            for part in (raw.split("-") if "-" in raw and t % 2 < 1 else [raw]):
+                spoken.append((t, t + 0.25, part)); t += 0.3
+    res = ma.align(toks, spoken)
+    if sum(r is None for r in res) > 0: bad.append(e["id"])
+ok(not bad, "read-along: every page word gets a time in every lesson" + (f" (missing in {bad[:5]})" if bad else ""))
+toks, _ = ma.page_tokens({"text": ["Hello there, friend."]})
+ok(ma.align(toks, [(0, .1, "Hello"), (.2, .3, "there"), (.4, .5, "um"), (.6, .7, "friend")])[2] == [.6, .7], "read-along: an extra spoken word is ignored")
+ok(ma.align(toks, [(0, .1, "Hello"), (.4, .5, "friend")]) == [[0, .1], None, [.4, .5]], "read-along: a skipped word stays empty, the rest still match")
 shutil.rmtree(d)
 
 print("\n" + ("ALL PASSED" if not FAILS else f"{len(FAILS)} FAILED"))

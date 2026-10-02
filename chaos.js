@@ -243,5 +243,41 @@ async function walk(w, env, steps, errors, studentOnly) {
   ok(/^\d+\/\d+$/.test(D2.getElementById("tcur").textContent), "sentence counter shown (e.g. 2/12)");
   ok(en.filter(x => !/Not implemented/.test(x)).length === 0, "no JavaScript errors in the new features");
 
+  // ---- read-along: the spoken word is lit, the sentence keeps a faint tint ----
+  const TOK = zoo.text.join(" ").match(/[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'’-]*/g);
+  const words = TOK.map((_, i) => [3 + i * 0.3, 3 + i * 0.3 + 0.25]);
+  en = []; w = await openPage("https://x.github.io/er/?e=zoo", { ...calm, json: { ...calm.json, words } }, en); await wait(200);
+  const D3 = w.document, A = () => w.eval("audioEl");
+  ok(D3.querySelectorAll(".text .w").length === TOK.length, "read-along: page words match the timing list (" + TOK.length + ")");
+  A().currentTime = 3 + 7 * 0.3 + 0.1; w.eval("onTime()");
+  const lit = [...D3.querySelectorAll(".w.wnow")];
+  ok(lit.length === 1 && lit[0] === D3.querySelectorAll(".text .w")[7], "read-along: exactly the spoken word (8th) is lit");
+  A().currentTime = 3 + 20 * 0.3 + 0.1; w.eval("onTime()");
+  ok(D3.querySelectorAll(".w.wnow").length === 1 && D3.querySelectorAll(".text .w")[20].classList.contains("wnow"), "read-along: the light moves with the voice");
+  A().currentTime = 1; w.eval("onTime()");
+  ok(D3.querySelectorAll(".w.wnow").length === 0, "read-along: nothing lit during the sound logo and title");
+  A().currentTime = 3 + 30 * 0.3 + 0.1; w.eval("onTime()");
+  ok(D3.querySelectorAll(".text .w")[30].classList.contains("wnow"), "read-along: follows the bar while paused");
+  w.eval("stopAll()");
+  ok(D3.querySelectorAll(".w.wnow").length <= 1, "read-along: stopping does not break the page");
+  const css = D3.querySelector("style").textContent;
+  { const qt = Q("#qToggle"), qw = Q("#quizWrap");
+    ok(qt && qw && !qw.classList.contains("open") && qw.hasAttribute("inert") && qt.getAttribute("aria-expanded") === "false", "questions start closed behind a Questions button");
+    qt.click(); await wait(20);
+    ok(qw.classList.contains("open") && !qw.hasAttribute("inert") && qt.getAttribute("aria-expanded") === "true", "tapping Questions opens them in place");
+    ok(Q("#quiz .q") && Q("#check"), "all questions and the check button are inside");
+    qt.click(); await wait(20);
+    ok(!qw.classList.contains("open") && qw.hasAttribute("inert"), "tapping again closes them"); }
+  { const m=css.match(/--sent:rgba\(\d+,\d+,\d+,([\d.]+)\)/), w=css.match(/--wordhl:rgba\(\d+,\d+,\d+,([\d.]+)\)/);
+    ok(m && +m[1] <= 0.05 && w && +w[1] >= 0.4 && /\.w\.wnow\{/.test(css), "read-along: very faint sentence tint, clear soft word marker"); }
+  // a wrong-length list (old timing file) falls back to sentences only, without errors
+  en = []; w = await openPage("https://x.github.io/er/?e=zoo", { ...calm, json: { ...calm.json, words: words.slice(5) } }, en); await wait(200);
+  w.eval("audioEl").currentTime = 4; w.eval("onTime()");
+  ok(w.document.querySelectorAll(".w.wnow").length === 0 && en.filter(x => !/Not implemented/.test(x)).length === 0, "read-along: an old or broken timing file just turns word lighting off");
+  // hostile timing data never crashes
+  en = []; w = await openPage("https://x.github.io/er/?e=zoo", { ...calm, json: { ...calm.json, words: TOK.map((_, i) => i % 3 ? null : ["x", NaN]) } }, en); await wait(200);
+  w.eval("audioEl").currentTime = 10; w.eval("onTime()");
+  ok(en.filter(x => !/Not implemented/.test(x)).length === 0, "read-along: nonsense timing data causes no errors");
+
   console.log("\n" + (fails.length ? `${fails.length} FAILED` : "ALL PASSED")); process.exit(fails.length ? 1 : 0);
 })();
