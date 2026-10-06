@@ -163,6 +163,61 @@ body.wc-open .wrap{padding-bottom:270px}
 .app svg{width:25px;height:25px;fill:#fff}
 .sheet-foot{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
 .acts{border:1.5px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+
+/* read-aloud mode */
+.ra-entry{width:100%;display:flex;align-items:center;gap:12px;margin-top:12px;padding:10px 12px;border-radius:var(--r-md);border:1px solid color-mix(in srgb,var(--lv) 35%,var(--line));background:color-mix(in srgb,var(--lv) 7%,var(--surface));color:var(--ink);font:inherit;text-align:left;transition:transform .12s ease}
+.ra-entry:active{transform:scale(.985)}
+.ra-ei{width:38px;height:38px;flex:none;border-radius:11px;background:var(--lv);color:#fff;display:grid;place-items:center}
+.ra-ei svg{width:20px;height:20px}
+.ra-et{flex:1;min-width:0;display:flex;flex-direction:column}
+.ra-et b{font-size:.98rem}
+.ra-et small{color:var(--muted);font-size:.8rem}
+.ra-entry>svg{width:20px;height:20px;color:var(--muted);flex:none}
+body.ra-open{overflow:hidden}
+.ra{position:fixed;inset:0;z-index:45;background:var(--paper);display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 12px) 18px calc(env(safe-area-inset-bottom,0px) + 16px);opacity:0;transform:translateY(16px);transition:opacity .25s ease,transform .32s cubic-bezier(.2,.8,.2,1)}
+.ra.show{opacity:1;transform:none}
+.ra-top{display:flex;align-items:center;gap:12px;max-width:640px;width:100%;margin:0 auto}
+.ra-ib{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center;flex:none}
+.ra-ib svg{width:20px;height:20px}
+.ra-ttl{flex:1;min-width:0;display:flex;flex-direction:column}
+.ra-ttl b{font-size:1.02rem}
+.ra-ttl small{color:var(--muted);font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ra-n{font-weight:800;font-variant-numeric:tabular-nums;color:var(--lv);font-size:.95rem}
+.ra-bar{display:flex;gap:4px;max-width:640px;width:100%;margin:14px auto 0}
+.ra-bar i{flex:1;height:5px;border-radius:5px;background:var(--line);transition:background-color .3s ease}
+.ra-bar i.done{background:color-mix(in srgb,var(--lv) 55%,var(--line))}
+.ra-bar i.now{background:var(--lv)}
+.ra-stage{flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px;max-width:640px;width:100%;margin:0 auto;overflow:auto;padding:18px 2px}
+.ra-stage.swap .ra-cur{animation:raIn .38s cubic-bezier(.2,.8,.2,1)}
+@keyframes raIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.ra-prev,.ra-next{font-family:var(--read);font-size:1rem;line-height:1.55;color:var(--muted);opacity:.55;margin:0}
+.ra-prev{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ra-next{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ra-cur{font-family:var(--read);font-size:clamp(1.45rem,6.2vw,2rem);line-height:1.5;margin:0;color:var(--ink);padding:18px 20px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);border-left:5px solid var(--lv)}
+.ra .w{cursor:default}
+.ra-hint{text-align:center;color:var(--muted);font-size:.88rem;margin:0 auto 12px;max-width:640px}
+.ra-tools{display:flex;justify-content:center;gap:12px;max-width:640px;width:100%;margin:0 auto 14px}
+.ra-tool{flex:1;max-width:150px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;border-radius:var(--r-md);border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;font-size:.86rem;transition:transform .12s ease,background-color .2s ease,border-color .2s ease,color .2s ease}
+.ra-tool svg{width:24px;height:24px;color:var(--lv)}
+.ra-tool:active:not(:disabled){transform:scale(.96)}
+.ra-tool:disabled{opacity:.4}
+.ra-tool.on{border-color:var(--lv);background:color-mix(in srgb,var(--lv) 12%,var(--surface))}
+.ra-tool.rec.on{border-color:#D64545;background:color-mix(in srgb,#D64545 12%,var(--surface));color:#D64545}
+.ra-tool.rec.on svg{color:#D64545;animation:raPulse 1.1s ease-in-out infinite}
+@keyframes raPulse{50%{transform:scale(1.15);opacity:.7}}
+.ra-tool.pop{animation:raPop .45s ease}
+@keyframes raPop{40%{transform:scale(1.08)}}
+.ra-nav{display:flex;gap:10px;max-width:640px;width:100%;margin:0 auto}
+.ra-nav .btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px}
+.ra-nav .btn svg{width:18px;height:18px}
+.ra-nav .btn-main{flex:1.6}
+.ra-done{position:absolute;inset:0;background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:10px;animation:raIn .4s cubic-bezier(.2,.8,.2,1)}
+.ra-done[hidden]{display:none}
+.ra-done h2{font-family:var(--read);font-size:1.7rem;margin:6px 0 0}
+.ra-done p{color:var(--muted);margin:0 0 18px;max-width:340px}
+.ra-badge{width:76px;height:76px;border-radius:50%;background:var(--lv);color:#fff;display:grid;place-items:center;box-shadow:0 12px 30px color-mix(in srgb,var(--lv) 40%,transparent)}
+.ra-badge svg{width:38px;height:38px;stroke-width:2.6}
+@media (prefers-reduced-motion:reduce){.ra,.ra-stage.swap .ra-cur,.ra-done,.ra-tool.rec.on svg{animation:none;transition:none}}
 .qrv{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:18px;background:rgba(10,14,30,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transition:opacity .25s ease}
 .qrv.show{opacity:1}
 .qrbox{width:min(420px,100%);display:flex;flex-direction:column;gap:12px;transform:translateY(14px) scale(.98);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
@@ -282,35 +337,7 @@ body.wc-open .wrap{padding-bottom:270px}
 .btn:active,.chip:active,.tri:active:not(:disabled),.play:active,.check:active,.speed:active,.pb:active,.app:active,.ibtn:active,.say:active,.aa:active,.out:active{transform:scale(.96)}
 .act:active{background:color-mix(in srgb,var(--ink) 8%,transparent)}
 .score.win{animation:pop .5s ease}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}/* Polished motion: transform and opacity keep playback lightweight */
-.lvcard{transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s ease,border-color .24s ease}
-.lvcard:active{transform:scale(.985)}
-@media (hover:hover){.lvcard:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(23,34,65,.12);border-color:color-mix(in srgb,var(--lv) 36%,var(--line))}}
-.wcard{transition:transform .38s cubic-bezier(.2,.8,.2,1)}
-.backdrop{transition:opacity .3s ease}
-.sheet{transition:transform .42s cubic-bezier(.2,.8,.2,1)}
-.qrv{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:opacity .3s ease}
-.qrbox{transform:translateY(22px) scale(.96);transition:transform .4s cubic-bezier(.2,.8,.2,1)}
-.toast{transform:translate(-50%,14px) scale(.97);transition:transform .28s cubic-bezier(.2,.8,.2,1),opacity .2s ease}
-.play{position:relative;isolation:isolate}
-.play svg{position:relative;z-index:1}
-.play::after{content:"";position:absolute;z-index:0;inset:-5px;border:2px solid color-mix(in srgb,var(--lv,var(--accent)) 42%,transparent);border-radius:50%;opacity:0;transform:scale(.88);pointer-events:none}
-.mini{transition:transform .34s cubic-bezier(.2,.8,.2,1),visibility 0s linear .34s}
-.mini.show{transition:transform .34s cubic-bezier(.2,.8,.2,1)}
-.anim .st{transform-box:fill-box;transform-origin:center bottom;animation:stIn .72s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(.22s + var(--i)*.075s)}
-.anim .pg{animation:pgIn .72s cubic-bezier(.16,1,.3,1) both .08s;transform-origin:256px 348px}
-@keyframes stIn{0%{transform:translateY(28px) scaleY(.72);opacity:0}72%{opacity:1}100%{transform:translateY(0) scaleY(1);opacity:1}}
-@keyframes pgIn{0%{transform:scaleY(.18);opacity:0}72%{opacity:1}100%{transform:scaleY(1);opacity:1}}
-.list.rise .item{animation:rise .52s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--d)*34ms)}
-@keyframes rise{0%{transform:translateY(16px) scale(.985);opacity:0}70%{opacity:1}100%{transform:translateY(0) scale(1);opacity:1}}
-.opt.right.flash{animation:pop .48s cubic-bezier(.16,1,.3,1)}
-.opt.wrong.flash{animation:nudge .4s cubic-bezier(.36,.07,.19,.97)}
-@keyframes pop{0%{transform:scale(1)}38%{transform:scale(1.025)}72%{transform:scale(.995)}100%{transform:scale(1)}}
-@keyframes nudge{20%{transform:translateX(-5px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}100%{transform:translateX(0)}}
-.btn,.chip,.tri,.play,.check,.speed,.pb,.app,.act,.ibtn,.say,.aa,.out{transition:transform .2s cubic-bezier(.2,.8,.2,1),background-color .2s ease}
-.playing .play::after{animation:playGlow 1.8s ease-out infinite;will-change:transform,opacity}
-@keyframes playGlow{0%{opacity:.72;transform:scale(.88)}70%,100%{opacity:0;transform:scale(1.28)}}
-
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -670,6 +697,8 @@ const ICO={
   lock:SVG('<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>'),
   chevL:SVG('<polyline points="15 18 9 12 15 6"/>'),
   playS:SVG('<polygon points="7 4 20 12 7 20 7 4" fill="currentColor"/>'),
+  mic:SVG('<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>'),
+  check:SVG('<path d="M5 12.5l4.5 4.5L19 7.5"/>'),
   qr:SVG('<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM14 20h1M20 14h1"/>'),
   chevR:SVG('<polyline points="9 18 15 12 9 6"/>'),
   sun:SVG('<circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.56 1.56M17.51 17.51l1.56 1.56M2 12h2.2M19.8 12H22M4.93 19.07l1.56-1.56M17.51 6.49l1.56-1.56"/>',' class="sun"'),
@@ -804,6 +833,7 @@ function student(e){
       <button class="chip2" id="speed" aria-label="Reading speed">Speed ${rate}×</button>
       <button class="chip2" id="loop" aria-pressed="false" aria-label="Repeat this sentence">${ICO.repeat1}<span>Repeat sentence</span></button>
     </div>
+    ${RA_LESSONS.has(e.id)?`<button class="ra-entry" id="raBtn" type="button"><span class="ra-ei">${ICO.mic}</span><span class="ra-et"><b>Read aloud</b><small>Read, listen and record yourself</small></span>${ICO.chevR}</button>`:""}
   </div>
   <div class="mini" id="mini" role="group" aria-label="Playback controls">
     <div class="mini-in">
@@ -833,6 +863,7 @@ function student(e){
     <p class="score" id="score" aria-live="polite"></p>
   </div></div></div>`;
   const bk=byId("back"); if(bk) bk.onclick=ev=>{ev.preventDefault();go("?lv="+e.level)};
+  const rab=byId("raBtn"); if(rab) rab.onclick=()=>openReadAloud(e);
   const qt=byId("qToggle"), qw=byId("quizWrap");
   if(qt&&qw) qt.onclick=()=>{
     const open=!qw.classList.contains("open");
@@ -996,6 +1027,168 @@ async function setupPlayer(e){
   };
   wire(byId("seek")); wire(byId("mseek"));
 }
+/* ---- Read-aloud mode (trial): the student reads each sentence aloud,
+   can hear the model reading and can record and hear themselves ---- */
+const RA_LESSONS=new Set(["zoo"]);
+let ra=null;
+function raSentences(){
+  const sEls=[...app.querySelectorAll(".text .s")], all=[...app.querySelectorAll(".text .w")];
+  const pos=new Map(all.map((w,i)=>[w,i]));
+  return sEls.map((el,i)=>{
+    const ws=[...el.querySelectorAll(".w")].map(w=>pos.get(w));
+    let t0=starts?starts[i]:null, t1=null;
+    if(starts){
+      const lastW=ws.length?ws[ws.length-1]:-1, k=wordIdx.indexOf(lastW);
+      t1=k>=0?wordEnd[k]+0.3:(i+1<starts.length?starts[i+1]:(span?span.end:null));
+    }
+    return {html:el.innerHTML, words:ws, t0, t1};
+  });
+}
+function openReadAloud(e){
+  pause(); raClose(true);
+  const S=raSentences(); if(!S.length) return;
+  const canRec=!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&typeof MediaRecorder!=="undefined");
+  const el=document.createElement("div"); el.className="ra"; el.setAttribute("role","dialog"); el.setAttribute("aria-modal","true"); el.setAttribute("aria-label","Read aloud");
+  el.style.setProperty("--lv",`var(--${e.level})`);
+  el.innerHTML=`<div class="ra-top">
+      <button class="ra-ib" id="raX" type="button" aria-label="Close">${ICO.x}</button>
+      <div class="ra-ttl"><b>Read aloud</b><small>${esc(e.title)}</small></div>
+      <span class="ra-n" id="raN"></span></div>
+    <div class="ra-bar" id="raBar">${S.map(()=>"<i></i>").join("")}</div>
+    <div class="ra-stage" id="raStage">
+      <p class="ra-prev" id="raPrev"></p><p class="ra-cur" id="raCur" aria-live="polite"></p><p class="ra-next" id="raNext"></p>
+    </div>
+    <p class="ra-hint" id="raHint">Read the sentence aloud. Need help? Tap <b>Listen</b>.</p>
+    <div class="ra-tools">
+      <button class="ra-tool" id="raListen" type="button"${starts&&audioEl?"":" disabled"}>${ICO.headphones}<span>Listen</span></button>
+      ${canRec?`<button class="ra-tool rec" id="raRec" type="button">${ICO.mic}<span>Record</span></button>
+      <button class="ra-tool" id="raMine" type="button" disabled>${ICO.playS}<span>My voice</span></button>`:""}
+    </div>
+    <div class="ra-nav"><button class="btn btn-ghost" id="raBack" type="button">${ICO.chevL}Back</button><button class="btn btn-main" id="raGo" type="button">Next${ICO.chevR}</button></div>
+    <div class="ra-done" id="raDone" hidden><div class="ra-badge">${ICO.check}</div><h2>Great reading!</h2><p id="raSum"></p>
+      <div class="ra-nav"><button class="btn btn-ghost" id="raAgain" type="button">Read again</button><button class="btn btn-main" id="raEnd" type="button">Back to the lesson</button></div></div>`;
+  document.body.append(el); document.body.classList.add("ra-open");
+  ra={e,el,S,i:0,mine:{},rec:null,stream:null,model:null,raf:0,timer:0,ctx:null};
+  requestAnimationFrame(()=>el.classList.add("show"));
+  const $=id=>el.querySelector("#"+id);
+  $("raX").onclick=()=>raClose(); $("raEnd").onclick=()=>raClose();
+  $("raBack").onclick=()=>raGo(ra.i-1); $("raGo").onclick=()=>raGo(ra.i+1);
+  $("raAgain").onclick=()=>{ $("raDone").hidden=true; el.classList.remove("finished"); raGo(0); };
+  $("raListen").onclick=raListen;
+  if(canRec){ $("raRec").onclick=raRecord; $("raMine").onclick=raPlayMine; }
+  el.addEventListener("keydown",ev=>{ if(ev.key==="ArrowRight") raGo(ra.i+1); else if(ev.key==="ArrowLeft") raGo(ra.i-1); });
+  raShow();
+  setTimeout(()=>{ try{ $("raGo").focus({preventScroll:true}); }catch{} },60);
+}
+function raStopSound(){
+  if(!ra) return;
+  if(ra.model){ ra.model.pause(); }
+  if(ra.mineAudio){ ra.mineAudio.pause(); ra.mineAudio=null; }
+  cancelAnimationFrame(ra.raf); ra.raf=0;
+  ra.el.querySelectorAll(".ra-cur .w.wnow").forEach(w=>w.classList.remove("wnow"));
+  ra.el.querySelectorAll(".ra-tool.on").forEach(b=>{ if(b.id!=="raRec") b.classList.remove("on"); });
+}
+function raShow(){
+  const {el,S,i}=ra, $=id=>el.querySelector("#"+id);
+  raStopSound();
+  $("raPrev").innerHTML=i>0?S[i-1].html:"";
+  $("raCur").innerHTML=S[i].html;
+  $("raNext").innerHTML=i+1<S.length?S[i+1].html:"";
+  [...$("raCur").querySelectorAll(".w")].forEach((w,k)=>{ w.dataset.g=S[i].words[k]; w.classList.remove("wnow","sel"); });
+  el.querySelectorAll(".ra-prev .w,.ra-next .w").forEach(w=>w.classList.remove("wnow","sel"));
+  $("raN").textContent=`${i+1} / ${S.length}`;
+  [...$("raBar").children].forEach((b,k)=>b.className=k<i?"done":k===i?"now":"");
+  $("raBack").disabled=i===0;
+  $("raGo").innerHTML=i+1<S.length?`Next${ICO.chevR}`:`Finish${ICO.check}`;
+  const m=$("raMine"); if(m) m.disabled=!ra.mine[i];
+  const st=$("raStage"); st.classList.remove("swap"); void st.offsetWidth; st.classList.add("swap");
+}
+function raGo(n){
+  if(!ra) return;
+  if(ra.rec&&ra.rec.state==="recording") ra.rec.stop();
+  if(n<0) return;
+  if(n>=ra.S.length){ raFinish(); return; }
+  ra.i=n; raShow();
+}
+function raFinish(){
+  raStopSound();
+  const n=ra.S.length, r=Object.keys(ra.mine).length;
+  ra.el.querySelector("#raSum").textContent=`You read ${n} sentence${n===1?"":"s"} aloud`+(r?` and recorded yourself ${r} time${r===1?"":"s"}.`:".");
+  ra.el.querySelector("#raDone").hidden=false; ra.el.classList.add("finished");
+  if(ra.e.level==="A1"||ra.e.level==="A2") chime();
+}
+function raListen(){
+  if(!ra) return; const s=ra.S[ra.i];
+  if(!(isFinite(s.t0)&&isFinite(s.t1))) return;
+  const btn=ra.el.querySelector("#raListen");
+  if(btn.classList.contains("on")){ raStopSound(); return; }
+  raStopSound();
+  if(!ra.model){ ra.model=new Audio(AUDIO_DIR+ra.e.id+".mp3"); ra.model.preload="auto"; }
+  const a=ra.model; a.playbackRate=rate;
+  const cur=ra.el.querySelector(".ra-cur"), ws=[...cur.querySelectorAll(".w")];
+  const seekAndPlay=()=>{ try{ a.currentTime=s.t0; }catch{} a.play().then(()=>{ btn.classList.add("on"); loop(); }).catch(()=>{}); };
+  const loop=()=>{
+    if(!ra||ra.model!==a) return;
+    const t=a.currentTime;
+    if(t>=s.t1||a.paused){ a.pause(); raStopSound(); return; }
+    let lit=null;
+    for(const w of ws){ const k=wordIdx.indexOf(+w.dataset.g); if(k>=0&&wordStart[k]<=t+0.02&&t<=wordEnd[k]+0.35) lit=w; }
+    ws.forEach(w=>w.classList.toggle("wnow",w===lit));
+    ra.raf=requestAnimationFrame(loop);
+  };
+  if(a.readyState>=1) seekAndPlay(); else { a.addEventListener("loadedmetadata",seekAndPlay,{once:true}); a.load(); }
+}
+async function raRecord(){
+  if(!ra) return; const btn=ra.el.querySelector("#raRec"), lab=btn.querySelector("span");
+  if(ra.rec&&ra.rec.state==="recording"){ ra.rec.stop(); return; }
+  raStopSound();
+  let stream;
+  try{ stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}}); }
+  catch(err){ toast(err&&err.name==="NotAllowedError"?"The microphone is off. Allow it in your browser settings to record yourself.":"Recording isn't available on this device."); return; }
+  if(!ra){ stream.getTracks().forEach(t=>t.stop()); return; }
+  const type=["audio/mp4","audio/webm;codecs=opus","audio/webm"].find(t=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t));
+  let rec; try{ rec=new MediaRecorder(stream,type?{mimeType:type}:undefined); }catch{ stream.getTracks().forEach(t=>t.stop()); toast("Recording isn't available on this device."); return; }
+  const idx=ra.i, chunks=[], t0=Date.now();
+  ra.rec=rec; ra.stream=stream;
+  rec.ondataavailable=ev=>{ if(ev.data&&ev.data.size) chunks.push(ev.data); };
+  rec.onstop=()=>{
+    stream.getTracks().forEach(t=>t.stop()); clearInterval(ra&&ra.timer);
+    if(!ra) return;
+    btn.classList.remove("on"); lab.textContent="Record"; ra.rec=null; ra.stream=null;
+    if(chunks.length){
+      if(ra.mine[idx]) URL.revokeObjectURL(ra.mine[idx]);
+      ra.mine[idx]=URL.createObjectURL(new Blob(chunks,{type:rec.mimeType||type||"audio/webm"}));
+      if(ra.i===idx){ const m=ra.el.querySelector("#raMine"); if(m){ m.disabled=false; m.classList.add("pop"); setTimeout(()=>m.classList.remove("pop"),500); } }
+    }
+  };
+  rec.start(); btn.classList.add("on"); lab.textContent="0:00";
+  ra.timer=setInterval(()=>{ const s=Math.floor((Date.now()-t0)/1000); lab.textContent=`0:${String(s).padStart(2,"0")}`; if(s>=30&&rec.state==="recording") rec.stop(); },250);
+}
+function raPlayMine(){
+  if(!ra||!ra.mine[ra.i]) return;
+  const btn=ra.el.querySelector("#raMine");
+  if(btn.classList.contains("on")){ raStopSound(); return; }
+  raStopSound();
+  const a=new Audio(ra.mine[ra.i]); ra.mineAudio=a; btn.classList.add("on");
+  a.onended=()=>{ btn.classList.remove("on"); if(ra) ra.mineAudio=null; };
+  a.play().catch(()=>btn.classList.remove("on"));
+}
+function raClose(now){
+  if(!ra) return;
+  const r=ra; ra=null;
+  if(r.rec&&r.rec.state==="recording"){ try{ r.rec.stop(); }catch{} }
+  if(r.stream) r.stream.getTracks().forEach(t=>t.stop());
+  clearInterval(r.timer); cancelAnimationFrame(r.raf);
+  if(r.model){ r.model.pause(); r.model.removeAttribute("src"); }
+  if(r.mineAudio) r.mineAudio.pause();
+  Object.values(r.mine).forEach(u=>URL.revokeObjectURL(u));
+  document.body.classList.remove("ra-open");
+  r.el.classList.remove("show");
+  if(now) r.el.remove(); else setTimeout(()=>r.el.remove(),280);
+  const b=byId("raBtn"); if(b&&!now) try{ b.focus({preventScroll:true}); }catch{}
+}
+document.addEventListener("keydown",ev=>{ if(ev.key==="Escape"&&ra) raClose(); });
+
 /* ---- QR code: a branded card mom can show on her phone or print ---- */
 const LV_HEX={A1:"#2E9E6A",A2:"#1C8AA3",B1:"#3E5FD9",B2:"#7A4FD6",C1:"#B23F78"};
 let qrLib=null, qrEl=null;
@@ -1236,6 +1429,7 @@ function pause(){
   if(audioEl) audioEl.pause(); else if("speechSynthesis" in window){token++;speechSynthesis.cancel();}
 }
 function stopAll(){
+  raClose(true);
   if(typeof cancelAnimationFrame==="function") cancelAnimationFrame(waveRAF);
   waveRAF=0; envArr=null; waveScrub=null;
   playing=false; token++; cur=0; starts=null; span=null; lastMark=-2;
