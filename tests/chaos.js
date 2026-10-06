@@ -261,6 +261,23 @@ async function walk(w, env, steps, errors, studentOnly) {
   w.eval("stopAll()");
   ok(D3.querySelectorAll(".w.wnow").length <= 1, "read-along: stopping does not break the page");
   const css = D3.querySelector("style").textContent;
+  { const isZoo = /[?&]e=zoo\b/.test(w.location.search);
+    if (isZoo && Q("#raBtn")) {
+      Q("#raBtn").click(); await wait(30);
+      const ra = D.querySelector(".ra");
+      ok(ra && D.body.classList.contains("ra-open"), "read-aloud: opens as a full screen");
+      const total = D.querySelectorAll(".text .s").length;
+      ok(D.querySelector("#raN").textContent === `1 / ${total}`, "read-aloud: starts at the first sentence");
+      ok(D.querySelector("#raBack").disabled, "read-aloud: Back is off on the first sentence");
+      D.querySelector("#raGo").click(); await wait(10);
+      ok(D.querySelector("#raN").textContent === `2 / ${total}` && D.querySelector(".ra-cur").textContent.trim() === D.querySelectorAll(".text .s")[1].textContent.trim(), "read-aloud: Next shows the next sentence");
+      ok(!!D.querySelector("#raRec") === (typeof w.MediaRecorder !== "undefined" && !!(w.navigator.mediaDevices && w.navigator.mediaDevices.getUserMedia)), "read-aloud: Record only where the phone can record");
+      for (let k = 0; k < total; k++) { if (!D.querySelector("#raDone").hidden) break; D.querySelector("#raGo").click(); await wait(5); }
+      ok(!D.querySelector("#raDone").hidden && /You read \d+ sentences aloud/.test(D.querySelector("#raSum").textContent), "read-aloud: finish screen with a summary");
+      D.querySelector("#raEnd").click(); await wait(320);
+      ok(!D.querySelector(".ra") && !D.body.classList.contains("ra-open"), "read-aloud: closes cleanly");
+    } else ok(!Q("#raBtn") || isZoo, "read-aloud: trial button only on the trial lesson");
+  }
   ok(typeof w.setupMediaSession === "function" && typeof w.clearMediaSession === "function" && typeof w.msPos === "function", "lock-screen and headphone controls are wired up");
   ok(w.eval('deepen("#2E9E6A",.6)') === w.eval('deepen("#2E9E6A",.6)') && /^#[0-9a-f]{6}$/.test(w.eval('deepen("#2E9E6A",.6)')), "QR corner colour is a valid darker shade");
   ok(typeof w.drawQRCard === "function" && typeof w.openQR === "function", "QR card drawing is available");
