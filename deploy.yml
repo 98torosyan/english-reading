@@ -72,15 +72,16 @@ jobs:
                   tp=TransformPen(pen,(sc,0,0,-sc,cx,y)); gs[n].draw(tp); cx+=hmtx[n][0]*sc+track
               return pen.getCommands(),width
 
-          LV=["#2E9E6A","#1C8AA3","#3E5FD9","#7A4FD6","#B23F78"]
-          INK="#172241"; PAPER="#FFFFFF"
+          LV=["#2B8B68","#7957D5","#5571C9","#955EC4","#AF4C7C"]
+          BOOK=["#7251BF","#805BD0","#936FDE","#A88FEB","#BBA9F3"]
+          INK="#17132A"; PAPER="#F8F5FF"
 
           def book(cx,cy,s):
               # open book; spine at (cx,cy); s = scale (1 => 512 icon)
               def P(x,y): return f"{cx+x*s:.1f},{cy+y*s:.1f}"
               out=[]
               # five coloured page edges under the pages = the five levels
-              for i,c in enumerate(reversed(LV)):
+              for i,c in enumerate(reversed(BOOK)):
                   d=(4-i)*9
                   out.append(f'<path d="M{P(0,20+d)} C{P(-58,-8+d)} {P(-128,-14+d)} {P(-176,2+d)} L{P(-176,-14+d)} C{P(-128,-30+d)} {P(-58,-24+d)} {P(0,4+d)} C{P(58,-24+d)} {P(128,-30+d)} {P(176,-14+d)} L{P(176,2+d)} C{P(128,-14+d)} {P(58,-8+d)} {P(0,20+d)}Z" fill="{c}"/>')
               # white pages
@@ -110,7 +111,7 @@ jobs:
           <path d="{mono}" fill="{PAPER}"/>
           {book(256,392,1.0)}
           <path d="{name}" fill="{INK}"/>
-          <path d="{sub}" fill="#5A6583"/>
+          <path d="{sub}" fill="#766C8A"/>
           <g>{"".join(f'<rect x="{564+i*46}" y="330" width="38" height="8" rx="4" fill="{c}"/>' for i,c in enumerate(LV))}</g>
           </svg>'''
 
@@ -122,6 +123,14 @@ jobs:
           print("ok")
           PYEOF
           fi
+
+      - name: Render app icons from the refreshed SVG
+        run: |
+          python - <<'PY'
+          import cairosvg
+          for name, size in [('icon-512.png', 512), ('icon-192.png', 192), ('apple-touch-icon.png', 180), ('favicon-32.png', 32)]:
+              cairosvg.svg2png(url='icon.svg', write_to=name, output_width=size, output_height=size)
+          PY
 
       - name: Check essays
         run: python check_essays.py
@@ -144,7 +153,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add audio l og
+          git add audio l og icon-192.png icon-512.png apple-touch-icon.png favicon-32.png
           git diff --cached --quiet || (git commit -m "Add voices and previews" && git push)
 
       - name: Set teacher PIN

@@ -10,8 +10,8 @@ import html, json, os, pathlib
 ROOT = pathlib.Path(__file__).parent
 BASE = os.environ.get("BASE_URL", "https://98torosyan.github.io/english-reading/").rstrip("/") + "/"
 FONT = os.environ.get("FONT", "/tmp/Literata.ttf")
-LV = {"A1": "#2E9E6A", "A2": "#1C8AA3", "B1": "#3E5FD9", "B2": "#7A4FD6", "C1": "#B23F78"}
-INK = "#172241"
+LV = {"A1": "#2B8B68", "A2": "#7957D5", "B1": "#5571C9", "B2": "#955EC4", "C1": "#AF4C7C"}
+INK = "#17132A"
 
 src = (ROOT / "essays.js").read_text(encoding="utf-8")
 E = json.loads(src[src.index("["): src.rindex("]") + 1])
@@ -34,7 +34,7 @@ PAGE = """<!DOCTYPE html>
 <link rel="icon" href="../icon.svg" type="image/svg+xml">
 <meta http-equiv="refresh" content="0; url=../?e={id}">
 <script>location.replace("../?e={id}")</script>
-</head><body style="font-family:Georgia,serif;background:#172241;color:#fff;text-align:center;padding:40px">
+</head><body style="font-family:Georgia,serif;background:#17132A;color:#fff;text-align:center;padding:40px">
 <p><a style="color:#fff" href="../?e={id}">Open the lesson: {title}</a></p>
 </body></html>
 """
@@ -77,12 +77,12 @@ def og_svg(e, F):
     stripes = "".join(f'<rect x="0" y="{590 + i * 8}" width="1200" height="8" fill="{c}"/>' for i, c in enumerate(LV.values()))
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
 <rect width="1200" height="630" fill="{INK}"/>
-<g transform="translate(70,125) scale(.66)">{inner.replace('fill="#172241"', 'fill="#22315C"', 1)}</g>
-{lv}{title}<path d="{info}" fill="#C9D2EA"/><path d="{name}" fill="#fff"/><path d="{room}" fill="#A9B3CE"/>{stripes}
+<g transform="translate(70,125) scale(.66)">{inner.replace('fill="#17132A"', 'fill="#28213D"', 1)}</g>
+{lv}{title}<path d="{info}" fill="#D7D0E6"/><path d="{name}" fill="#fff"/><path d="{room}" fill="#BDB2D4"/>{stripes}
 </svg>'''
 
 import hashlib
-CARD_DESIGN = "card-v2"   # change to redraw every card
+CARD_DESIGN = "card-v3-premium-reading-room"   # redraw cards after the brand refresh
 logo_tag = hashlib.sha1((ROOT / "icon.svg").read_bytes() + CARD_DESIGN.encode()).hexdigest()[:12]
 tag_file = ROOT / "og" / ".logo"
 if not tag_file.exists() or tag_file.read_text().strip() != logo_tag:      # new logo -> redraw every card
