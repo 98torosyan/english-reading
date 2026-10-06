@@ -282,7 +282,35 @@ body.wc-open .wrap{padding-bottom:270px}
 .btn:active,.chip:active,.tri:active:not(:disabled),.play:active,.check:active,.speed:active,.pb:active,.app:active,.ibtn:active,.say:active,.aa:active,.out:active{transform:scale(.96)}
 .act:active{background:color-mix(in srgb,var(--ink) 8%,transparent)}
 .score.win{animation:pop .5s ease}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}/* Polished motion: transform and opacity keep playback lightweight */
+.lvcard{transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s ease,border-color .24s ease}
+.lvcard:active{transform:scale(.985)}
+@media (hover:hover){.lvcard:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(23,34,65,.12);border-color:color-mix(in srgb,var(--lv) 36%,var(--line))}}
+.wcard{transition:transform .38s cubic-bezier(.2,.8,.2,1)}
+.backdrop{transition:opacity .3s ease}
+.sheet{transition:transform .42s cubic-bezier(.2,.8,.2,1)}
+.qrv{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:opacity .3s ease}
+.qrbox{transform:translateY(22px) scale(.96);transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.toast{transform:translate(-50%,14px) scale(.97);transition:transform .28s cubic-bezier(.2,.8,.2,1),opacity .2s ease}
+.play{position:relative;isolation:isolate}
+.play svg{position:relative;z-index:1}
+.play::after{content:"";position:absolute;z-index:0;inset:-5px;border:2px solid color-mix(in srgb,var(--lv,var(--accent)) 42%,transparent);border-radius:50%;opacity:0;transform:scale(.88);pointer-events:none}
+.mini{transition:transform .34s cubic-bezier(.2,.8,.2,1),visibility 0s linear .34s}
+.mini.show{transition:transform .34s cubic-bezier(.2,.8,.2,1)}
+.anim .st{transform-box:fill-box;transform-origin:center bottom;animation:stIn .72s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(.22s + var(--i)*.075s)}
+.anim .pg{animation:pgIn .72s cubic-bezier(.16,1,.3,1) both .08s;transform-origin:256px 348px}
+@keyframes stIn{0%{transform:translateY(28px) scaleY(.72);opacity:0}72%{opacity:1}100%{transform:translateY(0) scaleY(1);opacity:1}}
+@keyframes pgIn{0%{transform:scaleY(.18);opacity:0}72%{opacity:1}100%{transform:scaleY(1);opacity:1}}
+.list.rise .item{animation:rise .52s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--d)*34ms)}
+@keyframes rise{0%{transform:translateY(16px) scale(.985);opacity:0}70%{opacity:1}100%{transform:translateY(0) scale(1);opacity:1}}
+.opt.right.flash{animation:pop .48s cubic-bezier(.16,1,.3,1)}
+.opt.wrong.flash{animation:nudge .4s cubic-bezier(.36,.07,.19,.97)}
+@keyframes pop{0%{transform:scale(1)}38%{transform:scale(1.025)}72%{transform:scale(.995)}100%{transform:scale(1)}}
+@keyframes nudge{20%{transform:translateX(-5px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}100%{transform:translateX(0)}}
+.btn,.chip,.tri,.play,.check,.speed,.pb,.app,.act,.ibtn,.say,.aa,.out{transition:transform .2s cubic-bezier(.2,.8,.2,1),background-color .2s ease}
+.playing .play::after{animation:playGlow 1.8s ease-out infinite;will-change:transform,opacity}
+@keyframes playGlow{0%{opacity:.72;transform:scale(.88)}70%,100%{opacity:0;transform:scale(1.28)}}
+
 </style>
 </head>
 <body>
