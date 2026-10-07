@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#F6F3FA">
+<meta name="theme-color" content="#F6F5FB">
 <title>Gayane Torosyan | English Reading Room</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
@@ -18,24 +18,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&family=Noto+Sans+Armenian:wght@400;500;600;700&family=Noto+Serif+Armenian:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#F6F3FA; --surface:#FFFFFF; --ink:#1C1830; --muted:#716A86; --line:#E3DEEC;
-  --marker:#E6D7FF; --sent:rgba(121,87,213,.045); --wordhl:rgba(183,157,245,.52); --wordink:#221A38; --good:#1E8A5A; --bad:#C23B3B; --accent:#7957D5;
-  --A1:#2B8B68; --A2:#7957D5; --B1:#5571C9; --B2:#955EC4; --C1:#AF4C7C;
+  --paper:#F6F5FB; --surface:#FFFFFF; --ink:#18183A; --muted:#5E5E80; --line:#E3E1EF;
+  --marker:#FFE17A; --sent:rgba(246,196,40,.045); --wordhl:rgba(255,212,59,.55); --good:#1E8A5A; --bad:#C23B3B; --accent:#6C4CE4; --brand:#7A5CEB; --brand2:#A891F7;
+  --A1:#2E9E6A; --A2:#1C8AA3; --B1:#3E5FD9; --B2:#7A4FD6; --C1:#B23F78;
   --ui:"Noto Sans Armenian","Noto Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --read:"Literata","Noto Serif Armenian",Georgia,serif;
-  --shadow:0 2px 6px rgba(28,24,48,.04),0 14px 34px rgba(43,31,75,.075);
+  --shadow:0 1px 2px rgba(24,24,58,.06),0 8px 24px rgba(24,24,58,.07);
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --paper:#100F1D; --surface:#1B192C; --ink:#F3EFFB; --muted:#B0A8C6; --line:#342E49; --marker:#624C83; --sent:rgba(183,157,245,.065); --wordhl:#B79DF5; --wordink:#1B1530;
-  --accent:#A98CF5; --A1:#55B98B; --A2:#AB91F4; --B1:#87A0F0; --B2:#C18DE6; --C1:#E27EA5; --shadow:0 14px 36px rgba(0,0,0,.22);
+  --brand:#A48EF7; --accent:#8C72F0; --paper:#0E1022; --surface:#181A36; --ink:#ECEBF7; --muted:#A9A7C8; --line:#2B2C4D; --marker:#6E5B10; --sent:rgba(255,214,64,.03); --wordhl:#EEC65B; --wordink:#141B33;
+  --shadow:none;
 }}
 :root[data-theme="dark"]{
-  --paper:#100F1D; --surface:#1B192C; --ink:#F3EFFB; --muted:#B0A8C6; --line:#342E49; --marker:#624C83; --sent:rgba(183,157,245,.065); --wordhl:#B79DF5; --wordink:#1B1530;
-  --accent:#A98CF5; --A1:#55B98B; --A2:#AB91F4; --B1:#87A0F0; --B2:#C18DE6; --C1:#E27EA5; --shadow:0 14px 36px rgba(0,0,0,.22);
+  --brand:#A48EF7; --accent:#8C72F0; --paper:#0E1022; --surface:#181A36; --ink:#ECEBF7; --muted:#A9A7C8; --line:#2B2C4D; --marker:#6E5B10; --sent:rgba(255,214,64,.03); --wordhl:#EEC65B; --wordink:#141B33;
+  --shadow:none;
 }
-:root{--r-sm:12px;--r-md:18px;--r-lg:24px;--tint:color-mix(in srgb,var(--lv,var(--accent)) 13%,transparent)}
+:root{--r-sm:10px;--r-md:14px;--r-lg:20px;--tint:color-mix(in srgb,var(--lv,var(--accent)) 13%,transparent)}
 *,*::before,*::after{box-sizing:inherit}
 html,body{margin:0}
 body{background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent}
@@ -88,7 +88,14 @@ a{color:inherit}
 
 .outs{margin-left:auto;display:flex;gap:6px}
 .out{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:6px 12px;font-size:.85rem;color:var(--muted)}
-.lock{max-width:340px;margin:12vh auto 0;text-align:center}
+.lock{position:relative;max-width:340px;margin:12vh auto 0;text-align:center}
+.room{position:absolute;left:0;right:0;top:0;height:min(56vh,440px);background:url(room.jpg) 58% 45%/cover no-repeat;pointer-events:none;
+  -webkit-mask-image:linear-gradient(#000 0%,rgba(0,0,0,.85) 45%,transparent 100%);mask-image:linear-gradient(#000 0%,rgba(0,0,0,.85) 45%,transparent 100%)}
+.room::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(14,16,34,.35),rgba(14,16,34,.15) 40%,var(--paper))}
+.room+.lock{margin-top:min(30vh,250px)}
+.room+.lock .mark.big{box-shadow:0 18px 50px rgba(20,16,60,.45);border-radius:22%}
+.motto{margin:26px 0 0;font-family:var(--read);font-style:italic;color:var(--brand);font-size:1.05rem;opacity:.9}
+.motto::before{content:"";display:inline-block;width:34px;height:1px;background:currentColor;vertical-align:middle;margin-right:10px;opacity:.6}
 .lock .logo{margin:0 auto 14px;width:56px;height:56px;font-size:1.6rem}
 .lock h1{font-family:var(--read);font-size:2rem;margin:0}
 .lock .lead{margin:6px auto 26px}
@@ -100,9 +107,9 @@ a{color:inherit}
 .lock .lead svg{width:16px;height:16px}
 
 .mark{display:block;border-radius:22%;flex:none}
-.brand .tag,.lock .tag{margin:2px 0 0;color:var(--muted);font-family:var(--read);font-size:.95rem;letter-spacing:.02em}
+.brand .tag,.lock .tag{margin:3px 0 0;color:var(--brand);font-family:var(--ui);font-weight:600;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase}
 .brand h1{font-size:1.3rem;white-space:nowrap}
-.brand .tag{font-size:.82rem;white-space:nowrap}
+.brand .tag{font-size:.6rem;letter-spacing:.2em;white-space:nowrap}
 .brand>div:not(.outs){min-width:0}
 .brand .mark{width:44px!important;height:44px!important}
 .outs{margin-left:auto;display:flex;gap:8px;flex:none}
@@ -112,7 +119,7 @@ a{color:inherit}
 .lock .lead{margin-top:18px}
 .sbrand{display:flex;align-items:center;gap:10px;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
 .sbrand b{display:block;font-family:var(--read);font-size:1rem;line-height:1.2}
-.sbrand span{color:var(--muted);font-size:.8rem}
+.sbrand span{color:var(--brand);font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}
 
 .w{border-radius:3px;cursor:pointer;touch-action:manipulation}
 .w{transition:background-color .14s ease,box-shadow .14s ease,color .14s ease}
@@ -222,7 +229,7 @@ body.ra-open{overflow:hidden}
 .qrv.show{opacity:1}
 .qrbox{width:min(420px,100%);display:flex;flex-direction:column;gap:12px;transform:translateY(14px) scale(.98);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
 .qrv.show .qrbox{transform:none}
-.qrcard{aspect-ratio:1080/1350;border-radius:var(--r-lg);overflow:hidden;background:#17132A;display:grid;place-items:center;box-shadow:0 24px 70px rgba(0,0,0,.45)}
+.qrcard{aspect-ratio:1080/1350;border-radius:var(--r-lg);overflow:hidden;background:#0E1022;display:grid;place-items:center;box-shadow:0 24px 70px rgba(0,0,0,.45)}
 .qrcv{width:100%;height:100%;display:block}
 .qrload svg{width:46px;height:46px;color:#A9B3CE;animation:qrp 1.1s ease-in-out infinite}
 @keyframes qrp{50%{opacity:.35}}
@@ -337,116 +344,7 @@ body.ra-open{overflow:hidden}
 .btn:active,.chip:active,.tri:active:not(:disabled),.play:active,.check:active,.speed:active,.pb:active,.app:active,.ibtn:active,.say:active,.aa:active,.out:active{transform:scale(.96)}
 .act:active{background:color-mix(in srgb,var(--ink) 8%,transparent)}
 .score.win{animation:pop .5s ease}
-	@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
-	/* ---------- English Reading Room · premium identity ---------- */
-body{background:radial-gradient(ellipse 760px 340px at 50% -180px,rgba(168,140,245,.12),transparent 75%),var(--paper)}
-.wrap{max-width:780px;padding:30px 20px 84px}
-:focus-visible{outline-color:var(--accent)}
-.brand{position:relative;isolation:isolate;display:flex;align-items:center;gap:14px;min-height:138px;margin:0 0 24px;padding:20px 22px;border:1px solid rgba(210,194,247,.16);border-radius:26px;overflow:hidden;color:#F6F2FF;background:linear-gradient(125deg,#141126 0%,#1C1731 55%,#28203D 100%);box-shadow:0 18px 42px rgba(28,20,50,.22)}
-.brand::before{content:"";position:absolute;z-index:0;top:16px;right:18px;bottom:16px;width:35%;min-width:180px;border:1px solid rgba(215,198,255,.16);border-radius:16px;background:
-  radial-gradient(circle at 71% 28%,rgba(244,192,145,.72) 0 4%,transparent 4.5%),
-  linear-gradient(90deg,transparent 48.8%,rgba(224,211,255,.18) 49.3% 50.2%,transparent 50.7%),
-  linear-gradient(0deg,transparent 47.8%,rgba(224,211,255,.18) 48.3% 49.2%,transparent 49.7%),
-  linear-gradient(154deg,transparent 0 45%,rgba(102,82,144,.8) 45.5% 58%,transparent 58.5%),
-  linear-gradient(206deg,transparent 0 39%,rgba(147,117,176,.68) 39.5% 55%,transparent 55.5%),
-  linear-gradient(180deg,#332A47 0%,#3B304B 63%,#4B3A4D 100%);box-shadow:inset 0 0 28px rgba(237,215,255,.08)}
-.brand::after{content:"";position:absolute;z-index:0;right:30px;bottom:16px;width:31%;height:13%;border-bottom:3px solid rgba(220,199,255,.22);background:repeating-linear-gradient(90deg,transparent 0 7px,rgba(194,164,244,.23) 7px 13px,transparent 13px 23px);opacity:.6}
-.brand>*{position:relative;z-index:1}
-.brand .mark{width:54px!important;height:54px!important;border-radius:17%;box-shadow:0 8px 22px rgba(0,0,0,.24)}
-.brand>div:not(.outs){min-width:0}
-.brand h1{margin:0;color:#FFF;font-family:var(--read);font-size:1.48rem;line-height:1.12;letter-spacing:-.02em;white-space:nowrap}
-.brand .tag{margin:5px 0 0;color:#C6B9E7;font-family:var(--ui);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
-.brand-motto{display:block;margin-top:7px;color:#A99BC9;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
-.outs{gap:8px}
-.outs .theme-t,.outs .out{width:42px;height:42px;border:1px solid rgba(221,208,255,.2);background:rgba(255,255,255,.075);color:#F6F2FF;backdrop-filter:blur(8px);transition:transform .2s ease,background-color .2s ease,border-color .2s ease}
-.outs .theme-t:hover,.outs .out:hover{background:rgba(255,255,255,.15);border-color:rgba(221,208,255,.42);transform:translateY(-2px)}
-.lead{margin:0 2px 18px;max-width:60ch;font-size:.96rem}
-.lvgrid{gap:12px}
-.lvcard{padding:16px 18px;border-radius:20px;transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s ease,border-color .24s ease}
-.lvbig{border-radius:17px;background:linear-gradient(145deg,color-mix(in srgb,var(--lv) 84%,white),var(--lv));box-shadow:0 8px 20px color-mix(in srgb,var(--lv) 26%,transparent)}
-.lvtxt b{font-size:1.17rem}
-.lvhead{margin:8px 0 20px;padding:14px 16px;border:1px solid var(--line);border-radius:20px;background:color-mix(in srgb,var(--lv) 5%,var(--surface));box-shadow:var(--shadow)}
-.item{padding:18px 18px 16px;border-radius:20px;box-shadow:var(--shadow);transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s ease,border-color .22s ease}
-.item::before{width:4px;background:linear-gradient(180deg,color-mix(in srgb,var(--lv) 68%,white),var(--lv))}
-.item h2{font-size:1.27rem}
-.lv{border-radius:999px;padding:3px 9px;letter-spacing:.025em}
-.btn{border-radius:12px;transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s ease,background-color .2s ease,border-color .2s ease}
-.btn-main,.check{background:linear-gradient(135deg,#6845BD,#8A68DB);color:#FFF;box-shadow:0 7px 17px rgba(105,72,191,.2)}
-.btn-main:hover,.check:hover{background:linear-gradient(135deg,#5E3FAE,#7957D0);box-shadow:0 10px 22px rgba(105,72,191,.28);transform:translateY(-1px)}
-.btn-ghost{border-color:color-mix(in srgb,var(--accent) 24%,var(--line));background:color-mix(in srgb,var(--accent) 3%,var(--surface))}
-.btn-ghost:hover{border-color:color-mix(in srgb,var(--accent) 46%,var(--line));background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
-.chip[aria-pressed="true"],.chip2[aria-pressed="true"],.chip2.on{background:var(--accent);border-color:var(--accent);color:#FFF}
-.tri.main{background:linear-gradient(135deg,#6845BD,#8A68DB);border-color:transparent;color:#FFF}
-.back{color:var(--accent);font-weight:600}
-.lock{position:relative;isolation:isolate;max-width:390px;margin:10vh auto 0;padding:34px 30px 30px;border:1px solid rgba(220,205,255,.18);border-radius:28px;overflow:hidden;text-align:center;color:#F6F2FF;background:radial-gradient(ellipse at 50% 0%,rgba(143,104,211,.24),transparent 55%),linear-gradient(145deg,#141126,#211A37 72%,#2B2140);box-shadow:0 26px 64px rgba(30,20,53,.28)}
-.lock::before{content:"";position:absolute;z-index:-1;inset:auto -24px -66px auto;width:180px;height:180px;border:1px solid rgba(211,191,255,.13);border-radius:50%;box-shadow:0 0 0 22px rgba(211,191,255,.035),0 0 0 46px rgba(211,191,255,.025)}
-.lock .mark.big{margin-bottom:20px;box-shadow:0 10px 28px rgba(0,0,0,.24)}
-.lock h1{color:#FFF;font-size:2.05rem}
-.lock .tag{color:#C6B9E7}
-.lock .brand-motto{margin-top:9px;color:#A99BC9}
-.lock .lead{color:#D0C7E3;margin:18px auto 26px}
-.lock .label{color:#D0C7E3}
-.lock .pin{border-color:rgba(220,205,255,.22);background:rgba(255,255,255,.075);color:#FFF}
-.lock .pin:focus{border-color:#B49AF5;outline-color:#A98CF5}
-.lock .btn-main{min-height:50px;background:linear-gradient(135deg,#7450C8,#A07BEA);color:#FFF}
-.lock .err{color:#FFB6C6}
-.sbrand{min-height:62px;padding:10px 12px;margin:0 0 18px;border:1px solid rgba(220,205,255,.16);border-radius:18px;border-bottom:1px solid rgba(220,205,255,.16);background:linear-gradient(110deg,#151227,#28203D);color:#F6F2FF;box-shadow:0 10px 24px rgba(28,20,50,.13)}
-.sbrand .mark{border-radius:17%;box-shadow:0 4px 14px rgba(0,0,0,.2)}
-.sbrand span{color:#BEB2D9}
-.sbrand .theme-t{border-color:rgba(221,208,255,.2);background:rgba(255,255,255,.08);color:#F6F2FF}
-.essay-head h1{font-size:clamp(1.9rem,5vw,2.5rem);letter-spacing:-.025em}
-.player{border-radius:24px;border-color:color-mix(in srgb,var(--accent) 15%,var(--line));box-shadow:var(--shadow)}
-.play,.mplay{background:linear-gradient(145deg,#6845BD,#8A68DB);color:#FFF;box-shadow:0 8px 22px rgba(105,72,191,.24)}
-#seek::-webkit-slider-thumb,#mseek::-webkit-slider-thumb{background:var(--accent)}
-#seek::-moz-range-progress,#mseek::-moz-range-progress{background:var(--accent)}
-.ra-cur{border-left-color:var(--accent)}
-.ra-tool svg,.ra-n{color:var(--accent)}
-.ra-bar i.now,.ra-badge{background:var(--accent)}
-@media(max-width:560px){
-  .wrap{padding:18px 14px 76px}
-  .brand{min-height:116px;margin-bottom:20px;padding:14px 12px;gap:9px;border-radius:22px}
-  .brand::before{top:10px;right:9px;bottom:10px;width:32%;min-width:112px;opacity:.72}
-  .brand::after{right:15px;bottom:12px;width:28%;height:12%}
-  .brand .mark{width:44px!important;height:44px!important}
-  .brand h1{font-size:clamp(.91rem,4.2vw,1.12rem);white-space:normal}
-  .brand .tag{font-size:.65rem;letter-spacing:.045em;white-space:normal}
-  .brand-motto{display:none}
-  .outs{gap:4px}
-  .outs .theme-t,.outs .out{width:36px;height:36px}
-  .lock{margin:8vh 0 0;padding:30px 22px 24px;border-radius:24px}
-  .lvcard{gap:11px;padding:14px;border-radius:18px}
-  .item{padding:16px 14px 14px}
-  .actions .btn{padding:0 12px}
-  .sbrand{border-radius:16px}
-}
-/* Keep the polished, low-cost motion across the new visual system. */
-.lvcard{transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s ease,border-color .24s ease}
-.lvcard:active{transform:scale(.985)}
-@media(hover:hover){.lvcard:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(43,31,75,.14);border-color:color-mix(in srgb,var(--lv) 38%,var(--line))}}
-.wcard{transition:transform .38s cubic-bezier(.2,.8,.2,1)}
-.backdrop{transition:opacity .3s ease}
-.sheet{transition:transform .42s cubic-bezier(.2,.8,.2,1)}
-.qrv{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:opacity .3s ease}
-.qrbox{transform:translateY(22px) scale(.96);transition:transform .4s cubic-bezier(.2,.8,.2,1)}
-.toast{transform:translate(-50%,14px) scale(.97);transition:transform .28s cubic-bezier(.2,.8,.2,1),opacity .2s ease}
-.play{position:relative;isolation:isolate}
-.play svg{position:relative;z-index:1}
-.play::after{content:"";position:absolute;z-index:0;inset:-5px;border:2px solid color-mix(in srgb,var(--lv,var(--accent)) 42%,transparent);border-radius:50%;opacity:0;transform:scale(.88);pointer-events:none}
-.mini{transition:transform .34s cubic-bezier(.2,.8,.2,1),visibility 0s linear .34s}
-.mini.show{transition:transform .34s cubic-bezier(.2,.8,.2,1)}
-.anim .st{transform-box:fill-box;transform-origin:center bottom;animation:stIn .72s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(.22s + var(--i)*.075s)}
-.anim .pg{animation:pgIn .72s cubic-bezier(.16,1,.3,1) both .08s;transform-origin:256px 348px}
-@keyframes stIn{0%{transform:translateY(28px) scaleY(.72);opacity:0}72%{opacity:1}100%{transform:translateY(0) scaleY(1);opacity:1}}
-@keyframes pgIn{0%{transform:scaleY(.18);opacity:0}72%{opacity:1}100%{transform:scaleY(1);opacity:1}}
-.list.rise .item{animation:rise .52s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--d)*34ms)}
-@keyframes rise{0%{transform:translateY(16px) scale(.985);opacity:0}70%{opacity:1}100%{transform:translateY(0) scale(1);opacity:1}}
-.opt.right.flash{animation:pop .48s cubic-bezier(.16,1,.3,1)}
-.opt.wrong.flash{animation:nudge .4s cubic-bezier(.36,.07,.19,.97)}
-@keyframes pop{0%{transform:scale(1)}38%{transform:scale(1.025)}72%{transform:scale(.995)}100%{transform:scale(1)}}
-@keyframes nudge{20%{transform:translateX(-5px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}100%{transform:translateX(0)}}
-.btn,.chip,.tri,.play,.check,.speed,.pb,.app,.act,.ibtn,.say,.aa,.out{transition:transform .2s cubic-bezier(.2,.8,.2,1),background-color .2s ease}
-.playing .play::after{animation:playGlow 1.8s ease-out infinite;will-change:transform,opacity}
-@keyframes playGlow{0%{opacity:.72;transform:scale(.88)}70%,100%{opacity:0;transform:scale(1.28)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -465,7 +363,11 @@ const TEACHER_PIN_HASH = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f9
 // Optional: an email raises the free translation limit from 5,000 to 50,000 characters per day.
 // Use a separate, throw-away email (it is visible in the page's network requests), not a personal one.
 const ESSAYS = window.ESSAYS || [];
-const LOGO_INNER = `<rect width="512" height="512" rx="116" fill="#17132A"/><path d="M249.0,413.0 C204.0,381.0 128.0,375.0 60.0,397.0 L60.0,383.4 C128.0,361.4 204.0,367.4 249.0,399.4 Z" fill="#7251BF" class="st" style="--i:0"/><path d="M263.0,413.0 C308.0,381.0 384.0,375.0 452.0,397.0 L452.0,383.4 C384.0,361.4 308.0,367.4 263.0,399.4 Z" fill="#7251BF" class="st" style="--i:0"/><path d="M249.0,400.0 C204.0,368.0 128.0,362.0 60.0,384.0 L60.0,370.4 C128.0,348.4 204.0,354.4 249.0,386.4 Z" fill="#805BD0" class="st" style="--i:1"/><path d="M263.0,400.0 C308.0,368.0 384.0,362.0 452.0,384.0 L452.0,370.4 C384.0,348.4 308.0,354.4 263.0,386.4 Z" fill="#805BD0" class="st" style="--i:1"/><path d="M249.0,387.0 C204.0,355.0 128.0,349.0 60.0,371.0 L60.0,357.4 C128.0,335.4 204.0,341.4 249.0,373.4 Z" fill="#936FDE" class="st" style="--i:2"/><path d="M263.0,387.0 C308.0,355.0 384.0,349.0 452.0,371.0 L452.0,357.4 C384.0,335.4 308.0,341.4 263.0,373.4 Z" fill="#936FDE" class="st" style="--i:2"/><path d="M249.0,374.0 C204.0,342.0 128.0,336.0 60.0,358.0 L60.0,344.4 C128.0,322.4 204.0,328.4 249.0,360.4 Z" fill="#A88FEB" class="st" style="--i:3"/><path d="M263.0,374.0 C308.0,342.0 384.0,336.0 452.0,358.0 L452.0,344.4 C384.0,322.4 308.0,328.4 263.0,360.4 Z" fill="#A88FEB" class="st" style="--i:3"/><path d="M249.0,361.0 C204.0,329.0 128.0,323.0 60.0,345.0 L60.0,331.4 C128.0,309.4 204.0,315.4 249.0,347.4 Z" fill="#BBA9F3" class="st" style="--i:4"/><path d="M263.0,361.0 C308.0,329.0 384.0,323.0 452.0,345.0 L452.0,331.4 C384.0,309.4 308.0,315.4 263.0,347.4 Z" fill="#BBA9F3" class="st" style="--i:4"/><path d="M249.0,348.0 C204.0,316.0 128.0,310.0 60.0,332.0 L60.0,198.0 C126.0,172.0 202.0,182.0 249.0,222.0 Z" fill="#F8F5FF" class="pg"/><path d="M263.0,348.0 C308.0,316.0 384.0,310.0 452.0,332.0 L452.0,198.0 C386.0,172.0 310.0,182.0 263.0,222.0 Z" fill="#F8F5FF" class="pg"/>`;
+const LOGO_INNER = `<rect width="512" height="512" rx="116" fill="#17183A"/><rect x="1.5" y="1.5" width="509" height="509" rx="114.5" fill="none" stroke="#FFFFFF" stroke-opacity=".08" stroke-width="3"/><g transform="translate(84.5 74) scale(.67)"><g><path class="st" style="--i:0" d="M10 150 L40 164 L40 336 C112 344 196 372 252 446 L252 470 C190 404 108 382 10 376 Z" fill="#6A49E2"/>
+<path class="st" style="--i:2" d="M88 54 C162 62 222 98 250 158 L252 222 C226 166 170 128 88 116 Z" fill="#9378F2" stroke="#17183A" stroke-width="12" paint-order="stroke"/>
+<path class="st" style="--i:1" d="M60 124 C134 130 204 164 240 222 L252 428 C210 370 140 334 60 318 Z" fill="#A891F7" stroke="#17183A" stroke-width="14" paint-order="stroke"/></g><g transform="translate(512 0) scale(-1 1)"><path class="st" style="--i:0" d="M10 150 L40 164 L40 336 C112 344 196 372 252 446 L252 470 C190 404 108 382 10 376 Z" fill="#5B3DD8"/>
+<path class="st" style="--i:2" d="M88 54 C162 62 222 98 250 158 L252 222 C226 166 170 128 88 116 Z" fill="#7B5DEB" stroke="#17183A" stroke-width="12" paint-order="stroke"/>
+<path class="st" style="--i:1" d="M60 124 C134 130 204 164 240 222 L252 428 C210 370 140 334 60 318 Z" fill="#8C70F2" stroke="#17183A" stroke-width="14" paint-order="stroke"/></g></g>`;
 const logoMark = (size, cls="") => `<span class="mark ${cls}" style="width:${size}px;height:${size}px" aria-hidden="true"><svg viewBox="0 0 512 512">${LOGO_INNER}</svg></span>`;
 const REDUCED = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 let chimeEl=null;
@@ -524,11 +426,11 @@ let sessionOK=false;
 function lockScreen(){
   document.title="Gayane Torosyan | English Reading Room";
   app.innerHTML=`
+  <div class="room" aria-hidden="true"></div>
   <section class="lock">
     ${logoMark(84,"big anim")}
     <h1>Gayane Torosyan</h1>
     <p class="tag">English Reading Room</p>
-    <p class="brand-motto">Better readers. Bigger dreams.</p>
     <p class="lead">${ICO.lock}Մուտք միայն ուսուցչի համար</p>
     <form id="lockForm" autocomplete="off">
       <label for="pin" class="label">PIN կոդ</label>
@@ -536,6 +438,7 @@ function lockScreen(){
       <p class="err" id="err" aria-live="polite"></p>
       <button class="btn btn-main" type="submit">Մուտք</button>
     </form>
+    <p class="motto">Let’s read together</p>
   </section>`;
   const pin=document.getElementById("pin"); pin.focus();
   document.getElementById("lockForm").onsubmit=async ev=>{
@@ -571,7 +474,7 @@ function teacher(listAnim){
   const lvParam=new URLSearchParams(location.search).get("lv");
   const lv=LEVELS.includes(lvParam)?lvParam:null;
   const head=`<header>
-    <div class="brand">${logoMark(52, firstPaint?"anim":"")}<div><h1>Gayane Torosyan</h1><p class="tag">English Reading Room</p><span class="brand-motto">Better readers. Bigger dreams.</span></div><div class="outs"><button class="theme-t" id="themeBtn" type="button">${ICO.sun}${ICO.moon}</button><button class="out" id="logout" aria-label="Դուրս գալ" title="Դուրս գալ">${ICO.logout}</button></div></div>
+    <div class="brand">${logoMark(52, firstPaint?"anim":"")}<div><h1>Gayane Torosyan</h1><p class="tag">English Reading Room</p></div><div class="outs"><button class="theme-t" id="themeBtn" type="button">${ICO.sun}${ICO.moon}</button><button class="out" id="logout" aria-label="Դուրս գալ" title="Դուրս գալ">${ICO.logout}</button></div></div>
   </header>`;
   if(!lv){
     app.innerHTML=head+`
@@ -734,7 +637,7 @@ function isDark(){ return themePref?themePref==="dark":systemDark(); }
 function applyPrefs(){
   const r=document.documentElement, dark=isDark();
   r.dataset.theme=dark?"dark":"light"; r.dataset.mode=dark?"dark":"light";
-  const m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content",dark?"#100F1D":"#F6F3FA");
+  const m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content",dark?"#0E1022":"#F6F5FB");
   const b=byId("themeBtn"); if(b) labelThemeBtn(b);
   if(!waveRAF&&byId("wave")) waveDraw();
 }
@@ -1013,7 +916,7 @@ function simAmp(t){                        // stand-in rhythm when no measured l
 }
 function waveColors(){
   const cs=getComputedStyle(app), g=n=>cs.getPropertyValue(n).trim();
-  return {played:g("--lv")||"#7957D5", rest:g("--muted")||"#716A86", ink:g("--ink")||"#1C1830"};
+  return {played:g("--lv")||"#3E5FD9", rest:g("--muted")||"#5A6583", ink:g("--ink")||"#172241"};
 }
 function rbar(ctx,x,y,w,h){
   const r=Math.min(w/2,h/2);
@@ -1139,7 +1042,7 @@ async function setupPlayer(e){
 }
 /* ---- Read-aloud mode (trial): the student reads each sentence aloud,
    can hear the model reading and can record and hear themselves ---- */
-const RA_LESSONS=new Set(["zoo"]);
+const RA_LESSONS=new Set([]);   // read-aloud trial is off; add a lesson id here to turn it on again
 let ra=null;
 function raSentences(){
   const sEls=[...app.querySelectorAll(".text .s")], all=[...app.querySelectorAll(".text .w")];
@@ -1300,7 +1203,7 @@ function raClose(now){
 document.addEventListener("keydown",ev=>{ if(ev.key==="Escape"&&ra) raClose(); });
 
 /* ---- QR code: a branded card mom can show on her phone or print ---- */
-const LV_HEX={A1:"#2B8B68",A2:"#7957D5",B1:"#5571C9",B2:"#955EC4",C1:"#AF4C7C"};
+const LV_HEX={A1:"#2E9E6A",A2:"#1C8AA3",B1:"#3E5FD9",B2:"#7A4FD6",C1:"#B23F78"};
 let qrLib=null, qrEl=null;
 function loadQRLib(){
   if(window.qrcode) return Promise.resolve();
@@ -1317,7 +1220,7 @@ function wrapLines(c,text,maxW){ const words=text.split(/\s+/), out=[]; let line
 async function drawQRCard(e){
   await loadQRLib();
   try{ await Promise.all(["700 58px Literata","600 40px Literata","400 28px Literata"].map(f=>document.fonts.load(f))); }catch{}
-  const link=linkFor(e), lv=LV_HEX[e.level]||"#7957D5", NAVY="#17132A";
+  const link=linkFor(e), lv=LV_HEX[e.level]||"#3E5FD9", NAVY="#121331";
   const q=qrcode(0,"H"); q.addData(link); q.make();
   const n=q.getModuleCount();
   const W=1080, H=1350, cv=document.createElement("canvas"); cv.width=W; cv.height=H;
@@ -1361,7 +1264,7 @@ async function drawQRCard(e){
   const cy=py+P+92; c.fillStyle="#fff"; c.font="700 38px system-ui, -apple-system, sans-serif"; c.fillText("Scan to open the lesson",W/2,cy);
   c.fillStyle="#C9D2EA"; c.font="400 32px system-ui, -apple-system, sans-serif"; c.fillText("Սկանավորիր՝ դասը բացելու համար",W/2,cy+52);
   // level stripes
-  ["#7251BF","#805BD0","#936FDE","#A88FEB","#BBA9F3"].forEach((col,i)=>{ c.fillStyle=col; c.fillRect(0,H-40+i*8,W,8); });
+  ["#2E9E6A","#1C8AA3","#3E5FD9","#7A4FD6","#B23F78"].forEach((col,i)=>{ c.fillStyle=col; c.fillRect(0,H-40+i*8,W,8); });
   return cv;
 }
 async function openQR(e){

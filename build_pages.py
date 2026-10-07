@@ -10,8 +10,8 @@ import html, json, os, pathlib
 ROOT = pathlib.Path(__file__).parent
 BASE = os.environ.get("BASE_URL", "https://98torosyan.github.io/english-reading/").rstrip("/") + "/"
 FONT = os.environ.get("FONT", "/tmp/Literata.ttf")
-LV = {"A1": "#2B8B68", "A2": "#7957D5", "B1": "#5571C9", "B2": "#955EC4", "C1": "#AF4C7C"}
-INK = "#17132A"
+LV = {"A1": "#2E9E6A", "A2": "#1C8AA3", "B1": "#3E5FD9", "B2": "#7A4FD6", "C1": "#B23F78"}
+INK = "#0E1022"
 
 src = (ROOT / "essays.js").read_text(encoding="utf-8")
 E = json.loads(src[src.index("["): src.rindex("]") + 1])
@@ -34,7 +34,7 @@ PAGE = """<!DOCTYPE html>
 <link rel="icon" href="../icon.svg" type="image/svg+xml">
 <meta http-equiv="refresh" content="0; url=../?e={id}">
 <script>location.replace("../?e={id}")</script>
-</head><body style="font-family:Georgia,serif;background:#17132A;color:#fff;text-align:center;padding:40px">
+</head><body style="font-family:Georgia,serif;background:#0E1022;color:#fff;text-align:center;padding:40px">
 <p><a style="color:#fff" href="../?e={id}">Open the lesson: {title}</a></p>
 </body></html>
 """
@@ -42,12 +42,12 @@ PAGE = """<!DOCTYPE html>
 def og_svg(e, F):
     from fontTools.pens.svgPathPen import SVGPathPen
     from fontTools.pens.transformPen import TransformPen
-    def tp(font, s, size, x, y):
+    def tp(font, s, size, x, y, track=0):
         gs, cmap, upm, hm = font.getGlyphSet(), font.getBestCmap(), font["head"].unitsPerEm, font["hmtx"]
         sc, pen, cx = size / upm, SVGPathPen(gs), x
         for ch in s:
             n = cmap.get(ord(ch)) or cmap[ord("?")]
-            gs[n].draw(TransformPen(pen, (sc, 0, 0, -sc, cx, y))); cx += hm[n][0] * sc
+            gs[n].draw(TransformPen(pen, (sc, 0, 0, -sc, cx, y))); cx += hm[n][0] * sc + track
         return pen.getCommands(), cx - x
     big, txt, sub = F
     # wrap title into max 3 lines
@@ -71,18 +71,20 @@ def og_svg(e, F):
     info_y = y0 + (len(lines) - 1) * size * 1.15 + 62
     info = tp(sub, f"Read · Listen · {len(e['qs'])} questions · ~{mins} min", 28, 472, info_y)[0]
     name = tp(txt, "Gayane Torosyan", 36, 470, 520)[0]
-    room = tp(sub, "English Reading Room", 26, 470, 560)[0]
+    room = tp(txt, "ENGLISH READING ROOM", 20, 471, 556, track=4.2)[0]
     icon = (ROOT / "icon.svg").read_text()
     inner = icon[icon.index(">") + 1: icon.rindex("</svg>")]
-    stripes = "".join(f'<rect x="0" y="{590 + i * 8}" width="1200" height="8" fill="{c}"/>' for i, c in enumerate(LV.values()))
+    stripes = '<rect x="0" y="622" width="1200" height="8" fill="url(#vl)"/>'
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-<rect width="1200" height="630" fill="{INK}"/>
-<g transform="translate(70,125) scale(.66)">{inner.replace('fill="#17132A"', 'fill="#28213D"', 1)}</g>
-{lv}{title}<path d="{info}" fill="#D7D0E6"/><path d="{name}" fill="#fff"/><path d="{room}" fill="#BDB2D4"/>{stripes}
+<defs><radialGradient id="glow" cx="1040" cy="40" r="760" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7A5CEB" stop-opacity=".38"/><stop offset="1" stop-color="#7A5CEB" stop-opacity="0"/></radialGradient>
+<linearGradient id="vl" x1="0" x2="1"><stop offset="0" stop-color="#5B3DD8"/><stop offset="1" stop-color="#A891F7"/></linearGradient></defs>
+<rect width="1200" height="630" fill="{INK}"/><rect width="1200" height="630" fill="url(#glow)"/>
+<g transform="translate(70,125) scale(.66)">{inner.replace('#17183A', '#1C1D45')}</g>
+{lv}{title}<path d="{info}" fill="#C9C5E6"/><path d="{name}" fill="#fff"/><path d="{room}" fill="#A48EF7"/>{stripes}
 </svg>'''
 
 import hashlib
-CARD_DESIGN = "card-v3-premium-reading-room"   # redraw cards after the brand refresh
+CARD_DESIGN = "card-v3-violet"   # change to redraw every card
 logo_tag = hashlib.sha1((ROOT / "icon.svg").read_bytes() + CARD_DESIGN.encode()).hexdigest()[:12]
 tag_file = ROOT / "og" / ".logo"
 if not tag_file.exists() or tag_file.read_text().strip() != logo_tag:      # new logo -> redraw every card
