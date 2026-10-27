@@ -140,4 +140,24 @@ for e in E + GR:
     import cairosvg
     cairosvg.svg2png(bytestring=og_svg(e, fonts).encode(), write_to=str(png), output_width=1200, output_height=630)
     made += 1
-print(f"{len(E)} lesson pages, {len(GR)} grammar/test pages, {made} new preview pictures, base {BASE}")
+# ---- small per-page data files: a student downloads only the lesson / exercise / test they open ----
+import shutil
+PD = ROOT / "p"
+if PD.exists(): shutil.rmtree(PD)
+PD.mkdir()
+def part(pid, obj):
+    (PD / f"{pid}.js").write_text("(window.PARTS=window.PARTS||{})[" + json.dumps(pid) + "]=" + json.dumps(obj, ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")
+for e in E: part(e["id"], {"e": e})
+def load_js(name):
+    f = ROOT / name
+    if not f.exists(): return []
+    t = f.read_text(encoding="utf-8"); return json.loads(t[t.index("["): t.rindex("]") + 1])
+for st in load_js("grammar.js"):
+    head = {k: v for k, v in st.items() if k != "parts"}
+    for pt in st["parts"]: part(pt["id"], {"s": head, "p": pt})
+for t in load_js("exams.js"): part(t["id"], {"t": t})
+for b in load_js("bank.js"):
+    head = {k: v for k, v in b.items() if k != "sets"}
+    for i, t in enumerate(b["sets"]): part(t["id"], {"sec": head, "i": i, "t": t})
+parts = len(list(PD.glob("*.js")))
+print(f"{len(E)} lesson pages, {len(GR)} grammar/test pages, {made} new preview pictures, {parts} data files, base {BASE}")

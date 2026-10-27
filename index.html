@@ -15,7 +15,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&family=Noto+Sans+Armenian:wght@400;500;600;700&family=Noto+Serif+Armenian:wght@600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&family=Noto+Sans+Armenian:wght@400;500;600;700&family=Noto+Serif+Armenian:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#F6F5FB; --surface:#FFFFFF; --ink:#18183A; --muted:#5E5E80; --line:#E3E1EF;
@@ -346,6 +346,11 @@ body.ra-open{overflow:hidden}
 .score.win{animation:pop .5s ease}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 /* ---------- Grammar ---------- */
+.gload[aria-busy]{display:flex;justify-content:center;gap:8px;padding:80px 0}
+.gload[aria-busy] span{width:9px;height:9px;border-radius:50%;background:var(--brand);opacity:.25;animation:dot 1s ease-in-out infinite}
+.gload[aria-busy] span:nth-child(2){animation-delay:.15s}.gload[aria-busy] span:nth-child(3){animation-delay:.3s}
+@keyframes dot{50%{opacity:1;transform:translateY(-4px)}}
+@media (prefers-reduced-motion:reduce){.gload[aria-busy] span{animation:none;opacity:.6}}
 .gsec{margin:26px 0 8px;font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brand)}
 .gcard .lvbig{background:linear-gradient(135deg,#5B3DD8,#A891F7);font-family:var(--read);font-size:1.25rem}
 .gset{margin:22px 0 10px}
@@ -471,8 +476,7 @@ body.ra-open{overflow:hidden}
 <main class="wrap" id="app"></main>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="essays.js"></script>
-<script src="dict.js"></script>
+<!-- data: loaded on demand (essays.js, dict.js, grammar.js, exams.js, bank.js, p/ID.js) -->
 <script>
 /* ======= Settings ======= */
 const TEACHER_NAME = "Gayane Torosyan";          // e.g. "Ms. Anna" — appears in the message if filled
@@ -482,7 +486,35 @@ const TEACHER_PIN_HASH = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f9
 
 // Optional: an email raises the free translation limit from 5,000 to 50,000 characters per day.
 // Use a separate, throw-away email (it is visible in the page's network requests), not a personal one.
-const ESSAYS = window.ESSAYS || [];
+let ESSAYS = window.ESSAYS || [];
+/* ---- on-demand data: the page loads only what it shows ---- */
+const scriptP={};
+function loadScript(src){
+  return scriptP[src]||(scriptP[src]=new Promise((res,rej)=>{
+    const el=document.createElement("script"); el.src=src;
+    el.onload=()=>res(); el.onerror=()=>{ delete scriptP[src]; el.remove(); rej(new Error(src)); };
+    document.head.appendChild(el);
+  }));
+}
+const safeId=id=>/^[a-z0-9-]{1,60}$/.test(id||"");
+async function loadPart(id){             // one lesson / exercise / test, built by build_pages.py
+  const P=()=>(window.PARTS||{})[id];
+  if(P()) return P();
+  if(!safeId(id)) return null;
+  try{ await loadScript("p/"+id+".js"); }catch{ return null; }
+  return P()||null;
+}
+function loadEssays(){ return window.ESSAYS&&window.ESSAYS.length?Promise.resolve(ESSAYS=window.ESSAYS):loadScript("essays.js").then(()=>ESSAYS=window.ESSAYS||[]); }
+function loadDict(){ return window.DICT?Promise.resolve(window.DICT):loadScript("dict.js").then(()=>window.DICT||{}); }
+async function getEssay(id){
+  if(!id) return null;
+  if(ESSAYS.length) return ESSAYS.find(x=>x.id===id)||null;
+  const part=await loadPart(id);
+  if(part&&part.e) return part.e;
+  try{ await loadEssays(); }catch{ return null; }
+  return ESSAYS.find(x=>x.id===id)||null;
+}
+const LOADING=`<div class="gload" aria-busy="true">${"<span></span>".repeat(3)}</div>`;
 const LOGO_INNER = `<rect width="512" height="512" rx="116" fill="#17183A"/><rect x="1.5" y="1.5" width="509" height="509" rx="114.5" fill="none" stroke="#FFFFFF" stroke-opacity=".08" stroke-width="3"/><g transform="translate(84.5 74) scale(.67)"><g><path class="st" style="--i:0" d="M10 150 L40 164 L40 336 C112 344 196 372 252 446 L252 470 C190 404 108 382 10 376 Z" fill="#6A49E2"/>
 <path class="st" style="--i:2" d="M88 54 C162 62 222 98 250 158 L252 222 C226 166 170 128 88 116 Z" fill="#9378F2" stroke="#17183A" stroke-width="12" paint-order="stroke"/>
 <path class="st" style="--i:1" d="M60 124 C134 130 204 164 240 222 L252 428 C210 370 140 334 60 318 Z" fill="#A891F7" stroke="#17183A" stroke-width="14" paint-order="stroke"/></g><g transform="translate(512 0) scale(-1 1)"><path class="st" style="--i:0" d="M10 150 L40 164 L40 336 C112 344 196 372 252 446 L252 470 C190 404 108 382 10 376 Z" fill="#5B3DD8"/>
@@ -528,9 +560,12 @@ async function copy(text){
 function route(){
   closeSheet(true); stopAll(); closeWordCard();
   const sp=new URLSearchParams(location.search), id=sp.get("e");
-  const e=ESSAYS.find(x=>x.id===id);
   gramSeq++; G_=null; X_=null; clearTimeout(gRender.t); app.style.removeProperty("--lv");
-  if(e) student(e);
+  if(id){
+    const seq=gramSeq, known=ESSAYS.find(x=>x.id===id);
+    if(known) student(known);
+    else{ app.innerHTML=LOADING; getEssay(id).then(e=>{ if(seq!==gramSeq) return; e?student(e):teacher(); window.scrollTo(0,0); }); }
+  }
   else if(sp.has("g")) gramStudent(sp.get("g"));
   else if(sp.has("gl")) teacherGrammar();
   else if(sp.has("t")) examStudent(sp.get("t"));
@@ -569,6 +604,7 @@ function lockScreen(){
     <p class="motto">Let’s read together</p>
   </section>`;
   const pin=document.getElementById("pin"); pin.focus();
+  setTimeout(()=>loadEssays().catch(()=>{}),400);      // ready by the time the PIN is typed
   document.getElementById("lockForm").onsubmit=async ev=>{
     ev.preventDefault();
     const h=await sha256(pin.value.trim());
@@ -598,6 +634,12 @@ const LEVEL_INFO={
 };
 function teacher(listAnim){
   if(!isTeacher()&&!sessionOK){ lockScreen(); return; }
+  if(!ESSAYS.length){
+    const seq=gramSeq; app.innerHTML=LOADING;
+    loadEssays().then(()=>{ if(seq===gramSeq&&ESSAYS.length) teacher(listAnim); })
+      .catch(()=>{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Չհաջողվեց բեռնել։ Ստուգիր ինտերնետը և թարմացրու էջը։</p>`; });
+    return;
+  }
   document.title="Gayane Torosyan | English Reading Room";
   const lvParam=new URLSearchParams(location.search).get("lv");
   const lv=LEVELS.includes(lvParam)?lvParam:null;
@@ -620,7 +662,7 @@ function teacher(listAnim){
     <a class="lvcard gcard" href="?gl" id="gramCard" style="--lv:var(--brand);--d:5">
       <span class="lvbig">Aa</span>
       <span class="lvtxt"><b>Քերականություն</b><small>Ժամանակաձևեր՝ ընտրովի և գրավոր վարժություններ</small></span>
-      <span class="lvn" id="gramN">${window.GRAMMAR?GRAM().reduce((a,x)=>a+x.parts.length,0):"…"}<small>վարժ.</small></span>${ICO.chevR}
+      <span class="lvn" id="gramN">${window.GRAMMAR?GRAM().reduce((a,x)=>a+x.parts.length,0):20}<small>վարժ.</small></span>${ICO.chevR}
     </a>
     <a class="lvcard xcard" href="?tl" id="examCard" style="--lv:var(--C1);--d:6">
       <span class="lvbig">80</span>
@@ -637,7 +679,6 @@ function teacher(listAnim){
     byId("gramCard").onclick=ev=>{ ev.preventDefault(); go("?gl"); };
     byId("examCard").onclick=ev=>{ ev.preventDefault(); go("?tl"); };
     byId("bankCard").onclick=ev=>{ ev.preventDefault(); go("?bl"); };
-    loadGrammar().then(G=>{ const n=byId("gramN"); if(n) n.firstChild.textContent=G.reduce((a,x)=>a+x.parts.length,0); }).catch(()=>{});
   }else{
     const shown=ESSAYS.filter(e=>e.level===lv);
     app.innerHTML=head+`
@@ -953,14 +994,17 @@ function openWordCard(el){
     if(r.bottom>limit&&window.scrollBy) window.scrollBy({top:r.bottom-limit+8,behavior:"smooth"});
   }catch{}
   const my=++wcToken, trEl=card.querySelector("#wcTr"), defEl=card.querySelector("#wcDef");
+  const show=tr=>{ trEl.innerHTML=tr?`<span class="tr-arm">${esc(tr)}</span>`:`<span class="tr-fail">—</span>`; };
   const tr=lookupCurated(w)||dictLookup(w);
-  trEl.innerHTML=tr?`<span class="tr-arm">${esc(tr)}</span>`:`<span class="tr-fail">—</span>`;
+  if(tr||window.DICT) show(tr);
+  else{ trEl.innerHTML=`<span class="tr-fail">…</span>`; loadDict().then(()=>{ if(my===wcToken) show(dictLookup(w)); }).catch(()=>{ if(my===wcToken) show(null); }); }
   defineWord(w).then(d=>{ if(my===wcToken&&d) defEl.textContent=(d.pos?d.pos+": ":"")+d.def; }).catch(()=>{});
 }
 document.addEventListener("keydown",ev=>{ if(ev.key==="Escape") closeWordCard(); });
 
 function student(e){
   document.title=e.title+" | Gayane Torosyan";
+  if(!window.DICT) setTimeout(()=>loadDict().catch(()=>{}),1200);
   closeWordCard(); keyWords=buildKeys(e); rate=LEVEL_RATE[e.level]||0.9;
   if(miniIO){ miniIO.disconnect(); miniIO=null; }
   envArr=null; waveT=0; waveScrub=null;
@@ -1716,7 +1760,7 @@ async function teacherGrammar(){
   if(!isTeacher()&&!sessionOK){ lockScreen(); return; }
   const seq=++gramSeq;
   document.title="Քերականություն | Gayane Torosyan";
-  app.innerHTML=`<div class="gload">…</div>`;
+  app.innerHTML=LOADING;
   try{ await loadGrammar(); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Չհաջողվեց բեռնել։ Ստուգիր ինտերնետը և թարմացրու էջը։</p>`; return; }
   if(seq!==gramSeq) return;
   const G=GRAM(), nParts=G.reduce((a,s)=>a+s.parts.length,0), nQ=G.reduce((a,s)=>a+s.parts.reduce((b,p)=>b+p.qs.length,0),0);
@@ -1792,10 +1836,12 @@ function gLoad(id,n){ try{ const j=JSON.parse(localStorage.getItem(gKey(id))||"n
 function gClear(id){ try{ localStorage.removeItem(gKey(id)); }catch{} }
 async function gramStudent(id){
   const seq=++gramSeq;
-  app.innerHTML=`<div class="gload">…</div>`;
-  try{ await loadGrammar(); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Could not load the exercise. Check the internet and reload the page.</p>`; return; }
+  app.innerHTML=LOADING;
+  let r=window.GRAMMAR?gFind(id):null;
+  if(!r&&!window.GRAMMAR){ const part=await loadPart(id); if(part&&part.p) r={s:part.s,p:part.p}; }
+  if(!r&&!window.GRAMMAR){ try{ await loadGrammar(); r=gFind(id); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Could not load the exercise. Check the internet and reload the page.</p>`; return; } }
   if(seq!==gramSeq) return;
-  const r=gFind(id); if(!r){ teacher(); return; }
+  if(!r){ teacher(); return; }
   const {s,p}=r, saved=gLoad(p.id,p.qs.length);
   G_={s,p,order:p.qs.map((_,i)=>i),ans:saved?saved.ans:p.qs.map(()=>null),i:saved?Math.min(saved.i|0,p.qs.length-1):0,warn:false,retry:false};
   document.title=`${s.title} · ${p.title} | Gayane Torosyan`;
@@ -1952,7 +1998,7 @@ async function teacherExams(){
   if(!isTeacher()&&!sessionOK){ lockScreen(); return; }
   const seq=++gramSeq;
   document.title="Թեստեր | Gayane Torosyan";
-  app.innerHTML=`<div class="gload">…</div>`;
+  app.innerHTML=LOADING;
   try{ await loadExams(); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Չհաջողվեց բեռնել։ Ստուգիր ինտերնետը և թարմացրու էջը։</p>`; return; }
   if(seq!==gramSeq) return;
   const X=EXS();
@@ -1985,10 +2031,12 @@ function xSave(){ if(!X_) return; try{ localStorage.setItem(xKey(X_.t.id),JSON.s
 function xLoad(id){ try{ const j=JSON.parse(localStorage.getItem(xKey(id))||"null"); if(j&&j.ans&&typeof j.ans==="object") return j; }catch{} return null; }
 async function examStudent(id){
   const seq=++gramSeq;
-  app.innerHTML=`<div class="gload">…</div>`;
-  try{ await loadExams(); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Could not load the test. Check the internet and reload the page.</p>`; return; }
+  app.innerHTML=LOADING;
+  let t=window.EXAMS?EXS().find(x=>x.id===id):null;
+  if(!t&&!window.EXAMS){ const part=await loadPart(id); if(part&&part.t&&part.t.sections) t=part.t; }
+  if(!t&&!window.EXAMS){ try{ await loadExams(); t=EXS().find(x=>x.id===id); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Could not load the test. Check the internet and reload the page.</p>`; return; } }
   if(seq!==gramSeq) return;
-  const t=EXS().find(x=>x.id===id); if(!t){ teacher(); return; }
+  if(!t){ teacher(); return; }
   xOpen(t,{head:t.title, meta:["Unified exam format","80 tasks"], back:"?tl", backLabel:"Թեստեր"});
 }
 function xOpen(t,ctx){
@@ -2196,7 +2244,7 @@ async function teacherBank(key){
   if(!isTeacher()&&!sessionOK){ lockScreen(); return; }
   const seq=++gramSeq;
   document.title="Բաժիններ | Gayane Torosyan";
-  app.innerHTML=`<div class="gload">…</div>`;
+  app.innerHTML=LOADING;
   try{ await loadBank(); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Չհաջողվեց բեռնել։ Ստուգիր ինտերնետը և թարմացրու էջը։</p>`; return; }
   if(seq!==gramSeq) return;
   const B=BNK(), sec=B.find(x=>x.key===key);
@@ -2236,10 +2284,12 @@ async function teacherBank(key){
 }
 async function bankStudent(id){
   const seq=++gramSeq;
-  app.innerHTML=`<div class="gload">…</div>`;
-  try{ await loadBank(); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Could not load the exercise. Check the internet and reload the page.</p>`; return; }
+  app.innerHTML=LOADING;
+  let r=window.BANK?bFind(id):null;
+  if(!r&&!window.BANK){ const part=await loadPart(id); if(part&&part.sec) r={sec:part.sec,i:part.i,t:part.t}; }
+  if(!r&&!window.BANK){ try{ await loadBank(); r=bFind(id); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Could not load the exercise. Check the internet and reload the page.</p>`; return; } }
   if(seq!==gramSeq) return;
-  const r=bFind(id); if(!r){ teacher(); return; }
+  if(!r){ teacher(); return; }
   xOpen(r.t,bCtx(r.sec,r.i,r.t));
 }
 

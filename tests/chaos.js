@@ -3,8 +3,8 @@
 const { JSDOM } = require("jsdom");
 const fs = require("fs"), path = require("path"), crypto = require("crypto");
 const ROOT = path.join(__dirname, "..");
-const HTML = fs.readFileSync(path.join(ROOT, "index.html"), "utf8")
-  .replace('<script src="essays.js"></script>', "<script>" + fs.readFileSync(path.join(ROOT, "essays.js"), "utf8") + "</script>").replace('<script src="dict.js">', () => "<script>" + fs.readFileSync(path.join(ROOT, "grammar.js"), "utf8") + "</script>" + "<script>" + fs.readFileSync(path.join(ROOT, "exams.js"), "utf8") + "</script>" + "<script>" + fs.readFileSync(path.join(ROOT, "bank.js"), "utf8") + "</script>" + '<script src="dict.js">').replace('<script src="dict.js"></script>', "<script>" + fs.readFileSync(path.join(ROOT, "dict.js"), "utf8") + "</script>");
+const DATA = ["essays.js", "dict.js", "grammar.js", "exams.js", "bank.js"].map(f => "<script>" + fs.readFileSync(path.join(ROOT, f), "utf8") + "</script>").join("");
+const HTML = fs.readFileSync(path.join(ROOT, "index.html"), "utf8").replace(/<!-- data:[^>]*-->/, () => DATA);
 const PIN = process.env.TEST_PIN || "1234";
 let seed = +(process.env.SEED || 12345); const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
 const pick = a => a[Math.floor(rnd() * a.length)];
