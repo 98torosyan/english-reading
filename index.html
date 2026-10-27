@@ -349,6 +349,22 @@ body.ra-open{overflow:hidden}
 .score.win{animation:pop .5s ease}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 /* ---------- Grammar ---------- */
+.gtopic .lvbig{background:linear-gradient(135deg,#5B3DD8,#A891F7);font-family:var(--read);font-size:1rem;letter-spacing:-.01em}
+.lvhead.gtopic{--lv:var(--brand)}
+.grule{border-color:color-mix(in srgb,var(--brand) 35%,var(--line))}
+.grule summary{color:var(--accent);flex-wrap:wrap}
+.grule summary small{color:var(--muted);font-weight:500;font-size:.8rem;margin-left:4px}
+.grule[open] summary small{display:none}
+.rbody{padding:0 16px 8px;display:grid;gap:4px}
+.rsec{padding:12px 0;border-top:1px solid var(--line)}
+.rsec h4{font-family:var(--read);font-size:1.06rem;margin:0 0 8px;line-height:1.3}
+.rp{margin:0 0 8px;font-size:.92rem;line-height:1.6}
+.rf{margin:0 0 8px;padding:8px 12px;border-radius:10px;background:color-mix(in srgb,var(--brand) 10%,var(--surface));border-left:3px solid var(--accent);font-weight:700;font-size:.9rem;line-height:1.5}
+.rex{margin:0 0 6px;padding-left:12px;border-left:2px solid var(--line);font-size:.92rem;line-height:1.5}
+.rex .en{display:block;font-family:var(--read);font-style:italic}
+.rex .hy{display:block;color:var(--muted);font-size:.85rem}
+.rtip{margin:0 0 8px;padding:8px 12px;border-radius:10px;background:color-mix(in srgb,#E8A317 12%,var(--surface));font-size:.88rem;line-height:1.5}
+.rtip::before{content:"⚠ ";color:#B7791F;font-weight:800}
 .gload[aria-busy]{display:flex;justify-content:center;gap:8px;padding:80px 0}
 .gload[aria-busy] span{width:9px;height:9px;border-radius:50%;background:var(--brand);opacity:.25;animation:dot 1s ease-in-out infinite}
 .gload[aria-busy] span:nth-child(2){animation-delay:.15s}.gload[aria-busy] span:nth-child(3){animation-delay:.3s}
@@ -590,7 +606,7 @@ function route(){
     else{ app.innerHTML=LOADING; getEssay(id).then(e=>{ if(seq!==gramSeq) return; e?student(e):teacher(); window.scrollTo(0,0); }); }
   }
   else if(sp.has("g")) gramStudent(sp.get("g"));
-  else if(sp.has("gl")) teacherGrammar();
+  else if(sp.has("gl")) teacherGrammar(sp.get("gl"));
   else if(sp.has("t")) examStudent(sp.get("t"));
   else if(sp.has("tl")) teacherExams();
   else if(sp.has("b")) bankStudent(sp.get("b"));
@@ -684,8 +700,8 @@ function teacher(listAnim){
   <section class="lvgrid rise">
     <a class="lvcard gcard" href="?gl" id="gramCard" style="--lv:var(--brand);--d:5">
       <span class="lvbig">Aa</span>
-      <span class="lvtxt"><b>Քերականություն</b><small>Ժամանակաձևեր՝ ընտրովի և գրավոր վարժություններ</small></span>
-      <span class="lvn" id="gramN">${window.GRAMMAR?GRAM().reduce((a,x)=>a+x.parts.length,0):20}<small>վարժ.</small></span>${ICO.chevR}
+      <span class="lvtxt"><b>Քերականություն</b><small>11 թեմա՝ կանոններ հայերենով և վարժություններ</small></span>
+      <span class="lvn" id="gramN">${window.GRAMMAR?GRAM().reduce((a,x)=>a+x.parts.length,0):40}<small>վարժ.</small></span>${ICO.chevR}
     </a>
     <a class="lvcard xcard" href="?tl" id="examCard" style="--lv:var(--C1);--d:6">
       <span class="lvbig">80</span>
@@ -1818,36 +1834,67 @@ function gFullText(s,p){
   const lines=[BRAND,"━━━━━━━━━━━━━━━━",`✍️ ${s.title} (${p.level||"B1"})`,p.title,"",
     gIsFill(p)?"Put the verbs in brackets into the correct tense.":"Choose the correct answer.",""];
   p.qs.forEach((q,i)=>{ lines.push(`${i+1}. ${q.q}`); if(q.o) lines.push("   "+q.o.map((o,j)=>`${L(j)}) ${o}`).join("   ")); });
-  lines.push("","💡 Helpful words:",...s.hints.map(h=>"• "+h),"","━━━━━━━━━━━━━━━━",`✅ Answer online and see your score: ${linkFor(p)}`,`— ${TEACHER_NAME}, English teacher`);
+  if(s.hints&&s.hints.length) lines.push("","💡 Helpful words:",...s.hints.map(h=>"• "+h));
+  lines.push("","━━━━━━━━━━━━━━━━",`✅ Answer online and see your score: ${linkFor(p)}`,`— ${TEACHER_NAME}, English teacher`);
   return lines.join("\n");
 }
-async function teacherGrammar(){
+const GCODE={tenses:"T",cond:"If",modal:"Can",passive:"V3",reported:"Said",articles:"The",quant:"Few",compare:"-er",gerund:"-ing",relative:"Who",prep:"In"};
+function gTopics(){
+  const out=[];
+  for(const st of GRAM()){ const id=st.topic||st.id; let t=out.find(x=>x.id===id);
+    if(!t){ const tt=st.tt||[st.title,st.hy,st.tenses]; t={id,title:tt[0],hy:tt[1],sub:tt[2],rule:st.rule||null,sets:[]}; out.push(t); }
+    t.sets.push(st); }
+  return out;
+}
+function exHTML(t){ const i=t.indexOf(" — "); return i<0?`<span class="en">${esc(t)}</span>`:`<span class="en">${esc(t.slice(0,i))}</span><span class="hy">${esc(t.slice(i+3))}</span>`; }
+function ruleHTML(rule){
+  return `<div class="rbody">${rule.map(sec=>`<section class="rsec"><h4>${esc(sec.h)}</h4>${sec.b.map(([k,t])=>
+    k==="f"?`<div class="rf">${esc(t)}</div>`:k==="ex"?`<p class="rex">${exHTML(t)}</p>`:k==="tip"?`<p class="rtip">${esc(t)}</p>`:`<p class="rp">${esc(t)}</p>`).join("")}</section>`).join("")}</div>`;
+}
+async function teacherGrammar(topic){
   if(!isTeacher()&&!sessionOK){ lockScreen(); return; }
   const seq=++gramSeq;
   document.title="Քերականություն | Gayane Torosyan";
   app.innerHTML=LOADING;
   try{ await loadGrammar(); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Չհաջողվեց բեռնել։ Ստուգիր ինտերնետը և թարմացրու էջը։</p>`; return; }
   if(seq!==gramSeq) return;
-  const G=GRAM(), nParts=G.reduce((a,s)=>a+s.parts.length,0), nQ=G.reduce((a,s)=>a+s.parts.reduce((b,p)=>b+p.qs.length,0),0);
-  let k=0;
-  app.innerHTML=`<header>
+  const TP=gTopics(), tp=TP.find(x=>x.id===topic);
+  const nParts=GRAM().reduce((a,x)=>a+x.parts.length,0), nQ=GRAM().reduce((a,x)=>a+x.parts.reduce((b,p)=>b+p.qs.length,0),0);
+  const head=`<header>
     <div class="brand">${logoMark(52)}<div><h1>Gayane Torosyan</h1><p class="tag">English Reading Room</p></div><div class="outs"><button class="theme-t" id="themeBtn" type="button">${ICO.sun}${ICO.moon}</button><button class="out" id="logout" aria-label="Դուրս գալ" title="Դուրս գալ">${ICO.logout}</button></div></div>
-  </header>
+  </header>`;
+  if(!tp){
+    app.innerHTML=head+`
   <a class="back" href="./" id="lvBack">${ICO.chevL}Գլխավոր</a>
-  <div class="lvhead gcard" style="--lv:var(--brand)"><span class="lvbig">Aa</span><div><h2>Քերականություն</h2><p>${G.length} թեմա · ${nParts} վարժություն · ${nQ} հարց</p></div></div>
-  ${G.map(s=>`<section class="gset"><h3>${esc(s.title)}</h3><p>${esc(s.hy)}</p><p class="gt">${esc(s.tenses)}</p></section>
-  <section class="list rise">${s.parts.map(p=>`
+  <div class="lvhead gcard" style="--lv:var(--brand)"><span class="lvbig">Aa</span><div><h2>Քերականություն</h2><p>${TP.length} թեմա · ${nParts} վարժություն · ${nQ} հարց</p></div></div>
+  <section class="lvgrid rise">${TP.map((t,i)=>{ const n=t.sets.reduce((a,x)=>a+x.parts.length,0); return `
+    <a class="lvcard gtopic" href="?gl=${t.id}" data-gt="${t.id}" style="--d:${Math.min(i,10)}">
+      <span class="lvbig">${esc(GCODE[t.id]||t.title.slice(0,2))}</span>
+      <span class="lvtxt"><b>${esc(t.hy)}</b><small>${esc(t.title)} · ${esc(t.sub)}</small></span>
+      <span class="lvn">${n}<small>վարժ.</small></span>${ICO.chevR}
+    </a>`; }).join("")}</section>`;
+    byId("lvBack").onclick=ev=>{ ev.preventDefault(); go(baseUrl()); };
+    app.querySelectorAll("[data-gt]").forEach(a=>a.onclick=ev=>{ ev.preventDefault(); go("?gl="+a.dataset.gt); });
+  }else{
+    let k=0;
+    const parts=st=>`<section class="list rise">${st.parts.map(p=>`
     <article class="item" style="--lv:var(--${p.level||"B1"});--d:${Math.min(k++,10)}">
-      <h2><span class="num">${s.parts.indexOf(p)+1}</span>${esc(p.title)}</h2>
+      <h2><span class="num">${st.parts.indexOf(p)+1}</span>${esc(p.title)}</h2>
       <p class="meta"><span class="lv">${p.level||"B1"}</span><span class="gtype">${gTypeHy(p)}</span><span>${p.qs.length} հարց</span></p>
       <div class="actions">
         <button class="btn btn-main" data-gshare="${p.id}">Ուղարկել</button>
         <a class="btn btn-ghost" href="?g=${p.id}" data-ggo="${p.id}">Դիտել</a>
       </div>
-    </article>`).join("")}</section>`).join("")}`;
-  byId("lvBack").onclick=ev=>{ ev.preventDefault(); go(baseUrl()); };
-  app.querySelectorAll("[data-ggo]").forEach(a=>a.onclick=ev=>{ ev.preventDefault(); go("?g="+a.dataset.ggo); });
-  app.querySelectorAll("[data-gshare]").forEach(b=>b.onclick=()=>{ const r=gFind(b.dataset.gshare); if(r) openGSheet(r.s,r.p); });
+    </article>`).join("")}</section>`;
+    app.innerHTML=head+`
+  <a class="back" href="./?gl" id="lvBack">${ICO.chevL}Քերականություն</a>
+  <div class="lvhead gtopic"><span class="lvbig">${esc(GCODE[tp.id]||"Aa")}</span><div><h2>${esc(tp.hy)}</h2><p>${esc(tp.title)} · ${esc(tp.sub)}</p></div></div>
+  ${tp.rule?`<details class="ghint grule"><summary>📘 Կանոնը<small>սեղմիր՝ կարդալու համար</small></summary>${ruleHTML(tp.rule)}</details>`:""}
+  ${tp.sets.length>1?tp.sets.map(st=>`<section class="gset"><h3>${esc(st.title)}</h3><p>${esc(st.hy)}</p><p class="gt">${esc(st.tenses)}</p></section>${parts(st)}`).join(""):parts(tp.sets[0])}`;
+    byId("lvBack").onclick=ev=>{ ev.preventDefault(); go("?gl"); };
+    app.querySelectorAll("[data-ggo]").forEach(a=>a.onclick=ev=>{ ev.preventDefault(); go("?g="+a.dataset.ggo); });
+    app.querySelectorAll("[data-gshare]").forEach(b=>b.onclick=()=>{ const r=gFind(b.dataset.gshare); if(r) openGSheet(r.s,r.p); });
+  }
   byId("logout").onclick=logout;
   bindThemeBtn("hy");
 }
@@ -1916,7 +1963,7 @@ async function gramStudent(id){
 function gShell(inner){
   const {s,p}=G_;
   return `<div class="sbrand">${logoMark(34)}<div><b>Gayane Torosyan</b><span>English Reading Room</span></div><button class="theme-t" id="themeBtn" type="button">${ICO.sun}${ICO.moon}</button></div>
-  ${isTeacher()||sessionOK?`<a class="back" href="./?gl" id="back">${ICO.chevL}Քերականություն</a>`:""}
+  ${isTeacher()||sessionOK?`<a class="back" href="./?gl=${esc(s.topic||"")}" id="back">${ICO.chevL}${esc((s.tt&&s.tt[1])||"Քերականություն")}</a>`:""}
   <header class="essay-head">
     <h1>${esc(s.title)}</h1>
     <p class="meta"><span class="lv">${p.level||"B1"}</span><span>Grammar</span><span>${p.qs.length} questions</span></p>
@@ -1924,7 +1971,7 @@ function gShell(inner){
   <p class="gsub">${esc(p.title)}</p>${inner}`;
 }
 function gBind(){
-  const b=byId("back"); if(b) b.onclick=ev=>{ ev.preventDefault(); go("?gl"); };
+  const b=byId("back"); if(b) b.onclick=ev=>{ ev.preventDefault(); go("?gl="+(G_&&G_.s.topic||"")); };
   bindThemeBtn("en");
 }
 function gRender(focusIn){
@@ -1932,7 +1979,8 @@ function gRender(focusIn){
   const done=order.filter(j=>gAnswered(p.qs[j],ans[j])).length;
   const fillShown=q.o&&Number.isInteger(a)?gSplitOpt(q,q.o[a]):null;
   app.innerHTML=gShell(`
-  <details class="ghint"><summary>💡 Helpful words</summary><ul>${s.hints.map(h=>`<li>${gHintHTML(h)}</li>`).join("")}</ul>${s.note?`<p>${esc(s.note)}</p>`:""}</details>
+  ${s.rule?`<details class="ghint grule"><summary>📘 Rule · Կանոնը</summary>${ruleHTML(s.rule)}</details>`:""}
+  ${s.hints&&s.hints.length?`<details class="ghint"><summary>💡 Helpful words</summary><ul>${s.hints.map(h=>`<li>${gHintHTML(h)}</li>`).join("")}</ul>${s.note?`<p>${esc(s.note)}</p>`:""}</details>`:""}
   <div class="gprog" aria-label="Progress"><div class="gbar"><i style="width:${Math.round(done/n*100)}%"></i></div><span>${pos+1} / ${n}</span></div>
   <section class="gq" aria-live="polite">
     <p class="gn">Question ${pos+1}${G_.retry?" · try again":""}</p>
