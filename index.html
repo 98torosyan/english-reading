@@ -400,7 +400,27 @@ body.ra-open{overflow:hidden}
 .gwarn p{margin:0 0 10px;font-weight:600}
 .gwarn .gnav{margin:0}
 .gres{text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px 18px 20px;box-shadow:var(--shadow);margin:0 0 18px}
-.gring{--p:0;width:148px;height:148px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--ringc,var(--accent)) calc(var(--p)*1%),var(--line) 0)}
+.gring{--p:0;width:148px;height:148px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--ringc,var(--accent)) calc(var(--p)*1%),var(--line) 0);transition:--p 1.2s cubic-bezier(.22,.9,.24,1);position:relative}
+@property --p{syntax:"<number>";inherits:false;initial-value:0}
+.gres.fx .gring{animation:ringIn .55s cubic-bezier(.2,.9,.3,1.3) both}
+.gres.fx .gring b,.gres.fx .gring small{animation:numIn .5s .75s cubic-bezier(.2,.9,.3,1.4) both}
+.gres.fx h2{animation:rise .45s .95s cubic-bezier(.2,.8,.2,1) both}
+.gres.fx>p,.gres.fx .rstats{animation:rise .45s 1.08s cubic-bezier(.2,.8,.2,1) both}
+.gres.fx .xtable,.gres.fx .gnav,.gres.fx .gname{animation:rise .45s 1.2s cubic-bezier(.2,.8,.2,1) both}
+.gres.win .gring::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:3px solid var(--ringc);opacity:0;animation:halo 1.4s 1.2s ease-out 2}
+@keyframes ringIn{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+@keyframes numIn{from{transform:scale(.5);opacity:0}to{transform:none;opacity:1}}
+@keyframes halo{0%{transform:scale(.9);opacity:.6}100%{transform:scale(1.18);opacity:0}}
+.rstats{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.rstats span{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:.85rem;font-weight:700;background:var(--paper);border:1px solid var(--line)}
+.rstats .ok{color:var(--good);background:color-mix(in srgb,var(--good) 10%,var(--surface));border-color:transparent}
+.rstats .no{color:var(--bad);background:color-mix(in srgb,var(--bad) 9%,var(--surface));border-color:transparent}
+.rstats i{font-style:normal}
+.offline{position:fixed;left:50%;top:calc(10px + env(safe-area-inset-top,0px));z-index:70;display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:var(--ink);color:var(--paper);font-size:.8rem;font-weight:700;white-space:nowrap;box-shadow:0 8px 24px rgba(10,15,30,.25);transform:translate(-50%,-150%);opacity:0;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .35s}
+.offline.show{transform:translate(-50%,0);opacity:1}
+.offline i{width:8px;height:8px;border-radius:50%;background:#E8A317}
+.confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:60}
+@media (prefers-reduced-motion:reduce){.gres.fx *,.gres.fx .gring,.gres.win .gring::after{animation:none!important}.gring{transition:none}}
 .gring div{width:120px;height:120px;border-radius:50%;background:var(--surface);display:grid;place-content:center}
 .gring b{font-family:var(--read);font-size:2.1rem;line-height:1}
 .gring small{color:var(--muted);font-weight:600;margin-top:4px}
@@ -1702,6 +1722,48 @@ function checkQuiz(e){
   if(perfect){ void sc.offsetWidth; sc.classList.add("win"); chime(); }
 }
 
+/* ================= Results: animated score + celebration ================= */
+function confetti(){
+  if(REDUCED()) return;
+  const cv=document.createElement("canvas"); cv.className="confetti"; cv.setAttribute("aria-hidden","true");
+  const dpr=Math.min(window.devicePixelRatio||1,2), W=innerWidth, H=innerHeight;
+  cv.width=W*dpr; cv.height=H*dpr; document.body.appendChild(cv);
+  const c=cv.getContext("2d"); if(!c||!c.setTransform){ cv.remove(); return; }
+  c.setTransform(dpr,0,0,dpr,0,0);
+  const COLS=["#7A5CEB","#A891F7","#5B3DD8","#3E5FD9","#2E9E6A","#E8A317","#B23F78","#FFFFFF"];
+  const P=Array.from({length:150},(_,i)=>{ const left=i%2===0;          // two bursts from the lower corners
+    return {x:left?-10:W+10, y:H*(.62+Math.random()*.12), vx:(left?1:-1)*(4+Math.random()*8), vy:-(10+Math.random()*9),
+            r:Math.random()*Math.PI, vr:(Math.random()-.5)*.35, w:6+Math.random()*6, h:3+Math.random()*5, c:COLS[i%COLS.length], s:Math.random()<.25}; });
+  let t0=performance.now();
+  (function frame(t){
+    const k=Math.min((t-t0)/16.7,3); t0=t; c.clearRect(0,0,W,H); let alive=0;
+    for(const p of P){
+      p.vy+=.32*k; p.vx*=Math.pow(.985,k); p.vy*=Math.pow(.995,k); p.x+=p.vx*k; p.y+=p.vy*k; p.r+=p.vr*k;
+      if(p.y<H+20){ alive++;
+        c.save(); c.translate(p.x,p.y); c.rotate(p.r); c.fillStyle=p.c;
+        if(p.s){ c.beginPath(); c.arc(0,0,p.h*.8,0,7); c.fill(); } else { c.scale(1,Math.cos(p.r*3)); c.fillRect(-p.w/2,-p.h/2,p.w,p.h); }
+        c.restore(); }
+    }
+    if(alive) requestAnimationFrame(frame); else cv.remove();
+  })(t0);
+  setTimeout(()=>cv.isConnected&&cv.remove(),6000);
+}
+function resultFx(pct,winAt){
+  const box=app.querySelector(".gres"), ring=box&&box.querySelector(".gring"); if(!ring) return;
+  box.classList.add("fx"); if(pct>=winAt) box.classList.add("win");
+  ring.style.setProperty("--p",0);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>ring.style.setProperty("--p",pct)));
+  if(pct>=winAt){ setTimeout(confetti,REDUCED()?0:900); chime(); }
+}
+function spentText(t0){
+  const s=Math.max(0,Math.round((Date.now()-(t0||Date.now()))/1000)); if(!t0||s<5) return "";
+  const m=Math.floor(s/60); return m?`${m} min ${s%60} s`:`${s} s`;
+}
+function statChips(right,n,t0){
+  const sp=spentText(t0);
+  return `<div class="rstats"><span class="ok"><i>✓</i>${right} correct</span>${n-right?`<span class="no"><i>✗</i>${n-right} mistake${n-right>1?"s":""}</span>`:""}${sp?`<span><i>⏱</i>${sp}</span>`:""}</div>`;
+}
+
 /* ================= Grammar exercises (grammar.js) ================= */
 let gramP=null, gramSeq=0;
 function loadGrammar(){
@@ -1846,7 +1908,7 @@ async function gramStudent(id){
   if(seq!==gramSeq) return;
   if(!r){ teacher(); return; }
   const {s,p}=r, saved=gLoad(p.id,p.qs.length);
-  G_={s,p,order:p.qs.map((_,i)=>i),ans:saved?saved.ans:p.qs.map(()=>null),i:saved?Math.min(saved.i|0,p.qs.length-1):0,warn:false,retry:false};
+  G_={s,p,order:p.qs.map((_,i)=>i),ans:saved?saved.ans:p.qs.map(()=>null),i:saved?Math.min(saved.i|0,p.qs.length-1):0,warn:false,retry:false,t0:Date.now()};
   document.title=`${s.title} · ${p.title} | Gayane Torosyan`;
   app.style.setProperty("--lv",`var(--${p.level||"B1"})`);
   gRender();
@@ -1946,7 +2008,7 @@ function gResults(){
   app.innerHTML=gShell(`
   <section class="gres">
     <div class="gring" style="--p:${pct};--ringc:${pct>=65?"var(--good)":"#E8A317"}"><div><b>${right}/${n}</b><small>${pct}%</small></div></div>
-    <h2>${title}</h2><p>${sub}</p>
+    <h2>${title}</h2><p>${sub}</p>${statChips(right,n,G_.t0)}
     <div class="gnav">
       ${wrong.length?`<button class="btn btn-main" id="gWrong" type="button">${ICO.repeat1}Fix mistakes (${wrong.length})</button>`:""}
       <button class="btn btn-ghost" id="gAgain" type="button">Start again</button>
@@ -1956,8 +2018,8 @@ function gResults(){
   ${wrong.length?`<div class="gfilter"><button class="chip" id="fAll" aria-pressed="true" type="button">All (${n})</button><button class="chip" id="fWrong" aria-pressed="false" type="button">Mistakes (${wrong.length})</button></div>`:""}
   <section class="grev" id="gRev">${rows.map(rev).join("")}</section>`);
   gBind(); window.scrollTo(0,0);
-  if(pct>=85) chime();
-  const again=sub=>{ G_.order=sub; G_.ans=G_.ans.map((a,j)=>sub.includes(j)?null:a); G_.i=0; G_.retry=sub.length<p.qs.length; gRender(true); window.scrollTo(0,0); };
+  resultFx(pct,85);
+  const again=sub=>{ G_.t0=Date.now(); G_.order=sub; G_.ans=G_.ans.map((a,j)=>sub.includes(j)?null:a); G_.i=0; G_.retry=sub.length<p.qs.length; gRender(true); window.scrollTo(0,0); };
   const w=byId("gWrong"); if(w) w.onclick=()=>again(wrong.map(r=>r.j));
   byId("gAgain").onclick=()=>{ G_.retry=false; again(p.qs.map((_,j)=>j)); };
   byId("gSend").onclick=async()=>{
@@ -2044,7 +2106,7 @@ async function examStudent(id){
 }
 function xOpen(t,ctx){
   const sv=xLoad(t.id);
-  X_={t, ctx, sec:sv?Math.min(Math.max(sv.sec|0,0),t.sections.length-1):0, ans:sv?sv.ans:{}};
+  X_={t, ctx, sec:sv?Math.min(Math.max(sv.sec|0,0),t.sections.length-1):0, ans:sv?sv.ans:{}, t0:Date.now()};
   document.title=`${ctx.head} | Gayane Torosyan`;
   app.style.setProperty("--lv","var(--C1)");
   xRender();
@@ -2202,7 +2264,7 @@ function xResults(){
   app.innerHTML=xShell(`
   <section class="gres">
     <div class="gring" style="--p:${pct};--ringc:${pct>=50?"var(--good)":"#E8A317"}"><div><b>${right}/${n}</b><small>${pct}%</small></div></div>
-    <h2>${title}</h2><p>${sub}</p>
+    <h2>${title}</h2><p>${sub}</p>${statChips(right,n,X_.t0)}
     ${t.sections.length>1?`<table class="xtable">${bySec.map(b=>`<tr><td><b>${b.s.key}</b></td><td style="width:55%"><div class="bar"><i style="width:${Math.round(b.ok/b.all*100)}%"></i></div></td><td>${b.ok}/${b.all}</td></tr>`).join("")}</table>`:""}
     <div class="gnav" style="margin-top:16px"><button class="btn btn-ghost" id="xAgain" type="button">${ICO.repeat1}Start again</button></div>
     <div class="gname"><input id="gName" type="text" placeholder="Your name" autocomplete="name" value="${esc(name)}" aria-label="Your name"><button class="btn btn-main" id="gSend" type="button" style="flex:none">${ICO.send}Send result</button></div>
@@ -2210,8 +2272,8 @@ function xResults(){
   ${wrongN?`<div class="gfilter"><button class="chip" id="fAll" aria-pressed="true" type="button">All (${n})</button><button class="chip" id="fWrong" aria-pressed="false" type="button">Mistakes (${wrongN})</button></div>`:""}
   <section class="grev xrev" id="gRev">${rev(false)}</section>`);
   xBind(); window.scrollTo(0,0);
-  if(pct>=75) chime();
-  byId("xAgain").onclick=()=>{ X_.ans={}; X_.sec=0; xSave(); xRender(); window.scrollTo(0,0); };
+  resultFx(pct,85);
+  byId("xAgain").onclick=()=>{ X_.ans={}; X_.sec=0; X_.t0=Date.now(); xSave(); xRender(); window.scrollTo(0,0); };
   byId("gSend").onclick=async()=>{
     const nm=byId("gName").value.trim(); try{ localStorage.setItem("rr-student-name",nm); }catch{}
     const txt=`📝 ${X_.ctx.head}${X_.ctx.meta.length>1?" · "+X_.ctx.meta[1]:""}\n${nm?nm+": ":""}${right} / ${n} (${pct}%)\n`+(t.sections.length>1?bySec.map(b=>`${b.s.key}: ${b.ok}/${b.all}`).join(" · ")+"\n":"")+linkFor(t);
@@ -2301,6 +2363,12 @@ window.addEventListener("popstate",route);
 route();
 </script>
 <script>
+(function(){                       // a small, calm sign when the phone is offline (saved copies still work)
+  const pill=document.createElement("div"); pill.className="offline"; pill.setAttribute("role","status");
+  pill.innerHTML='<i></i>Offline · Առանց ինտերնետի';
+  const set=()=>{ const off=navigator.onLine===false; if(off&&!pill.isConnected) document.body.appendChild(pill); pill.classList.toggle("show",off); };
+  addEventListener("online",set); addEventListener("offline",set); set();
+})();
 if("serviceWorker" in navigator && location.protocol==="https:"){ addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{})); }
 </script>
 </body>

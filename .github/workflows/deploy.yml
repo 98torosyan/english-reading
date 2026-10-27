@@ -153,6 +153,16 @@ jobs:
           H=$(printf '%s' "$PIN" | sha256sum | cut -d' ' -f1)
           sed -i "s/const TEACHER_PIN_HASH = \"[0-9a-f]*\"/const TEACHER_PIN_HASH = \"$H\"/" index.html
 
+      - name: Shrink the page (kept only if every test still passes)
+        run: |
+          cp index.html /tmp/index.full.html
+          (mkdir -p /tmp/mini && cd /tmp/mini && npm i -s --no-save html-minifier-terser@7.2.0) || exit 0
+          if NODE_PATH=/tmp/mini/node_modules node minify.js && { [ ! -f tests/chaos.js ] || TEST_PIN="${PIN:-1234}" node tests/chaos.js > /tmp/chaos-min.log; }; then
+            echo "page shrunk"
+          else
+            cp /tmp/index.full.html index.html; echo "kept the full page"
+          fi
+
       - name: Remove test tools from the site
         run: rm -rf tests/node_modules
 
