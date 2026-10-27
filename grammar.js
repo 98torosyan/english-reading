@@ -1225,6 +1225,23 @@ window.GRAMMAR = [
     ]
    },
    {
+    "h": "Future Continuous — ապագայի որոշակի պահին ընթացող",
+    "b": [
+     [
+      "f",
+      "will be + V-ing"
+     ],
+     [
+      "p",
+      "Ցույց է տալիս, որ ապագայի որոշակի պահին գործողությունը ընթացքի մեջ կլինի։"
+     ],
+     [
+      "ex",
+      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը ժամը 8-ին պարապելիս կլինեմ։"
+     ]
+    ]
+   },
+   {
     "h": "Future Perfect — ապագայի որոշակի պահին արդեն ավարտված",
     "b": [
      [
@@ -1829,7 +1846,7 @@ window.GRAMMAR = [
       "o": [
        "had completed",
        "have completed",
-       "completed"
+       "complete"
       ],
       "a": [
        1
@@ -1929,7 +1946,7 @@ window.GRAMMAR = [
       "o": [
        "have done",
        "had done",
-       "did"
+       "do"
       ],
       "a": [
        0
@@ -2308,7 +2325,7 @@ window.GRAMMAR = [
      {
       "q": "We _____ this film before, so we _____ to watch something else.",
       "o": [
-       "saw / decided",
+       "see / decided",
        "have seen / have decided",
        "had seen / decide"
       ],
@@ -2550,6 +2567,23 @@ window.GRAMMAR = [
      [
       "ex",
       "We are going to visit Dilijan. · Look at those clouds! It's going to rain."
+     ]
+    ]
+   },
+   {
+    "h": "Future Continuous — ապագայի որոշակի պահին ընթացող",
+    "b": [
+     [
+      "f",
+      "will be + V-ing"
+     ],
+     [
+      "p",
+      "Ցույց է տալիս, որ ապագայի որոշակի պահին գործողությունը ընթացքի մեջ կլինի։"
+     ],
+     [
+      "ex",
+      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը ժամը 8-ին պարապելիս կլինեմ։"
      ]
     ]
    },
@@ -2903,15 +2937,14 @@ window.GRAMMAR = [
       ]
      },
      {
-      "q": "She _____ a new computer because her old one is broken.",
+      "q": "She _____ a new computer next week because her old one is broken.",
       "o": [
        "is going to buy",
        "bought",
        "has bought"
       ],
       "a": [
-       0,
-       1
+       0
       ]
      },
      {
@@ -3025,15 +3058,14 @@ window.GRAMMAR = [
       ]
      },
      {
-      "q": "I believe she _____ a successful businesswoman.",
+      "q": "I believe she _____ a successful businesswoman one day.",
       "o": [
        "will become",
        "became",
        "has become"
       ],
       "a": [
-       0,
-       2
+       0
       ]
      },
      {
@@ -3303,6 +3335,23 @@ window.GRAMMAR = [
      [
       "ex",
       "We are going to visit Dilijan. · Look at those clouds! It's going to rain."
+     ]
+    ]
+   },
+   {
+    "h": "Future Continuous — ապագայի որոշակի պահին ընթացող",
+    "b": [
+     [
+      "f",
+      "will be + V-ing"
+     ],
+     [
+      "p",
+      "Ցույց է տալիս, որ ապագայի որոշակի պահին գործողությունը ընթացքի մեջ կլինի։"
+     ],
+     [
+      "ex",
+      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը ժամը 8-ին պարապելիս կլինեմ։"
      ]
     ]
    },
@@ -3713,6 +3762,23 @@ window.GRAMMAR = [
      [
       "ex",
       "We are going to visit Dilijan. · Look at those clouds! It's going to rain."
+     ]
+    ]
+   },
+   {
+    "h": "Future Continuous — ապագայի որոշակի պահին ընթացող",
+    "b": [
+     [
+      "f",
+      "will be + V-ing"
+     ],
+     [
+      "p",
+      "Ցույց է տալիս, որ ապագայի որոշակի պահին գործողությունը ընթացքի մեջ կլինի։"
+     ],
+     [
+      "ex",
+      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը ժամը 8-ին պարապելիս կլինեմ։"
      ]
     ]
    },
@@ -4247,7 +4313,7 @@ window.GRAMMAR = [
       "o": [
        "wrote",
        "had written",
-       "was writing"
+       "has written"
       ],
       "a": [
        0,
@@ -4304,7 +4370,7 @@ window.GRAMMAR = [
       "o": [
        "cleaned",
        "had cleaned",
-       "were cleaning"
+       "have cleaned"
       ],
       "a": [
        0,
@@ -4433,7 +4499,7 @@ window.GRAMMAR = [
      {
       "q": "Don't call me at 10 o'clock. I _____ a meeting.",
       "o": [
-       "will have",
+       "will have had",
        "will be having",
        "have had"
       ],
@@ -4707,7 +4773,7 @@ window.GRAMMAR = [
       "q": "She _____ her keys yesterday, so she couldn't open the door.",
       "o": [
        "lost",
-       "had lost",
+       "was losing",
        "has lost"
       ],
       "a": [
@@ -4912,7 +4978,7 @@ window.GRAMMAR = [
       "q": "They _____ for the exam all week, so they _____ well prepared.",
       "o": [
        "have been studying / are",
-       "studied / were",
+       "studied / have",
        "had studied / have"
       ],
       "a": [
@@ -5159,7 +5225,7 @@ window.GRAMMAR = [
      {
       "q": "I _____ my homework already, so I can go out now.",
       "o": [
-       "finished",
+       "finish",
        "have finished",
        "had finished"
       ],
@@ -5414,7 +5480,7 @@ window.GRAMMAR = [
       "o": [
        "decided",
        "are planning",
-       "have decided yesterday"
+       "have been deciding"
       ],
       "a": [
        0,
@@ -5637,6 +5703,23 @@ window.GRAMMAR = [
     ]
    },
    {
+    "h": "Future Continuous — ապագայի որոշակի պահին ընթացող",
+    "b": [
+     [
+      "f",
+      "will be + V-ing"
+     ],
+     [
+      "p",
+      "Ցույց է տալիս, որ ապագայի որոշակի պահին գործողությունը ընթացքի մեջ կլինի։"
+     ],
+     [
+      "ex",
+      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը ժամը 8-ին պարապելիս կլինեմ։"
+     ]
+    ]
+   },
+   {
     "h": "Future Perfect — ապագայի որոշակի պահին արդեն ավարտված",
     "b": [
      [
@@ -5754,7 +5837,7 @@ window.GRAMMAR = [
      ],
      [
       "ex",
-      "If she had studied harder, she would have passed the exam. — Եթե ավելի լավ պարապեր, քննությունը կհանձներ։"
+      "If she had studied harder, she would have passed the exam. — Եթե ավելի լավ պարապած լիներ, քննությունը հանձնած կլիներ։"
      ]
     ]
    },
@@ -6390,7 +6473,7 @@ window.GRAMMAR = [
      ],
      [
       "ex",
-      "She must have forgotten. — Հավանաբար մոռացել է։"
+      "She must have forgotten. — Անկասկած մոռացել է։"
      ],
      [
       "ex",
@@ -8455,15 +8538,15 @@ window.GRAMMAR = [
       ]
      },
      {
-      "q": "___ cats are very independent animals.",
+      "q": "I think ___ cats are very independent animals.",
       "o": [
-       "A",
-       "An",
-       "The",
-       "—"
+       "—",
+       "the",
+       "an",
+       "a"
       ],
       "a": [
-       3
+       0
       ]
      },
      {
@@ -8671,15 +8754,15 @@ window.GRAMMAR = [
       ]
      },
      {
-      "q": "___ life is beautiful.",
+      "q": "My grandfather always says that ___ life is beautiful.",
       "o": [
+       "an",
        "—",
-       "A",
-       "An",
-       "The"
+       "the",
+       "a"
       ],
       "a": [
-       0
+       1
       ]
      }
     ]
@@ -9285,7 +9368,7 @@ window.GRAMMAR = [
   "topic": "compare",
   "rule": [
    {
-    "h": "Կարճ ածականներ (մեկ վանկ)",
+    "h": "Կարճ ածականներ (մեկ վանկ) և -y-ով վերջացող երկվանկներ",
     "b": [
      [
       "f",
@@ -9296,13 +9379,17 @@ window.GRAMMAR = [
       "tall → taller → the tallest · cheap → cheaper → the cheapest"
      ],
      [
+      "ex",
+      "easy → easier → the easiest · happy → happier · heavy → heavier"
+     ],
+     [
       "p",
-      "Ուղղագրություն՝ big → bigger (կրկնվում է բաղաձայնը), nice → nicer, happy → happier (y → i)։"
+      "Ուղղագրություն՝ big → bigger (կրկնվում է բաղաձայնը), nice → nicer, y → i (easy → easier)։"
      ]
     ]
    },
    {
-    "h": "Երկար ածականներ (երկու և ավելի վանկ)",
+    "h": "Մյուս երկար ածականները (երկու և ավելի վանկ)",
     "b": [
      [
       "f",
@@ -9310,7 +9397,11 @@ window.GRAMMAR = [
      ],
      [
       "ex",
-      "interesting → more interesting → the most interesting"
+      "interesting → more interesting → the most interesting · careful → more careful"
+     ],
+     [
+      "tip",
+      "Որոշ երկվանկ ածականներ ունեն երկու ձևն էլ՝ narrow, clever, simple, quiet (narrower / more narrow)։"
      ],
      [
       "tip",
@@ -9422,15 +9513,15 @@ window.GRAMMAR = [
       ]
      },
      {
-      "q": "My English is ___ than last year.",
+      "q": "My English is ___ than it was last year.",
       "o": [
-       "better",
        "gooder",
        "more good",
+       "better",
        "best"
       ],
       "a": [
-       0
+       2
       ]
      },
      {

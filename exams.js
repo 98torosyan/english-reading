@@ -1713,14 +1713,14 @@ window.EXAMS = [
 },
 {
 "n": 32,
-"q": "“I can't find my glasses.”\n“They must _________ in the car.”",
+"q": "“I can't find my glasses.”\n“You must _________ them in the car.”",
 "o": [
-"leave",
+"had left",
 "have left",
-"have been left",
-"be leaving"
+"be left",
+"having left"
 ],
-"a": 2
+"a": 1
 },
 {
 "n": 33,
@@ -2601,7 +2601,7 @@ window.EXAMS = [
 "right": [
 "a famous museum of ancient manuscripts in Yerevan.",
 "by one of the longest cable cars in the world.",
-"the founder of Armenian classical music.",
+"the founder of the Armenian national school of music.",
 "the largest lake in Armenia.",
 "built entirely of glass.",
 "the capital of Armenia."

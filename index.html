@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F6F5FB">
+<meta name="description" content="Gayane Torosyan's English Reading Room: leveled reading lessons with audio, grammar topics with rules, and practice tests for the Armenian unified English exam.">
 <title>Gayane Torosyan | English Reading Room</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
@@ -19,7 +20,7 @@
 <style>
 :root{
   --paper:#F6F5FB; --surface:#FFFFFF; --ink:#18183A; --muted:#5E5E80; --line:#E3E1EF;
-  --marker:#FFE17A; --sent:rgba(246,196,40,.045); --wordhl:rgba(255,212,59,.55); --good:#1E8A5A; --bad:#C23B3B; --accent:#6C4CE4; --brand:#7A5CEB; --brand2:#A891F7;
+  --marker:#FFE17A; --sent:rgba(246,196,40,.045); --wordhl:rgba(255,212,59,.55); --good:#1E8A5A; --bad:#C23B3B; --accent:#6C4CE4; --brand:#6A49E2; --brand2:#A891F7;
   --A1:#2E9E6A; --A2:#1C8AA3; --B1:#3E5FD9; --B2:#7A4FD6; --C1:#B23F78;
   --ui:"Noto Sans Armenian","Noto Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --read:"Literata","Noto Serif Armenian",Georgia,serif;
@@ -76,7 +77,7 @@ a{color:inherit}
 .meta .has-voice{display:inline-flex;align-items:center;gap:4px}
 .meta .has-voice svg{width:14px;height:14px}
 .meta{color:var(--muted);font-size:.9rem;margin:0 0 14px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
-.lv{display:inline-block;background:var(--lv);color:#fff;font-weight:700;font-size:.78rem;border-radius:6px;padding:2px 8px}
+.lv{display:inline-block;background:color-mix(in srgb,var(--lv) 82%,#000);color:#fff;font-weight:700;font-size:.78rem;border-radius:6px;padding:2px 8px}
 .actions{display:flex;gap:8px}
 .btn{border:0;border-radius:var(--r-sm);min-height:44px;padding:0 16px;font-weight:600;font-size:.95rem;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;color:var(--ink)}
 .btn svg{width:18px;height:18px;flex:none}
@@ -89,12 +90,12 @@ a{color:inherit}
 .outs{margin-left:auto;display:flex;gap:6px}
 .out{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:6px 12px;font-size:.85rem;color:var(--muted)}
 .lock{position:relative;max-width:340px;margin:12vh auto 0;text-align:center}
-.room{position:absolute;left:0;right:0;top:0;height:min(56vh,440px);background:url(room.jpg) 58% 45%/cover no-repeat;pointer-events:none;
+.room{position:absolute;left:0;right:0;top:0;height:min(56vh,440px);background:url(room.jpg) 58% 45%/cover no-repeat;background-image:image-set(url(room.webp) type("image/webp"),url(room.jpg) type("image/jpeg"));pointer-events:none;
   -webkit-mask-image:linear-gradient(#000 0%,rgba(0,0,0,.85) 45%,transparent 100%);mask-image:linear-gradient(#000 0%,rgba(0,0,0,.85) 45%,transparent 100%)}
 .room::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(14,16,34,.35),rgba(14,16,34,.15) 40%,var(--paper))}
 .room+.lock{margin-top:min(30vh,250px)}
 .room+.lock .mark.big{box-shadow:0 18px 50px rgba(20,16,60,.45);border-radius:22%}
-.motto{margin:26px 0 0;font-family:var(--read);font-style:italic;color:var(--brand);font-size:1.05rem;opacity:.9}
+.motto{margin:26px 0 0;font-family:var(--read);font-style:italic;color:var(--brand);font-size:1.05rem}
 .motto::before{content:"";display:inline-block;width:34px;height:1px;background:currentColor;vertical-align:middle;margin-right:10px;opacity:.6}
 .lock .logo{margin:0 auto 14px;width:56px;height:56px;font-size:1.6rem}
 .lock h1{font-family:var(--read);font-size:2rem;margin:0}
@@ -255,6 +256,8 @@ body.ra-open{overflow:hidden}
 .back:hover svg{transform:translateX(-2px)}
 .back:active{transform:scale(.97)}
 .essay-head h1{font-family:var(--read);font-size:2.2rem;line-height:1.12;margin:14px 0 10px}
+.player.loading{pointer-events:none}
+.player.loading .scrub2,.player.loading .pctl,.player.loading .wave{opacity:.45;transition:opacity .3s}
 .player{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:14px 14px 12px;margin:14px 0 8px;box-shadow:var(--shadow)}
 .scrub2{display:flex;align-items:center;gap:10px}
 .tm{min-width:36px;font-size:.78rem;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
@@ -776,7 +779,6 @@ async function openSheet(e){
   try{ audio=await hasAudio(e.id); } finally { sheetBusy=false; }
   if(sheetEl||!app.querySelector("[data-share]")) return;   // user already left the list
   document.querySelectorAll(".sheet,.backdrop").forEach(n=>n.remove());   // a sheet still sliding away
-  const canShare=!!navigator.share;
   const msg=message(e), link=linkFor(e);
   const apps=[
     {k:"wa",n:"WhatsApp",c:"#1FA855",href:"https://wa.me/?text="+encodeURIComponent(msg)},
@@ -1062,7 +1064,7 @@ function student(e){
     <h1>${esc(e.title)}</h1>
     <p class="meta"><span class="lv">${e.level}</span><span>${esc(e.topic)}</span><span>~${readMins(e)} min</span></p>
   </header>
-  <div class="player" id="player" hidden>
+  <div class="player loading" id="player" aria-busy="true">
     <canvas class="wave" id="wave" aria-hidden="true"></canvas>
     <div class="scrub2">
       <span class="tm" id="tcur">0:00</span>
@@ -1077,8 +1079,8 @@ function student(e){
       <button class="pb sm" id="nextS" aria-label="Next sentence">${ICO.next}</button>
     </div>
     <div class="popts">
-      <button class="chip2" id="speed" aria-label="Reading speed">Speed ${rate}×</button>
-      <button class="chip2" id="loop" aria-pressed="false" aria-label="Repeat this sentence">${ICO.repeat1}<span>Repeat sentence</span></button>
+      <button class="chip2" id="speed">Speed ${rate}×</button>
+      <button class="chip2" id="loop" aria-pressed="false">${ICO.repeat1}<span>Repeat sentence</span></button>
     </div>
     ${RA_LESSONS.has(e.id)?`<button class="ra-entry" id="raBtn" type="button"><span class="ra-ei">${ICO.mic}</span><span class="ra-et"><b>Read aloud</b><small>Read, listen and record yourself</small></span>${ICO.chevR}</button>`:""}
   </div>
@@ -1090,8 +1092,8 @@ function student(e){
       <span class="tm" id="mdur">0:00</span>
     </div>
   </div>
-  <p class="hint" id="hint" hidden>Tap any word for its meaning. Drag the bar to jump to any part.</p>
-  <p class="hint" id="hint2">Tap any word for its meaning.</p>
+  <p class="hint" id="hint">Tap any word for its meaning. Drag the bar to jump to any part.</p>
+  <p class="hint" id="hint2" hidden>Tap any word for its meaning.</p>
   <p class="note" id="noaudio" hidden>Listening is not available in this browser. Open the link in Chrome or Safari.</p>
   <article class="text">${paras}</article>
 
@@ -1223,13 +1225,13 @@ async function setupPlayer(e){
     a.onended=()=>{ playing=false; mark(-1); setWord(-1); setBtn(); updateSeek(); };
     setupMediaSession(e);
   }else if(!("speechSynthesis" in window)){
-    byId("noaudio").hidden=false; return;
+    byId("noaudio").hidden=false; const pl=byId("player"); if(pl) pl.hidden=true; byId("hint").hidden=true; byId("hint2").hidden=false; return;
   }else pickVoice();
   if(!byId("player")) return;
   playerReady=true;
   if(!waveBound){ waveBound=true; window.addEventListener("resize",()=>{ if(!waveRAF) waveDraw(); }); }
   waveDraw();
-  byId("player").hidden=false; byId("hint").hidden=false; byId("hint2").hidden=true;
+  const pl=byId("player"); pl.hidden=false; pl.classList.remove("loading"); pl.removeAttribute("aria-busy"); byId("hint").hidden=false; byId("hint2").hidden=true;
   if(miniIO){ miniIO.disconnect(); miniIO=null; }
   if("IntersectionObserver" in window){      // slim player at the top once the big one scrolls away
     miniIO=new IntersectionObserver(list=>{ const en=list[list.length-1], m=byId("mini"); if(m) m.classList.toggle("show",!en.isIntersecting&&en.boundingClientRect.top<0); },{threshold:0});
