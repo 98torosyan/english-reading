@@ -3,8 +3,8 @@
 const { JSDOM } = require("jsdom");
 const fs = require("fs"), path = require("path"), crypto = require("crypto");
 const ROOT = path.join(__dirname, "..");
-const HTML = fs.readFileSync(path.join(ROOT, "index.html"), "utf8")
-  .replace('<script src="essays.js"></script>', "<script>" + fs.readFileSync(path.join(ROOT, "essays.js"), "utf8") + "</script>").replace('<script src="dict.js"></script>', "<script>" + fs.readFileSync(path.join(ROOT, "dict.js"), "utf8") + "</script>");
+const DATA = ["essays.js", "dict.js", "grammar.js", "exams.js", "bank.js"].map(f => "<script>" + fs.readFileSync(path.join(ROOT, f), "utf8") + "</script>").join("");
+const HTML = fs.readFileSync(path.join(ROOT, "index.html"), "utf8").replace(/<!-- data:[^>]*-->/, () => DATA);
 const PIN = process.env.TEST_PIN || "1234";
 let seed = +(process.env.SEED || 12345); const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
 const pick = a => a[Math.floor(rnd() * a.length)];
@@ -143,7 +143,7 @@ async function walk(w, env, steps, errors, studentOnly) {
   const d = w.document;
   ok(!!d.getElementById("pin") && !d.querySelector("[data-share]"), "lock screen first, lessons hidden");
   d.getElementById("pin").value = PIN; d.getElementById("lockForm").dispatchEvent(new w.Event("submit")); await wait(50);
-  ok(d.querySelectorAll(".lvcard").length === 5 && !d.querySelector("[data-share]"), "after the right PIN: 5 level cards, lessons come after choosing a level");
+  ok(d.querySelectorAll(".lvcard[data-lv]").length === 5 && d.getElementById("gramCard") && !d.querySelector("[data-share]"), "after the right PIN: 5 level cards + Grammar card, lessons come after choosing a level");
   ok(d.querySelector(".mark.anim .st") !== null, "animated logo on first screen");
   d.querySelector('[data-lv="C1"]').click(); await wait(10);
   ok(d.querySelector(".list.rise") && d.querySelectorAll("[data-share]").length === E.filter(e => e.level === "C1").length, "level C1 opens its lessons with a soft reveal");
@@ -298,6 +298,118 @@ async function walk(w, env, steps, errors, studentOnly) {
   en = []; w = await openPage("https://x.github.io/er/?e=zoo", { ...calm, json: { ...calm.json, words: TOK.map((_, i) => i % 3 ? null : ["x", NaN]) } }, en); await wait(200);
   w.eval("audioEl").currentTime = 10; w.eval("onTime()");
   ok(en.filter(x => !/Not implemented/.test(x)).length === 0, "read-along: nonsense timing data causes no errors");
+
+  // ================= grammar exercises =================
+  { const G = w.eval("GRAMMAR"), parts = G.flatMap(x => x.parts);
+    ok(parts.length >= 20 && new Set(parts.map(p => p.id)).size === parts.length && parts.every(p => !E.some(e => e.id === p.id)), "grammar: unique ids, never the same as a lesson");
+    let ge = []; let g = await openPage("https://x.github.io/er/", calm, ge); await wait(30);
+    const gd = g.document; gd.getElementById("pin").value = PIN; gd.getElementById("lockForm").dispatchEvent(new g.Event("submit")); await wait(60);
+    gd.getElementById("gramCard").click(); await wait(40);
+    ok(gd.querySelectorAll("[data-gshare]").length === parts.length, "grammar: teacher list shows every exercise");
+    gd.querySelector("[data-gshare]").click(); await wait(30);
+    ok(gd.querySelector(".sheet") && gd.querySelectorAll(".sheet .app").length === 4 && gd.getElementById("shQR"), "grammar: share sheet with 4 apps and QR");
+    const gm = g.eval("gMessage(GRAMMAR[0],GRAMMAR[0].parts[0])");
+    ok(/^📘 Gayane Torosyan/.test(gm) && /\/l\/g-[a-z0-9-]+\.html$/.test(gm), "grammar: message is signed and links to its page");
+    ok(/— Gayane Torosyan, English teacher$/.test(g.eval("gFullText(GRAMMAR[0],GRAMMAR[0].parts[2])")), "grammar: full text is signed");
+    // checking written answers
+    const chk = (f, a) => g.eval(`gFillOK(${JSON.stringify({ f })},${JSON.stringify(a)})`);
+    ok(chk([["didn't go", "did not go"]], ["  Did NOT  go. "]) && chk([["didn't go"]], ["did not go"]) && chk([["have"], ["finished"]], ["have finished", ""]) && chk([["has"], ["read"]], ["Has", "READ"]) && chk([["won't come"]], ["will not come"]), "grammar: capitals, spaces, short forms and joined blanks are accepted");
+    ok(!chk([["went"]], ["go"]) && !chk([["have"], ["finished"]], ["", ""]) && !chk([["have"], ["finished"]], ["finished", "have"]), "grammar: wrong, empty or swapped answers are not accepted");
+    ok(g.eval(`gRight({q:"x _____",o:["a","b","c"],a:[0,2]},2)`) && g.eval(`gRight({q:"x _____",o:["a","b","c"],a:[0,2]},0)`) && !g.eval(`gRight({q:"x _____",o:["a","b","c"],a:[0,2]},1)`), "grammar: questions with two right answers accept both");
+    // student flow
+    for (const env of [calm, { ...calm, storage: false }]) {
+      ge = []; g = await openPage("https://x.github.io/er/?g=g-st-1", env, ge); await wait(40);
+      const sd = g.document, P = G.find(x => x.id === "st").parts[0];
+      ok(!sd.getElementById("pin") && sd.querySelector(".gq") && /1 \/ 20/.test(sd.querySelector(".gprog").textContent), "grammar: student opens the exercise without a PIN, one question per screen");
+      ok(!sd.querySelector(".gr") && !sd.querySelector(".right"), "grammar: no answers are shown before the end");
+      for (let i = 0; i < P.qs.length; i++) { if (i === 4) continue;
+        sd.querySelector(`[data-j="${i}"]`).click(); await wait(2);
+        sd.querySelector(`[data-o="${i < 3 ? (P.qs[i].a[0] + 1) % P.qs[i].o.length : P.qs[i].a[0]}"]`).click(); await wait(2); }
+      sd.querySelector(`[data-j="${P.qs.length - 1}"]`).click(); await wait(2);
+      sd.getElementById("gFin").click(); await wait(5);
+      ok(/not answered yet: 5/.test(sd.getElementById("gWarn").textContent), "grammar: Finish warns about the skipped question");
+      sd.getElementById("gAny").click(); await wait(10);
+      const wrongN = [0, 1, 2].filter(i => !P.qs[i].a.includes((P.qs[i].a[0] + 1) % P.qs[i].o.length)).length;
+      ok(sd.querySelector(".gring b").textContent === `${19 - wrongN}/20` && sd.querySelectorAll(".gr").length === 20 && sd.querySelectorAll(".gr.no").length === wrongN + 1, "grammar: score and full review only at the end");
+      sd.getElementById("gWrong").click(); await wait(10);
+      ok(new RegExp(`1 / ${wrongN + 1}`).test(sd.querySelector(".gprog").textContent), "grammar: Fix mistakes repeats only the wrong ones");
+      ok(ge.filter(x => !/Not implemented/.test(x)).length === 0, "grammar: no errors" + (env.storage ? "" : " without storage"));
+    }
+    ge = []; g = await openPage("https://x.github.io/er/?g=g-t5-3", calm, ge); await wait(40);
+    ok(g.document.querySelectorAll(".gq .gin").length >= 1 && !g.document.querySelector(".gopt"), "grammar: written exercise shows typing boxes");
+    ge = []; g = await openPage("https://x.github.io/er/?g=nope", calm, ge); await wait(40);
+    ok(!!g.document.getElementById("pin") && !g.document.querySelector(".gq"), "grammar: unknown exercise falls back to the lock screen");
+  }
+
+  // ================= practice tests (exam format) =================
+  { let xe = []; let x = await openPage("https://x.github.io/er/", calm, xe); await wait(30);
+    const xd = x.document; xd.getElementById("pin").value = PIN; xd.getElementById("lockForm").dispatchEvent(new x.Event("submit")); await wait(60);
+    const X = x.eval("EXAMS");
+    ok(X.length === 4 && X.every(t => t.sections.flatMap(s => s.groups.flatMap(g => g.items)).length === 80), "tests: 4 tests with 80 tasks each");
+    xd.getElementById("examCard").click(); await wait(40);
+    ok(xd.querySelectorAll("[data-xshare]").length === 4, "tests: teacher list shows 4 tests");
+    xd.querySelector("[data-xshare]").click(); await wait(30);
+    ok(xd.querySelector(".sheet") && xd.getElementById("shQR") && !xd.getElementById("cpText"), "tests: share sheet with link and QR");
+    ok(/\/l\/t-1\.html$/.test(x.eval("xMessage(EXAMS[0])")), "tests: message links to the test page");
+    ok(x.eval(`xRight({type:"multi"},{a:[1,3,5]},[5,1,3])`) && !x.eval(`xRight({type:"multi"},{a:[1,3,5]},[1,3])`) && !x.eval(`xRight({type:"multi"},{a:[1,3,5]},[1,2,3,5])`), "tests: multi-answer tasks need exactly the right set");
+    ok(x.eval(`xRight({type:"order"},{a:[4,2,1,3,5]},[4,2,1,3,5])`) && !x.eval(`xRight({type:"order"},{a:[4,2,1,3,5]},[4,2,1,null,5])`), "tests: gap-word tasks need every gap right");
+    for (const env of [calm, { ...calm, storage: false }]) {
+      xe = []; x = await openPage("https://x.github.io/er/?t=t-2", env, xe); await wait(40);
+      const d = x.document, T = X[1];
+      ok(!d.getElementById("pin") && d.querySelector(".xsec") && d.querySelectorAll(".xtabs button").length === 13, "tests: student opens the test without a PIN, 13 sections");
+      let wrong = 0;
+      for (let i = 0; i < 13; i++) {
+        d.querySelector(`[data-sec="${i}"]`).click(); await wait(2);
+        const s = T.sections[i];
+        for (const g of s.groups) for (const it of g.items) {
+          if (it.n === 40) continue;                         // leave one empty
+          const bad = it.n % 10 === 0;
+          if (s.type === "mc") d.querySelector(`.xopt[data-x="${it.n}"][data-o="${bad ? (it.a + 1) % 4 : it.a}"]`).click();
+          else if (s.type === "multi") { for (const m of it.a) d.querySelector(`.xchk[data-x="${it.n}"][data-m="${m}"]`).click(); if (bad) d.querySelector(`.xchk[data-x="${it.n}"][data-m="${[1,2,3,4,5].find(k => !it.a.includes(k))}"]`).click(); }
+          else { const sel = s.type === "order" ? "data-ord" : "data-mat";
+            it.a.forEach((v, k) => { const el = d.querySelector(`[${sel}="${it.n}"][data-k="${k}"]`); el.value = String(bad && k === 0 ? it.a[1] : v); el.dispatchEvent(new x.Event("change")); }); }
+          if (bad) wrong++;
+        }
+      }
+      ok(!d.querySelector(".gr") && !d.querySelector(".gres"), "tests: no answers are shown before the end");
+      d.getElementById("xFin").click(); await wait(5);
+      ok(/not answered yet: 40/.test(d.getElementById("gWarn").textContent), "tests: Finish warns about the empty task");
+      d.getElementById("gAny").click(); await wait(10);
+      const expect = 80 - wrong - 1;
+      ok(d.querySelector(".gring b").textContent === `${expect}/80` && d.querySelectorAll(".xtable tr").length === 13 && d.querySelectorAll(".gr.no").length === wrong + 1, "tests: score, 13-section breakdown and review at the end");
+      ok(xe.filter(z => !/Not implemented/.test(z)).length === 0, "tests: no errors" + (env.storage ? "" : " without storage"));
+    }
+    xe = []; x = await openPage("https://x.github.io/er/?t=nope", calm, xe); await wait(40);
+    ok(!!x.document.getElementById("pin") && !x.document.querySelector(".xsec"), "tests: unknown test falls back to the lock screen");
+  }
+
+  // ================= practice by section (13 exam task types) =================
+  { let be = []; let x = await openPage("https://x.github.io/er/", calm, be); await wait(30);
+    const d = x.document; d.getElementById("pin").value = PIN; d.getElementById("lockForm").dispatchEvent(new x.Event("submit")); await wait(60);
+    const BK = x.eval("BANK");
+    ok(BK.length === 13 && BK.reduce((a, b) => a + b.sets.reduce((c, t) => c + t.count, 0), 0) >= 1000, "sections: 13 sections with 1000+ tasks");
+    d.getElementById("bankCard").click(); await wait(40);
+    ok(d.querySelectorAll("[data-bl]").length === 13, "sections: teacher sees all 13 sections");
+    d.querySelector('[data-bl="XI"]').click(); await wait(40);
+    ok(d.querySelectorAll("[data-bshare]").length === BK[10].sets.length, "sections: a section lists its sets");
+    d.querySelector("[data-bshare]").click(); await wait(30);
+    ok(d.querySelector(".sheet") && d.getElementById("shQR"), "sections: share sheet with link and QR");
+    ok(/\/l\/b11-1\.html$/.test(x.eval("bMessage(BANK[10],0,BANK[10].sets[0])")), "sections: message links to the set page");
+    for (const id of ["b1-1", "b6-3", "b7-2", "b13-5"]) {
+      be = []; x = await openPage("https://x.github.io/er/?b=" + id, calm, be); await wait(40);
+      const sd = x.document, r = x.eval(`bFind("${id}")`), s = r.t.sections[0];
+      ok(!sd.getElementById("pin") && sd.querySelector(".xsec") && !sd.querySelector(".xtabs"), `sections ${id}: opens without PIN, one section, no tabs`);
+      for (const g of s.groups) for (const it of g.items) {
+        if (s.type === "mc") sd.querySelector(`.xopt[data-x="${it.n}"][data-o="${it.a}"]`).click();
+        else if (s.type === "multi") for (const m of it.a) sd.querySelector(`.xchk[data-x="${it.n}"][data-m="${m}"]`).click();
+        else { const sel = s.type === "order" ? "data-ord" : "data-mat";
+          it.a.forEach((v, k) => { const el = sd.querySelector(`[${sel}="${it.n}"][data-k="${k}"]`); el.value = String(v); el.dispatchEvent(new x.Event("change")); }); }
+      }
+      sd.getElementById("xFin").click(); await wait(10);
+      ok(sd.querySelector(".gring b").textContent === `${r.t.count}/${r.t.count}` && !sd.querySelector(".xtable"), `sections ${id}: full marks for the answer key`);
+      ok(be.filter(z => !/Not implemented/.test(z)).length === 0, `sections ${id}: no errors`);
+    }
+  }
 
   console.log("\n" + (fails.length ? `${fails.length} FAILED` : "ALL PASSED")); process.exit(fails.length ? 1 : 0);
 })();
