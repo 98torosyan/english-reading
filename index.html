@@ -486,7 +486,7 @@ body.ra-open{overflow:hidden}
 .xitem:first-of-type{border-top:0}
 .xq{display:flex;gap:10px;margin:0 0 10px;font-weight:600;line-height:1.45;white-space:pre-line}
 .xn{flex:none;min-width:30px;height:26px;padding:0 6px;border-radius:8px;background:var(--tint);color:var(--accent);font-size:.8rem;font-weight:800;display:grid;place-items:center}
-.xopts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.xopts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.xopts>*{min-width:0;overflow-wrap:anywhere}
 .xopts.long{grid-template-columns:1fr}
 .xopt{display:flex;align-items:center;gap:9px;text-align:left;min-height:46px;padding:8px 11px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);font-size:.95rem;font-weight:600;color:var(--ink);line-height:1.3}
 .xopt b{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--line);font-size:.75rem}
@@ -624,6 +624,17 @@ function route(){
   window.scrollTo(0,0);
 }
 function go(url){ history.pushState(null,"",url); route(); }
+// A quick second tap must not land on whatever just appeared under the finger
+// (only a repeat tap on the same spot within a moment is ignored; other taps pass)
+const tapLast={t:-1e9,x:0,y:0};
+document.addEventListener("click",e=>{
+  if(!e.isTrusted||!e.detail) return;                       // keyboard and code clicks pass
+  const c=e.target.closest&&e.target.closest("button,a,label,select,summary,[role=button]");
+  if(!c) return;
+  const now=performance.now();
+  if(now-tapLast.t<400&&Math.hypot(e.clientX-tapLast.x,e.clientY-tapLast.y)<48){ e.preventDefault(); e.stopImmediatePropagation(); return; }
+  tapLast.t=now; tapLast.x=e.clientX; tapLast.y=e.clientY;
+},true);
 
 /* ================= Lock ================= */
 const LS_KEY="reading-room-teacher";
@@ -1645,6 +1656,7 @@ function playFrom(i){
       const seek=()=>seekAudio(timeOf(i));
       audioEl.readyState>=1?seek():audioEl.addEventListener("loadedmetadata",seek,{once:true});
     }
+    else if(isFinite(audioEl.duration)&&audioEl.currentTime>=audioEl.duration-0.3) seekAudio(0);   // at the end: start over
     playing=true; setBtn(); audioEl.play().catch(()=>{playing=false;setBtn()}); return;
   }
   speechSynthesis.cancel();
@@ -2011,7 +2023,7 @@ function gRender(focusIn){
   byId("gPrev").onclick=()=>move(-1);
   const nx=byId("gNext"); if(nx) nx.onclick=()=>move(1);
   const fin=byId("gFin"); if(fin) fin.onclick=gTryFinish;
-  app.querySelectorAll("[data-j]").forEach(b=>b.onclick=()=>{ G_.i=+b.dataset.j; gSave(); gRender(true); });
+  app.querySelectorAll("[data-j]").forEach(b=>b.onclick=()=>{ G_.i=+b.dataset.j; gSave(); gRender(true); window.scrollTo({top:Math.max(0,(app.querySelector(".gprog")||app).offsetTop-12)}); });
   app.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{
     ans[qi]=+b.dataset.o; gSave();
     app.querySelectorAll("[data-o]").forEach(x=>x.setAttribute("aria-pressed",x===b));
@@ -2038,7 +2050,7 @@ function gTryFinish(){
   const w=byId("gWarn"); if(!w) return;
   w.innerHTML=`<div class="gwarn" role="alert"><p>${miss.length===1?"1 question is":miss.length+" questions are"} not answered yet: ${miss.slice(0,12).map(k=>k+1).join(", ")}${miss.length>12?"…":""}</p>
     <div class="gnav"><button class="btn btn-ghost" id="gGo" type="button">Go to ${miss[0]+1}</button><button class="btn btn-main" id="gAny" type="button">Finish anyway</button></div></div>`;
-  byId("gGo").onclick=()=>{ G_.i=miss[0]; gRender(true); };
+  byId("gGo").onclick=()=>{ G_.i=miss[0]; gRender(true); window.scrollTo({top:Math.max(0,(app.querySelector(".gprog")||app).offsetTop-12)}); };
   byId("gAny").onclick=gResults;
   w.scrollIntoView({block:"nearest",behavior:REDUCED()?"auto":"smooth"});
 }
