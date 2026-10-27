@@ -2,7 +2,7 @@
    Online: everything comes fresh from the internet (new lessons appear at once).
    Offline: pages, lessons, exercises, tests, the dictionary and recordings already opened are served from the phone.
    Slow connection: if the internet does not answer in a few seconds, the saved copy is shown at once. */
-const CACHE = "reading-room-v2";
+const CACHE = "reading-room-v3";
 const SHELL = ["./", "icon.svg", "favicon-32.png", "manifest.webmanifest", "brand/chime.mp3"];
 const WAIT = 3500;                                   // ms before a saved copy is used on a slow network
 
@@ -28,11 +28,15 @@ self.addEventListener("fetch", ev => {
 
 async function networkFirst(r, ev, u) {
   const c = await caches.open(CACHE);
-  const saved = () => c.match(r, { ignoreSearch: r.mode === "navigate" })
-    .then(hit => hit || (r.mode === "navigate" ? c.match(new URL("./", self.location).href, { ignoreSearch: true }) : null));
+  // every ?e= / ?g= / ?t= page is the same main page: keep ONE copy of it, not one per link
+  const home = new URL("./", self.location);
+  const main = r.mode === "navigate" && u.origin === home.origin && (u.pathname === home.pathname || u.pathname === home.pathname + "index.html");
+  const key = main ? home.href : r;
+  const saved = () => c.match(key, { ignoreSearch: r.mode === "navigate" })
+    .then(hit => hit || (r.mode === "navigate" ? c.match(home.href, { ignoreSearch: true }) : null));
   const net = fetch(r).then(res => {
     if (res && (res.ok || res.type === "opaque")) {
-      ev.waitUntil(c.put(r, res.clone()).catch(() => {}));
+      ev.waitUntil(c.put(key, res.clone()).catch(() => {}));
       // a lesson page asked for its timing file -> keep its recording for offline too
       if (/\/audio\/[^/]+\.json$/.test(u.pathname) && /[?&]e=/.test(r.referrer || ""))
         ev.waitUntil(keepRecording(c, u.href.replace(/\.json(\?.*)?$/, ".mp3")));

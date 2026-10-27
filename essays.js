@@ -525,7 +525,7 @@ window.ESSAYS = [
    ],
    [
     "pancakes",
-    "բլինչիկներ"
+    "նրբաբլիթներ"
    ],
    [
     "rainbow",
@@ -1314,7 +1314,7 @@ window.ESSAYS = [
   "words": [
    [
     "picnic",
-    "խնջույք բացօթյա"
+    "բացօթյա խնջույք"
    ],
    [
     "basket",
@@ -5174,7 +5174,7 @@ window.ESSAYS = [
    ],
    [
     "occasional",
-    "երբեմնի"
+    "ժամանակ առ ժամանակ եղող"
    ],
    [
     "treat",
@@ -5377,7 +5377,7 @@ window.ESSAYS = [
   "words": [
    [
     "headset",
-    "ականջակալ-ակնոց (VR սարք)"
+    "VR ակնոց (գլխադիր սարք)"
    ],
    [
     "surface",
