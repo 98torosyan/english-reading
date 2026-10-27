@@ -39,6 +39,8 @@
 :root{--r-sm:10px;--r-md:14px;--r-lg:20px;--tint:color-mix(in srgb,var(--lv,var(--accent)) 13%,transparent)}
 *,*::before,*::after{box-sizing:inherit}
 html,body{margin:0}
+/* no double-tap zoom on phones; pinch zoom still works */
+html,html *{touch-action:manipulation}
 body{background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent}
 .wrap{max-width:720px;margin:0 auto;padding:28px 18px 80px}
 button{font:inherit;cursor:pointer;color:inherit}
@@ -85,7 +87,7 @@ a{color:inherit}
 .btn-ghost{background:transparent;border:1.5px solid var(--line)}
 .ibtn{width:40px;height:40px;flex:none;border-radius:50%;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;padding:0}
 .ibtn svg{width:20px;height:20px}
-.ibtn:hover{background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink)}
+@media (hover:hover){.ibtn:hover{background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink)}}
 
 .outs{margin-left:auto;display:flex;gap:6px}
 .out{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:6px 12px;font-size:.85rem;color:var(--muted)}
@@ -244,7 +246,7 @@ body.ra-open{overflow:hidden}
 .act>svg{width:20px;height:20px;color:var(--muted);flex:none}
 .act span{flex:1}
 .act small{color:var(--muted);font-weight:500;font-size:.8rem}
-.act:hover{background:color-mix(in srgb,var(--ink) 4%,transparent)}
+@media (hover:hover){.act:hover{background:color-mix(in srgb,var(--ink) 4%,transparent)}}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;
   background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;z-index:30;transition:.2s;max-width:90vw;text-align:center;font-size:.92rem}
 .toast.show{opacity:1;transform:translate(-50%,0)}
@@ -252,8 +254,8 @@ body.ra-open{overflow:hidden}
 /* ---------- Student ---------- */
 .back{display:inline-flex;align-items:center;gap:9px;min-height:42px;padding:0 16px 0 5px;margin:4px 0 6px;border-radius:999px;background:var(--surface);border:1.5px solid color-mix(in srgb,var(--brand) 28%,var(--line));color:var(--ink);font-weight:650;font-size:.93rem;text-decoration:none;box-shadow:var(--shadow);transition:transform .12s ease,border-color .15s ease,background-color .15s ease}
 .back svg{width:30px;height:30px;padding:7px;border-radius:50%;background:color-mix(in srgb,var(--brand) 14%,transparent);color:var(--accent);flex:none;transition:transform .15s ease}
-.back:hover{border-color:var(--accent)}
-.back:hover svg{transform:translateX(-2px)}
+@media (hover:hover){.back:hover{border-color:var(--accent)}}
+@media (hover:hover){.back:hover svg{transform:translateX(-2px)}}
 .back:active{transform:scale(.97)}
 .essay-head h1{font-family:var(--read);font-size:2.2rem;line-height:1.12;margin:14px 0 10px}
 .player.loading{pointer-events:none}
@@ -275,7 +277,7 @@ body.ra-open{overflow:hidden}
 .pb{width:48px;height:48px;border-radius:50%;border:0;background:transparent;color:var(--ink);display:grid;place-items:center;padding:0}
 .pb svg{width:28px;height:28px}
 .pb.sm svg{width:22px;height:22px;opacity:.7}
-.pb:hover{background:color-mix(in srgb,var(--ink) 7%,transparent)}
+@media (hover:hover){.pb:hover{background:color-mix(in srgb,var(--ink) 7%,transparent)}}
 .play{width:64px;height:64px;border-radius:50%;border:0;background:var(--ink);color:var(--paper);display:grid;place-items:center;padding:0;margin:0 8px;box-shadow:0 6px 16px rgba(23,34,65,.25)}
 .play svg{width:28px;height:28px}
 .popts{display:flex;gap:8px;justify-content:center;margin-top:10px}
@@ -323,7 +325,7 @@ body.ra-open{overflow:hidden}
 @media (prefers-reduced-motion:reduce){.qwrap,.qt-ch svg{transition:none}}
 .say{width:36px;height:36px;flex:none;border:0;border-radius:50%;background:transparent;color:var(--muted);display:grid;place-items:center;padding:0}
 .say svg{width:19px;height:19px}
-.say:hover{background:var(--tint);color:var(--ink)}
+@media (hover:hover){.say:hover{background:var(--tint);color:var(--ink)}}
 .q{min-width:0;margin:0 0 10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
 .q p{margin:0 0 10px;font-weight:600}
 .opt{display:flex;gap:10px;align-items:flex-start;padding:8px;border-radius:8px}
@@ -513,6 +515,9 @@ body.ra-open{overflow:hidden}
 .xtable .bar i{display:block;height:100%;background:var(--good)}
 .xrev .gr .ya{font-family:var(--ui)}
 .xrev h3{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 4px}
+/* phones: bigger touch targets, no focus zoom */
+.xsel,.xpair .xsel{font-size:1rem}
+@media (pointer:coarse),(max-width:600px){.gdots{gap:7px}.gdots button{width:40px;height:40px;font-size:.85rem}.chip2{height:40px}.xsel{min-height:38px;padding:4px 6px}}
 </style>
 </head>
 <body>
