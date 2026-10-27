@@ -305,7 +305,14 @@ async function walk(w, env, steps, errors, studentOnly) {
     let ge = []; let g = await openPage("https://x.github.io/er/", calm, ge); await wait(30);
     const gd = g.document; gd.getElementById("pin").value = PIN; gd.getElementById("lockForm").dispatchEvent(new g.Event("submit")); await wait(60);
     gd.getElementById("gramCard").click(); await wait(40);
-    ok(gd.querySelectorAll("[data-gshare]").length === parts.length, "grammar: teacher list shows every exercise");
+    const topics = [...new Set(G.map(x => x.topic || x.id))];
+    ok(gd.querySelectorAll("[data-gt]").length === topics.length && topics.length >= 11, "grammar: teacher sees a card for every topic");
+    gd.querySelector('[data-gt="cond"]').click(); await wait(40);
+    ok(gd.querySelector(".grule") && !gd.querySelector(".grule").open && gd.querySelectorAll(".grule .rsec").length >= 4, "grammar: topic page has a closed Rule panel with sections");
+    ok(gd.querySelectorAll("[data-gshare]").length === G.filter(x => x.topic === "cond").reduce((a, x) => a + x.parts.length, 0), "grammar: topic page lists its exercises");
+    gd.getElementById("lvBack").click(); await wait(40); gd.querySelector('[data-gt="tenses"]').click(); await wait(40);
+    ok(gd.querySelectorAll("[data-gshare]").length === G.filter(x => x.topic === "tenses").reduce((a, x) => a + x.parts.length, 0), "grammar: tenses keep all their exercise sets");
+    ok(G.every(x => Array.isArray(x.rule) && x.rule.length && x.rule.every(r => r.h && r.b.length)), "grammar: every topic has a rule with content");
     gd.querySelector("[data-gshare]").click(); await wait(30);
     ok(gd.querySelector(".sheet") && gd.querySelectorAll(".sheet .app").length === 4 && gd.getElementById("shQR"), "grammar: share sheet with 4 apps and QR");
     const gm = g.eval("gMessage(GRAMMAR[0],GRAMMAR[0].parts[0])");

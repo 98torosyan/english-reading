@@ -1,9 +1,15 @@
 /* Gayane Torosyan | English Reading Room - offline support.
    Online: everything comes fresh from the internet (new lessons appear at once).
-   Offline: pages, lessons, the dictionary and recordings already opened are served from the phone. */
-const CACHE = "reading-room-v1";
+   Offline: pages, lessons, exercises, tests, the dictionary and recordings already opened are served from the phone.
+   Slow connection: if the internet does not answer in a few seconds, the saved copy is shown at once. */
+const CACHE = "reading-room-v2";
+const SHELL = ["./", "icon.svg", "favicon-32.png", "manifest.webmanifest", "brand/chime.mp3"];
+const WAIT = 3500;                                   // ms before a saved copy is used on a slow network
 
-self.addEventListener("install", () => self.skipWaiting());
+self.addEventListener("install", ev => {
+  self.skipWaiting();
+  ev.waitUntil(caches.open(CACHE).then(c => Promise.all(SHELL.map(f => c.add(f).catch(() => {})))));
+});
 self.addEventListener("activate", ev => ev.waitUntil((async () => {
   for (const k of await caches.keys()) if (k !== CACHE) await caches.delete(k);
   await self.clients.claim();
@@ -22,8 +28,9 @@ self.addEventListener("fetch", ev => {
 
 async function networkFirst(r, ev, u) {
   const c = await caches.open(CACHE);
-  try {
-    const res = await fetch(r);
+  const saved = () => c.match(r, { ignoreSearch: r.mode === "navigate" })
+    .then(hit => hit || (r.mode === "navigate" ? c.match(new URL("./", self.location).href, { ignoreSearch: true }) : null));
+  const net = fetch(r).then(res => {
     if (res && (res.ok || res.type === "opaque")) {
       ev.waitUntil(c.put(r, res.clone()).catch(() => {}));
       // a lesson page asked for its timing file -> keep its recording for offline too
@@ -31,9 +38,15 @@ async function networkFirst(r, ev, u) {
         ev.waitUntil(keepRecording(c, u.href.replace(/\.json(\?.*)?$/, ".mp3")));
     }
     return res;
+  });
+  ev.waitUntil(net.then(() => {}, () => {}));        // keep updating the saved copy in the background
+  // the internet wins when it is quick; a slow or missing connection falls back to the saved copy
+  const slow = new Promise(res => setTimeout(res, WAIT)).then(saved);
+  try {
+    const first = await Promise.race([net, slow.then(hit => hit || net)]);
+    return first || await net;
   } catch (err) {
-    const hit = await c.match(r, { ignoreSearch: r.mode === "navigate" })
-             || (r.mode === "navigate" ? await c.match(new URL("./", self.location).href, { ignoreSearch: true }) : null);
+    const hit = await saved();
     if (hit) return hit;
     throw err;
   }
