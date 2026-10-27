@@ -86,6 +86,121 @@ for a, b in zip(lv, lv[1:]):
     if a in avg and b in avg and not (avg[a][0] < avg[b][0] and avg[a][1] <= avg[b][1] and avg[a][2] < avg[b][2]):
         errors.append(f"difficulty does not grow from {a} to {b}: {avg[a]} vs {avg[b]}")
 
+# ---- grammar exercises (grammar.js) ----
+gids = collections.Counter()
+gp = ROOT / "grammar.js"
+if gp.exists():
+    gs = gp.read_text(encoding="utf-8")
+    G = json.loads(gs[gs.index("["): gs.rindex("]") + 1])
+    eids, gids, nq = set(ids), collections.Counter(), 0
+    for st in G:
+        for k in ("id", "title", "hy", "tenses", "hints", "parts"):
+            if k not in st: errors.append(f"grammar set {st.get('id')}: missing {k}")
+        for pt in st["parts"]:
+            gids[pt["id"]] += 1
+            tag = f"grammar {pt['id']}"
+            if not re.fullmatch(r"g-[a-z0-9-]+", pt["id"]): errors.append(f"{tag}: id must start with g-")
+            if pt["id"] in eids: errors.append(f"{tag}: id is also a lesson id")
+            if not pt["qs"]: errors.append(f"{tag}: no questions")
+            kinds = {"o" in q for q in pt["qs"]}
+            if len(kinds) > 1: errors.append(f"{tag}: mixes choice and written questions")
+            seen = collections.Counter(q["q"] for q in pt["qs"])
+            for t, n in seen.items():
+                if n > 1: errors.append(f"{tag}: duplicate question '{t}'")
+            for i, q in enumerate(pt["qs"], 1):
+                nq += 1
+                blanks = len(re.findall(r"_{3,}", q["q"]))
+                if not blanks: errors.append(f"{tag} #{i}: no blank _____")
+                if ARM.search(q["q"]): errors.append(f"{tag} #{i}: Armenian letters in the sentence")
+                if "o" in q:
+                    o, a = q["o"], q.get("a", [])
+                    if not 2 <= len(o) <= 4: errors.append(f"{tag} #{i}: needs 2-4 options")
+                    if len({x.lower().strip() for x in o}) != len(o): errors.append(f"{tag} #{i}: duplicate options")
+                    if not a or len(set(a)) != len(a) or any(not isinstance(x, int) or not 0 <= x < len(o) for x in a):
+                        errors.append(f"{tag} #{i}: bad answer index {a}")
+                    if len(a) >= len(o): errors.append(f"{tag} #{i}: every option is marked correct")
+                else:
+                    f = q.get("f")
+                    if not f or any(not opts or any(not str(x).strip() for x in opts) for opts in f):
+                        errors.append(f"{tag} #{i}: missing written answer")
+                    elif len(f) != blanks: errors.append(f"{tag} #{i}: {blanks} blanks but {len(f)} answers")
+    for i, n in gids.items():
+        if n > 1: errors.append(f"duplicate grammar id: {i}")
+    print(f"grammar: {len(G)} sets, {sum(gids.values())} exercises, {nq} questions")
+
+# ---- practice tests (exams.js) ----
+xp = ROOT / "exams.js"
+if xp.exists():
+    xs = xp.read_text(encoding="utf-8")
+    X = json.loads(xs[xs.index("["): xs.rindex("]") + 1])
+    xids = collections.Counter(t["id"] for t in X)
+    for i, c in xids.items():
+        if c > 1: errors.append(f"duplicate test id: {i}")
+    for t in X:
+        tag = f"test {t['id']}"
+        if not re.fullmatch(r"t-[a-z0-9-]+", t["id"]): errors.append(f"{tag}: id must start with t-")
+        if t["id"] in set(ids) or t["id"] in gids: errors.append(f"{tag}: id is used elsewhere")
+        nums = []
+        for sec in t["sections"]:
+            for g in sec["groups"]:
+                gaps = [int(x) for x in re.findall(r"\((\d+)\)\s*_{3,}", g.get("text", ""))]
+                if sec["type"] == "mc" and gaps and gaps != [it["n"] for it in g["items"]]:
+                    errors.append(f"{tag} section {sec['key']}: gap numbers {gaps} do not match tasks")
+                for it in g["items"]:
+                    n = it["n"]; nums.append(n); w = f"{tag} #{n}"
+                    if sec["type"] == "mc":
+                        if len(it["o"]) != 4 or len({o.lower() for o in it["o"]}) != 4: errors.append(f"{w}: needs 4 different options")
+                        if not 0 <= it["a"] < 4: errors.append(f"{w}: bad answer")
+                    elif sec["type"] == "multi":
+                        if len(it["s"]) != 5: errors.append(f"{w}: needs 5 sentences")
+                        if not it["a"] or len(it["a"]) >= 5 or len(set(it["a"])) != len(it["a"]) or any(not 1 <= a <= 5 for a in it["a"]): errors.append(f"{w}: bad answers {it['a']}")
+                    elif sec["type"] == "order":
+                        gapsN = len(re.findall(r"_{2,}", it["text"]))
+                        if gapsN != len(it["a"]) or len(it["words"]) != gapsN + 2: errors.append(f"{w}: {gapsN} gaps, {len(it['a'])} answers, {len(it['words'])} words")
+                        if len(set(it["a"])) != len(it["a"]) or any(not 1 <= a <= len(it["words"]) for a in it["a"]): errors.append(f"{w}: bad answers {it['a']}")
+                    elif sec["type"] == "match":
+                        if len(it["left"]) != 4 or len(it["a"]) != 4 or len(set(it["a"])) != 4 or any(not 1 <= a <= len(it["right"]) for a in it["a"]): errors.append(f"{w}: bad matching")
+                    else: errors.append(f"{w}: unknown type {sec['type']}")
+        if nums != list(range(1, 81)): errors.append(f"{tag}: tasks must be numbered 1-80")
+    print(f"tests: {len(X)} practice tests, {sum(len(t['sections']) for t in X)} sections")
+
+# ---- practice by section (bank.js) uses the same task formats ----
+bp = ROOT / "bank.js"
+if bp.exists():
+    bs = bp.read_text(encoding="utf-8")
+    BK = json.loads(bs[bs.index("["): bs.rindex("]") + 1])
+    seen_ids = set(ids) | set(gids) | {t["id"] for t in X} if xp.exists() else set(ids) | set(gids)
+    keys = [b["key"] for b in BK]
+    if keys != ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII"]: errors.append(f"bank: sections must be I-XIII, got {keys}")
+    total = 0
+    for b in BK:
+        for t in b["sets"]:
+            tag = f"bank {t['id']}"
+            if t["id"] in seen_ids: errors.append(f"{tag}: id is used twice")
+            seen_ids.add(t["id"])
+            if len(t["sections"]) != 1 or t["sections"][0]["type"] != b["type"]: errors.append(f"{tag}: needs one section of type {b['type']}")
+            nums = []
+            for sec in t["sections"]:
+                for g in sec["groups"]:
+                    gaps = [int(x) for x in re.findall(r"\((\d+)\)\s*_{3,}", g.get("text", ""))]
+                    if sec["type"] == "mc" and gaps and gaps != [it["n"] for it in g["items"]]: errors.append(f"{tag}: gap numbers do not match")
+                    for it in g["items"]:
+                        n = it["n"]; nums.append(n); w = f"{tag} #{n}"
+                        if sec["type"] == "mc":
+                            if len(it["o"]) != 4 or len({o.lower() for o in it["o"]}) != 4 or not 0 <= it["a"] < 4: errors.append(f"{w}: needs 4 different options and a valid answer")
+                            if sec["key"] != "I" and it["q"] and not re.search(r"_{3,}|\?$", it["q"]): errors.append(f"{w}: question has no blank")
+                        elif sec["type"] == "multi":
+                            if len(it["s"]) != 5 or not 1 <= len(it["a"]) <= 4 or any(not 1 <= a <= 5 for a in it["a"]): errors.append(f"{w}: bad multi task")
+                            if len({str(x) for x in it["s"]}) != 5: errors.append(f"{w}: duplicate sentences")
+                        elif sec["type"] == "order":
+                            gN = len(re.findall(r"_{2,}", it["text"]))
+                            if gN != len(it["a"]) or len(it["words"]) != gN + 2 or len(set(it["words"])) != len(it["words"]) or len(set(it["a"])) != len(it["a"]): errors.append(f"{w}: bad gap-word task")
+                        elif sec["type"] == "match":
+                            if len(it["left"]) != 4 or len(set(it["a"])) != 4 or len(set(it["right"])) != len(it["right"]) or any(not 1 <= a <= len(it["right"]) for a in it["a"]): errors.append(f"{w}: bad matching")
+            if nums != list(range(1, len(nums) + 1)) or t.get("count") != len(nums): errors.append(f"{tag}: tasks must be numbered 1-{len(nums)}")
+            total += len(nums)
+    print(f"bank: {len(BK)} sections, {sum(len(b['sets']) for b in BK)} sets, {total} tasks")
+
 print(f"{len(E)} essays:", dict(per))
 for k in lv:
     if k in avg: print(f"  {k}: avg sentence {avg[k][0]:.1f} words, long words {avg[k][1]:.0%}, readability grade {avg[k][2]:.1f}")

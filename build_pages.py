@@ -25,17 +25,17 @@ PAGE = """<!DOCTYPE html>
 <meta name="description" content="{desc}">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Gayane Torosyan | English Reading Room">
-<meta property="og:title" content="📖 {title} ({level})">
+<meta property="og:title" content="{icon} {title} ({level})">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{base}l/{id}.html">
 <meta property="og:image" content="{base}og/{id}.png">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../icon.svg" type="image/svg+xml">
-<meta http-equiv="refresh" content="0; url=../?e={id}">
-<script>location.replace("../?e={id}")</script>
+<meta http-equiv="refresh" content="0; url=../?{q}={id}">
+<script>location.replace("../?{q}={id}")</script>
 </head><body style="font-family:Georgia,serif;background:#0E1022;color:#fff;text-align:center;padding:40px">
-<p><a style="color:#fff" href="../?e={id}">Open the lesson: {title}</a></p>
+<p><a style="color:#fff" href="../?{q}={id}">Open: {title}</a></p>
 </body></html>
 """
 
@@ -66,10 +66,16 @@ def og_svg(e, F):
     lvw = 84
     lv = f'<rect x="470" y="{y0 - size - 62:.0f}" width="{lvw}" height="44" rx="22" fill="{LV[e["level"]]}"/>' \
          f'<path d="{tp(txt, e["level"], 28, 491, y0 - size - 30)[0]}" fill="#fff"/>'
-    words = len(" ".join(e["text"]).split())
-    mins = max(1, round(words / {"A1": 70, "A2": 85, "B1": 100, "B2": 115, "C1": 125}.get(e["level"], 100)))
     info_y = y0 + (len(lines) - 1) * size * 1.15 + 62
-    info = tp(sub, f"Read · Listen · {len(e['qs'])} questions · ~{mins} min", 28, 472, info_y)[0]
+    if "info" in e:                       # grammar exercise
+        info_txt = e["info"]
+    else:
+        words = len(" ".join(e["text"]).split())
+        mins = max(1, round(words / {"A1": 70, "A2": 85, "B1": 100, "B2": 115, "C1": 125}.get(e["level"], 100)))
+        info_txt = f"Read · Listen · {len(e['qs'])} questions · ~{mins} min"
+    while tp(sub, info_txt, 28, 0, 0)[1] > 690 and " · " in info_txt:
+        info_txt = info_txt.rsplit(" · ", 1)[0]
+    info = tp(sub, info_txt, 28, 472, info_y)[0]
     name = tp(txt, "Gayane Torosyan", 36, 470, 520)[0]
     room = tp(txt, "ENGLISH READING ROOM", 20, 471, 556, track=4.2)[0]
     icon = (ROOT / "icon.svg").read_text()
@@ -93,11 +99,37 @@ if not tag_file.exists() or tag_file.read_text().strip() != logo_tag:      # new
     tag_file.write_text(logo_tag)
 fonts = None
 made = 0
-for e in E:
-    mins = max(1, round(len(" ".join(e["text"]).split()) / {"A1": 70, "A2": 85, "B1": 100, "B2": 115, "C1": 125}.get(e["level"], 100)))
-    desc = f"Level {e['level']} · ~{mins} min · {len(e['qs'])} questions. Read, listen and answer — Gayane Torosyan's English Reading Room."
+# grammar exercises get the same kind of page and picture
+GR = []
+if (ROOT / "grammar.js").exists():
+    gs = (ROOT / "grammar.js").read_text(encoding="utf-8")
+    for st in json.loads(gs[gs.index("["): gs.rindex("]") + 1]):
+        for pt in st["parts"]:
+            kind = "Write the correct form" if "f" in pt["qs"][0] else "Choose the correct answer"
+            GR.append({"id": pt["id"], "title": st["title"], "ptitle": f"{st['title']} · {pt['title']}", "level": pt.get("level", "B1"), "qs": pt["qs"], "grammar": True,
+                       "info": f"Grammar · {len(pt['qs'])} questions · {pt['title']}",
+                       "desc": f"Grammar · {pt['title']} · {len(pt['qs'])} questions. {kind} — Gayane Torosyan's English Reading Room."})
+if (ROOT / "exams.js").exists():
+    xs = (ROOT / "exams.js").read_text(encoding="utf-8")
+    for t in json.loads(xs[xs.index("["): xs.rindex("]") + 1]):
+        GR.append({"id": t["id"], "title": t["title"], "level": "B2", "qs": [], "grammar": True, "kind": "t", "icon": "📝",
+                   "info": "Unified exam format · 80 tasks · 13 sections",
+                   "desc": "Unified exam format · 80 tasks · 13 sections. Do the test and see your score — Gayane Torosyan's English Reading Room."})
+if (ROOT / "bank.js").exists():
+    bs = (ROOT / "bank.js").read_text(encoding="utf-8")
+    for b in json.loads(bs[bs.index("["): bs.rindex("]") + 1]):
+        for i, t in enumerate(b["sets"], 1):
+            GR.append({"id": t["id"], "title": b["en"], "ptitle": f"{b['en']} · Set {i}", "level": "B2", "qs": [], "grammar": True, "kind": "b", "icon": "📝",
+                       "info": f"Section {b['key']} · Set {i} · {t['count']} tasks",
+                       "desc": f"Section {b['key']} · Set {i} · {t['count']} tasks. Exam practice — Gayane Torosyan's English Reading Room."})
+for e in E + GR:
+    if e.get("grammar"):
+        desc, q, icon = e["desc"], e.get("kind", "g"), e.get("icon", "✍️")
+    else:
+        mins = max(1, round(len(" ".join(e["text"]).split()) / {"A1": 70, "A2": 85, "B1": 100, "B2": 115, "C1": 125}.get(e["level"], 100)))
+        desc, q, icon = f"Level {e['level']} · ~{mins} min · {len(e['qs'])} questions. Read, listen and answer — Gayane Torosyan's English Reading Room.", "e", "📖"
     (ROOT / "l" / f"{e['id']}.html").write_text(PAGE.format(
-        title=html.escape(e["title"]), level=e["level"], id=e["id"], base=BASE, desc=desc), encoding="utf-8")
+        title=html.escape(e.get("ptitle", e["title"])), level=e["level"], id=e["id"], base=BASE, desc=html.escape(desc), q=q, icon=icon), encoding="utf-8")
     png = ROOT / "og" / f"{e['id']}.png"
     if png.exists():
         continue
@@ -108,4 +140,4 @@ for e in E:
     import cairosvg
     cairosvg.svg2png(bytestring=og_svg(e, fonts).encode(), write_to=str(png), output_width=1200, output_height=630)
     made += 1
-print(f"{len(E)} lesson pages, {made} new preview pictures, base {BASE}")
+print(f"{len(E)} lesson pages, {len(GR)} grammar/test pages, {made} new preview pictures, base {BASE}")
