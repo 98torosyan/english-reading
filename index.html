@@ -516,6 +516,8 @@ body.ra-open{overflow:hidden}
 .xtable .bar i{display:block;height:100%;background:var(--good)}
 .xrev .gr .ya{font-family:var(--ui)}
 .xrev h3{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 4px}
+/* buttons: a long press must not select their text or open the iPhone magnifier/menu */
+button,.btn,.chip,.chip2,[role=button],label.opt,summary,.xtabs,.gdots{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 /* phones: bigger touch targets, no focus zoom */
 .xsel,.xpair .xsel{font-size:1rem}
 @media (pointer:coarse),(max-width:600px){.gdots{gap:7px}.gdots button{width:40px;height:40px;font-size:.85rem}.chip2{height:40px}.xsel{min-height:38px;padding:4px 6px}}
