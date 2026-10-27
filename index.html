@@ -349,7 +349,8 @@ body.ra-open{overflow:hidden}
 .score.win{animation:pop .5s ease}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 /* ---------- Grammar ---------- */
-.gtopic .lvbig{background:linear-gradient(135deg,#5B3DD8,#A891F7);font-family:var(--read);font-size:1rem;letter-spacing:-.01em}
+.gtopic .lvbig{background:linear-gradient(135deg,var(--g1,#5B3DD8),var(--g2,#A891F7));box-shadow:0 6px 14px color-mix(in srgb,var(--g1,#5B3DD8) 32%,transparent);font-family:var(--read);font-size:1rem;letter-spacing:-.01em}
+.lvcard.gtopic{border-left:4px solid var(--g1,#5B3DD8)}
 .lvhead.gtopic{--lv:var(--brand)}
 .grule{border-color:color-mix(in srgb,var(--brand) 35%,var(--line))}
 .grule summary{color:var(--accent);flex-wrap:wrap}
@@ -1838,6 +1839,8 @@ function gFullText(s,p){
   lines.push("","━━━━━━━━━━━━━━━━",`✅ Answer online and see your score: ${linkFor(p)}`,`— ${TEACHER_NAME}, English teacher`);
   return lines.join("\n");
 }
+const GCOL={tenses:["#5B3DD8","#A891F7"],cond:["#3E5FD9","#7FA0FF"],modal:["#1C8AA3","#5CC6D9"],passive:["#2E9E6A","#6FCF9B"],reported:["#B23F78","#E57AAE"],articles:["#D9822B","#F2B66D"],quant:["#7A4FD6","#B58CF5"],compare:["#C2410C","#F08A5D"],gerund:["#0F766E","#4FB7A8"],relative:["#4F46E5","#8B87F5"],prep:["#A16207","#E0B04A"]};
+const gcol=id=>{ const c=GCOL[id]||GCOL.tenses; return `--g1:${c[0]};--g2:${c[1]}`; };
 const GCODE={tenses:"T",cond:"If",modal:"Can",passive:"V3",reported:"Said",articles:"The",quant:"Few",compare:"-er",gerund:"-ing",relative:"Who",prep:"In"};
 function gTopics(){
   const out=[];
@@ -1868,7 +1871,7 @@ async function teacherGrammar(topic){
   <a class="back" href="./" id="lvBack">${ICO.chevL}Գլխավոր</a>
   <div class="lvhead gcard" style="--lv:var(--brand)"><span class="lvbig">Aa</span><div><h2>Քերականություն</h2><p>${TP.length} թեմա · ${nParts} վարժություն · ${nQ} հարց</p></div></div>
   <section class="lvgrid rise">${TP.map((t,i)=>{ const n=t.sets.reduce((a,x)=>a+x.parts.length,0); return `
-    <a class="lvcard gtopic" href="?gl=${t.id}" data-gt="${t.id}" style="--d:${Math.min(i,10)}">
+    <a class="lvcard gtopic" href="?gl=${t.id}" data-gt="${t.id}" style="--d:${Math.min(i,10)};${gcol(t.id)}">
       <span class="lvbig">${esc(GCODE[t.id]||t.title.slice(0,2))}</span>
       <span class="lvtxt"><b>${esc(t.hy)}</b><small>${esc(t.title)} · ${esc(t.sub)}</small></span>
       <span class="lvn">${n}<small>վարժ.</small></span>${ICO.chevR}
@@ -1888,7 +1891,7 @@ async function teacherGrammar(topic){
     </article>`).join("")}</section>`;
     app.innerHTML=head+`
   <a class="back" href="./?gl" id="lvBack">${ICO.chevL}Քերականություն</a>
-  <div class="lvhead gtopic"><span class="lvbig">${esc(GCODE[tp.id]||"Aa")}</span><div><h2>${esc(tp.hy)}</h2><p>${esc(tp.title)} · ${esc(tp.sub)}</p></div></div>
+  <div class="lvhead gtopic" style="${gcol(tp.id)}"><span class="lvbig">${esc(GCODE[tp.id]||"Aa")}</span><div><h2>${esc(tp.hy)}</h2><p>${esc(tp.title)} · ${esc(tp.sub)}</p></div></div>
   ${tp.rule?`<details class="ghint grule"><summary>📘 Կանոնը<small>սեղմիր՝ կարդալու համար</small></summary>${ruleHTML(tp.rule)}</details>`:""}
   ${tp.sets.length>1?tp.sets.map(st=>`<section class="gset"><h3>${esc(st.title)}</h3><p>${esc(st.hy)}</p><p class="gt">${esc(st.tenses)}</p></section>${parts(st)}`).join(""):parts(tp.sets[0])}`;
     byId("lvBack").onclick=ev=>{ ev.preventDefault(); go("?gl"); };
