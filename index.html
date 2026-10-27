@@ -39,6 +39,8 @@
 :root{--r-sm:10px;--r-md:14px;--r-lg:20px;--tint:color-mix(in srgb,var(--lv,var(--accent)) 13%,transparent)}
 *,*::before,*::after{box-sizing:inherit}
 html,body{margin:0}
+/* no double-tap zoom on phones; pinch zoom still works */
+html,html *{touch-action:manipulation}
 body{background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent}
 .wrap{max-width:720px;margin:0 auto;padding:28px 18px 80px}
 button{font:inherit;cursor:pointer;color:inherit}
@@ -56,13 +58,13 @@ a{color:inherit}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .chip .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--lv);margin-right:6px;vertical-align:1px}
 .list{display:grid;gap:12px}
-.lvgrid{display:grid;gap:10px;margin-top:6px}
+.lvgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:6px}
 .item h2 .num{display:inline-grid;place-items:center;min-width:1.7em;height:1.7em;margin-right:.5em;padding:0 .35em;border-radius:999px;background:var(--tint);color:var(--lv);font-family:var(--ui);font-size:.72em;font-weight:800;vertical-align:.12em}
 .lvcard{display:flex;align-items:center;gap:14px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow);text-decoration:none;color:var(--ink);transition:transform .12s ease}
 .lvcard:active{transform:scale(.98)}
 .lvbig{width:54px;height:54px;flex:none;border-radius:16px;background:var(--lv);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.15rem;letter-spacing:.02em;box-shadow:0 6px 14px color-mix(in srgb,var(--lv) 35%,transparent)}
 .lvtxt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
-.lvtxt b{font-family:var(--read);font-size:1.12rem}
+.lvtxt b{font-family:var(--read);font-size:1.12rem;overflow-wrap:break-word}
 .lvtxt small{color:var(--muted);font-size:.82rem;line-height:1.35}
 .lvn{display:flex;flex-direction:column;align-items:center;font-weight:800;font-size:1.1rem;line-height:1.1;color:var(--ink)}
 .lvn small{font-weight:500;font-size:.7rem;color:var(--muted)}
@@ -85,7 +87,7 @@ a{color:inherit}
 .btn-ghost{background:transparent;border:1.5px solid var(--line)}
 .ibtn{width:40px;height:40px;flex:none;border-radius:50%;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;padding:0}
 .ibtn svg{width:20px;height:20px}
-.ibtn:hover{background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink)}
+@media (hover:hover){.ibtn:hover{background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink)}}
 
 .outs{margin-left:auto;display:flex;gap:6px}
 .out{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:6px 12px;font-size:.85rem;color:var(--muted)}
@@ -238,13 +240,14 @@ body.ra-open{overflow:hidden}
 .qrbtns{display:flex;gap:10px}
 .qrbtns .btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px}
 .qrbtns .btn svg{width:20px;height:20px}
+.qrbtns .btn{white-space:nowrap;font-size:.95rem;padding-left:10px;padding-right:10px}.qrbtns .btn-ghost{color:#fff;border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.08)}
 @media (prefers-reduced-motion:reduce){.qrv,.qrbox{transition:none}.qrload svg{animation:none}}
 .act{width:100%;display:flex;align-items:center;gap:14px;padding:0 16px;min-height:54px;border:0;background:transparent;color:var(--ink);font-weight:600;font-size:.95rem;text-align:left;text-decoration:none}
 .act+.act{border-top:1px solid var(--line)}
 .act>svg{width:20px;height:20px;color:var(--muted);flex:none}
 .act span{flex:1}
 .act small{color:var(--muted);font-weight:500;font-size:.8rem}
-.act:hover{background:color-mix(in srgb,var(--ink) 4%,transparent)}
+@media (hover:hover){.act:hover{background:color-mix(in srgb,var(--ink) 4%,transparent)}}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;
   background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;z-index:30;transition:.2s;max-width:90vw;text-align:center;font-size:.92rem}
 .toast.show{opacity:1;transform:translate(-50%,0)}
@@ -252,8 +255,8 @@ body.ra-open{overflow:hidden}
 /* ---------- Student ---------- */
 .back{display:inline-flex;align-items:center;gap:9px;min-height:42px;padding:0 16px 0 5px;margin:4px 0 6px;border-radius:999px;background:var(--surface);border:1.5px solid color-mix(in srgb,var(--brand) 28%,var(--line));color:var(--ink);font-weight:650;font-size:.93rem;text-decoration:none;box-shadow:var(--shadow);transition:transform .12s ease,border-color .15s ease,background-color .15s ease}
 .back svg{width:30px;height:30px;padding:7px;border-radius:50%;background:color-mix(in srgb,var(--brand) 14%,transparent);color:var(--accent);flex:none;transition:transform .15s ease}
-.back:hover{border-color:var(--accent)}
-.back:hover svg{transform:translateX(-2px)}
+@media (hover:hover){.back:hover{border-color:var(--accent)}}
+@media (hover:hover){.back:hover svg{transform:translateX(-2px)}}
 .back:active{transform:scale(.97)}
 .essay-head h1{font-family:var(--read);font-size:2.2rem;line-height:1.12;margin:14px 0 10px}
 .player.loading{pointer-events:none}
@@ -275,7 +278,7 @@ body.ra-open{overflow:hidden}
 .pb{width:48px;height:48px;border-radius:50%;border:0;background:transparent;color:var(--ink);display:grid;place-items:center;padding:0}
 .pb svg{width:28px;height:28px}
 .pb.sm svg{width:22px;height:22px;opacity:.7}
-.pb:hover{background:color-mix(in srgb,var(--ink) 7%,transparent)}
+@media (hover:hover){.pb:hover{background:color-mix(in srgb,var(--ink) 7%,transparent)}}
 .play{width:64px;height:64px;border-radius:50%;border:0;background:var(--ink);color:var(--paper);display:grid;place-items:center;padding:0;margin:0 8px;box-shadow:0 6px 16px rgba(23,34,65,.25)}
 .play svg{width:28px;height:28px}
 .popts{display:flex;gap:8px;justify-content:center;margin-top:10px}
@@ -323,7 +326,7 @@ body.ra-open{overflow:hidden}
 @media (prefers-reduced-motion:reduce){.qwrap,.qt-ch svg{transition:none}}
 .say{width:36px;height:36px;flex:none;border:0;border-radius:50%;background:transparent;color:var(--muted);display:grid;place-items:center;padding:0}
 .say svg{width:19px;height:19px}
-.say:hover{background:var(--tint);color:var(--ink)}
+@media (hover:hover){.say:hover{background:var(--tint);color:var(--ink)}}
 .q{min-width:0;margin:0 0 10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
 .q p{margin:0 0 10px;font-weight:600}
 .opt{display:flex;gap:10px;align-items:flex-start;padding:8px;border-radius:8px}
@@ -484,7 +487,7 @@ body.ra-open{overflow:hidden}
 .xitem:first-of-type{border-top:0}
 .xq{display:flex;gap:10px;margin:0 0 10px;font-weight:600;line-height:1.45;white-space:pre-line}
 .xn{flex:none;min-width:30px;height:26px;padding:0 6px;border-radius:8px;background:var(--tint);color:var(--accent);font-size:.8rem;font-weight:800;display:grid;place-items:center}
-.xopts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.xopts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.xopts>*{min-width:0;overflow-wrap:anywhere}
 .xopts.long{grid-template-columns:1fr}
 .xopt{display:flex;align-items:center;gap:9px;text-align:left;min-height:46px;padding:8px 11px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);font-size:.95rem;font-weight:600;color:var(--ink);line-height:1.3}
 .xopt b{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--line);font-size:.75rem}
@@ -513,6 +516,18 @@ body.ra-open{overflow:hidden}
 .xtable .bar i{display:block;height:100%;background:var(--good)}
 .xrev .gr .ya{font-family:var(--ui)}
 .xrev h3{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 4px}
+/* phones: bigger touch targets, no focus zoom */
+.xsel,.xpair .xsel{font-size:1rem}
+@media (pointer:coarse),(max-width:600px){.gdots{gap:7px}.gdots button{width:40px;height:40px;font-size:.85rem}.chip2{height:40px}.xsel{min-height:38px;padding:4px 6px}}
+/* older phones (iOS < 16.2) without color-mix: plain colours instead of transparent ones */
+@supports not (color:color-mix(in srgb,red,red)){
+:root{--tint:rgba(108,76,228,.13)}
+.lv{background:var(--lv)}.mini{background:var(--surface)}
+.w.sel{background:rgba(108,76,228,.24)}
+.opt.right,.rstats .ok{background:rgba(30,138,90,.16)}.opt.wrong,.rstats .no{background:rgba(194,59,59,.15)}
+.gopt[aria-pressed="true"],.xopt[aria-pressed="true"],.xchk[aria-pressed="true"],.gdots button.done,.xtabs button.done,.rf,.xsel,.gin,.back svg,.ra-tool.on{background:rgba(108,76,228,.12)}
+.ra-entry{background:rgba(108,76,228,.06)}.gwarn,.rtip{background:rgba(232,163,23,.14)}
+}
 </style>
 </head>
 <body>
@@ -584,7 +599,7 @@ async function hasAudio(id){
   if(id in audioOK) return audioOK[id];
   if(location.protocol==="file:") return audioOK[id]=false;
   try{ const r=await fetch(AUDIO_DIR+id+".mp3",{method:"HEAD"}); audioOK[id]=r.ok; }
-  catch{ audioOK[id]=false; }
+  catch{ try{ audioOK[id]=!!(window.caches&&await caches.match(AUDIO_DIR+id+".mp3",{ignoreSearch:true})); }catch{ audioOK[id]=false; } }   // offline: a saved recording still counts
   return audioOK[id];
 }
 
@@ -600,14 +615,18 @@ async function copy(text){
   }
 }
 
+function notFound(){
+  document.title="Gayane Torosyan | English Reading Room";
+  app.innerHTML=`<div class="gload" role="alert"><p><b>This link does not work any more.</b></p><p>Please ask your teacher for a new link.</p><p lang="hy">Հղումն այլևս չի աշխատում։ Խնդրում ենք նոր հղում խնդրել ուսուցչից։</p></div>`;
+}
 function route(){
-  closeSheet(true); stopAll(); closeWordCard();
+  closeSheet(true); closeQR(); stopAll(); closeWordCard();
   const sp=new URLSearchParams(location.search), id=sp.get("e");
   gramSeq++; G_=null; X_=null; clearTimeout(gRender.t); app.style.removeProperty("--lv");
   if(id){
     const seq=gramSeq, known=ESSAYS.find(x=>x.id===id);
     if(known) student(known);
-    else{ app.innerHTML=LOADING; getEssay(id).then(e=>{ if(seq!==gramSeq) return; e?student(e):teacher(); window.scrollTo(0,0); }); }
+    else{ app.innerHTML=LOADING; getEssay(id).then(e=>{ if(seq!==gramSeq) return; e?student(e):notFound(); window.scrollTo(0,0); }); }
   }
   else if(sp.has("g")) gramStudent(sp.get("g"));
   else if(sp.has("gl")) teacherGrammar(sp.get("gl"));
@@ -619,6 +638,20 @@ function route(){
   window.scrollTo(0,0);
 }
 function go(url){ history.pushState(null,"",url); route(); }
+let kbdUse=false;   // keyboard users get focus moved to the new question
+document.addEventListener("keydown",e=>{ if(e.key==="Tab"||e.key==="Enter"||e.key===" ") kbdUse=true; },true);
+document.addEventListener("pointerdown",()=>{ kbdUse=false; },true);
+// A quick second tap must not land on whatever just appeared under the finger
+// (only a repeat tap on the same spot within a moment is ignored; other taps pass)
+const tapLast={t:-1e9,x:0,y:0};
+document.addEventListener("click",e=>{
+  if(!e.isTrusted||!e.detail) return;                       // keyboard and code clicks pass
+  const c=e.target.closest&&e.target.closest("button,a,label,select,summary,[role=button]");
+  if(!c||c.matches(".pb,.chip2")) return;              // player buttons (+10 s, speed) may be tapped quickly on purpose
+  const now=performance.now();
+  if(now-tapLast.t<400&&Math.hypot(e.clientX-tapLast.x,e.clientY-tapLast.y)<48){ e.preventDefault(); e.stopImmediatePropagation(); return; }
+  tapLast.t=now; tapLast.x=e.clientX; tapLast.y=e.clientY;
+},true);
 
 /* ================= Lock ================= */
 const LS_KEY="reading-room-teacher";
@@ -807,7 +840,7 @@ async function openSheet(e){
       :`<a class="app" href="${a.href}" target="_blank" rel="noopener"><i style="background:${a.c}">${ICON[a.k]}</i>${a.n}</a>`).join("")}</div>
     <div class="acts">
       <button class="act" id="shQR">${ICO.qr}<span>QR կոդ</span><small>դասին սկանավորելու համար</small></button>
-      <button class="act" id="cpLink">${ICO.link}<span>Պատճենել հղումը</span></button>
+      <button class="act" id="cpLink">${ICO.link}<span>Պատճենել տեքստը</span></button>
       <button class="act" id="cpText">${ICO.copy}<span>Պատճենել ամբողջ դասը</span></button>
       ${audio?`<a class="act" href="${AUDIO_DIR+e.id}.mp3" download="${e.id}.mp3">${ICO.download}<span>Ներբեռնել ձայնը</span><small>MP3</small></a>`:""}
     </div>`;
@@ -1497,8 +1530,8 @@ async function drawQRCard(e){
     c.fillStyle="#fff"; rr(c,lx-cell*.4,lyy-cell*.4,ls+cell*.8,ls+cell*.8,cell*1.6); c.fill();
     c.save(); rr(c,lx+cell*.3,lyy+cell*.3,ls-cell*.6,ls-cell*.6,cell*1.2); c.clip(); c.drawImage(icon,lx+cell*.3,lyy+cell*.3,ls-cell*.6,ls-cell*.6); c.restore(); }
   // caption
-  const cy=py+P+92; c.fillStyle="#fff"; c.font="700 38px system-ui, -apple-system, sans-serif"; c.fillText("Scan to open the lesson",W/2,cy);
-  c.fillStyle="#C9D2EA"; c.font="400 32px system-ui, -apple-system, sans-serif"; c.fillText("Սկանավորիր՝ դասը բացելու համար",W/2,cy+52);
+  const cy=py+P+92; c.fillStyle="#fff"; c.font="700 38px system-ui, -apple-system, sans-serif"; c.fillText("Scan to open",W/2,cy);
+  c.fillStyle="#C9D2EA"; c.font="400 32px system-ui, -apple-system, sans-serif"; c.fillText("Սկանավորիր՝ բացելու համար",W/2,cy+52);
   // level stripes
   ["#2E9E6A","#1C8AA3","#3E5FD9","#7A4FD6","#B23F78"].forEach((col,i)=>{ c.fillStyle=col; c.fillRect(0,H-40+i*8,W,8); });
   return cv;
@@ -1509,7 +1542,7 @@ async function openQR(e){
   wrap.innerHTML=`<div class="qrbox"><div class="qrcard" id="qrCard"><div class="qrload">${ICO.qr}</div></div>
     <div class="qrbtns"><button class="btn btn-main" id="qrSave" type="button" disabled>${ICO.download}<span>Պահել նկարը</span></button>
     <button class="btn btn-ghost" id="qrClose" type="button">Փակել</button></div></div>`;
-  document.body.append(wrap); qrEl=wrap; requestAnimationFrame(()=>wrap.classList.add("show"));
+  document.body.append(wrap); qrEl=wrap; requestAnimationFrame(()=>wrap.classList.add("show")); try{ wrap.querySelector("#qrClose").focus({preventScroll:true}); }catch{}
   wrap.onclick=ev=>{ if(ev.target===wrap) closeQR(); };
   wrap.querySelector("#qrClose").onclick=closeQR;
   let cv;
@@ -1525,7 +1558,7 @@ async function openQR(e){
   },"image/png");
 }
 function closeQR(){ if(!qrEl) return; const w=qrEl; qrEl=null; w.classList.remove("show"); setTimeout(()=>w.remove(),250); }
-document.addEventListener("keydown",ev=>{ if(ev.key==="Escape"&&qrEl) closeQR(); });
+document.addEventListener("keydown",ev=>{ if(ev.key==="Escape"&&qrEl){ ev.stopImmediatePropagation(); closeQR(); } });   // Escape closes only the QR, the share sheet stays
 
 /* lock screen, notification and headphone controls (iPhone and Android) */
 const MS_ACTIONS=["play","pause","stop","previoustrack","nexttrack","seekbackward","seekforward","seekto"];
@@ -1640,6 +1673,7 @@ function playFrom(i){
       const seek=()=>seekAudio(timeOf(i));
       audioEl.readyState>=1?seek():audioEl.addEventListener("loadedmetadata",seek,{once:true});
     }
+    else if(isFinite(audioEl.duration)&&audioEl.currentTime>=audioEl.duration-0.3) seekAudio(0);   // at the end: start over
     playing=true; setBtn(); audioEl.play().catch(()=>{playing=false;setBtn()}); return;
   }
   speechSynthesis.cancel();
@@ -1922,7 +1956,7 @@ function linkSheet(o){
   sh.style.setProperty("--lv",`var(--${LEVELS.includes(o.lv)?o.lv:"B1"})`);
   sh.innerHTML=`<div class="grab"></div>
     <div class="sh-head">
-      <div><h3>${esc(o.title)}</h3><p class="sub"><span class="lv">${esc(o.lv)}</span>${esc(o.sub)}</p></div>
+      <div><h3>${esc(o.title)}</h3><p class="sub"><span class="lv">${esc(o.lvText||o.lv)}</span>${esc(o.sub)}</p></div>
       <button class="ibtn" id="close" aria-label="Փակել">${ICO.x}</button>
     </div>
     <p class="label">Հղումը՝ հավելվածով</p>
@@ -1930,7 +1964,7 @@ function linkSheet(o){
     <div class="acts">
       ${navigator.share?`<button class="act" id="gShare">${ICO.send}<span>Ուղարկել այլ ձևով</span></button>`:""}
       <button class="act" id="shQR">${ICO.qr}<span>QR կոդ</span><small>դասին սկանավորելու համար</small></button>
-      <button class="act" id="cpLink">${ICO.link}<span>Պատճենել հղումը</span></button>
+      <button class="act" id="cpLink">${ICO.link}<span>Պատճենել տեքստը</span></button>
       ${o.full?`<button class="act" id="cpText">${ICO.copy}<span>${esc(o.fullLabel)}</span><small>տեքստով</small></button>`:""}
     </div>`;
   document.body.append(bd,sh); sheetEl={bd,sh};
@@ -1958,9 +1992,10 @@ async function gramStudent(id){
   if(!r&&!window.GRAMMAR){ const part=await loadPart(id); if(part&&part.p) r={s:part.s,p:part.p}; }
   if(!r&&!window.GRAMMAR){ try{ await loadGrammar(); r=gFind(id); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Could not load the exercise. Check the internet and reload the page.</p>`; return; } }
   if(seq!==gramSeq) return;
-  if(!r){ teacher(); return; }
+  if(!r){ notFound(); return; }
   const {s,p}=r, saved=gLoad(p.id,p.qs.length);
-  G_={s,p,order:p.qs.map((_,i)=>i),ans:saved?saved.ans:p.qs.map(()=>null),i:saved?Math.min(saved.i|0,p.qs.length-1):0,warn:false,retry:false,t0:Date.now()};
+  const fits=(q,v)=>q.f?Array.isArray(v)&&v.every(x=>typeof x==="string"):Number.isInteger(v)&&!!q.o&&v>=0&&v<q.o.length;
+  G_={s,p,order:p.qs.map((_,i)=>i),ans:saved?p.qs.map((q,j)=>fits(q,saved.ans[j])?saved.ans[j]:null):p.qs.map(()=>null),i:saved?Math.max(0,Math.min(saved.i|0,p.qs.length-1)):0,warn:false,retry:false,t0:Date.now()};
   document.title=`${s.title} · ${p.title} | Gayane Torosyan`;
   app.style.setProperty("--lv",`var(--${p.level||"B1"})`);
   gRender();
@@ -2006,7 +2041,7 @@ function gRender(focusIn){
   byId("gPrev").onclick=()=>move(-1);
   const nx=byId("gNext"); if(nx) nx.onclick=()=>move(1);
   const fin=byId("gFin"); if(fin) fin.onclick=gTryFinish;
-  app.querySelectorAll("[data-j]").forEach(b=>b.onclick=()=>{ G_.i=+b.dataset.j; gSave(); gRender(true); });
+  app.querySelectorAll("[data-j]").forEach(b=>b.onclick=()=>{ G_.i=+b.dataset.j; gSave(); gRender(true); window.scrollTo({top:Math.max(0,(app.querySelector(".gprog")||app).offsetTop-12)}); });
   app.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{
     ans[qi]=+b.dataset.o; gSave();
     app.querySelectorAll("[data-o]").forEach(x=>x.setAttribute("aria-pressed",x===b));
@@ -2025,6 +2060,7 @@ function gRender(focusIn){
       if(k<ins.length-1) ins[k+1].focus(); else if(pos<n-1) move(1); else gTryFinish(); };
   });
   if(focusIn&&ins[0]&&!isPhone) ins[0].focus();
+  else if(focusIn&&kbdUse){ const b=app.querySelector('.gopt[aria-pressed="true"]')||app.querySelector(".gopt"); if(b) b.focus({preventScroll:true}); }
 }
 function gTryFinish(){
   const {p,order,ans}=G_;
@@ -2033,7 +2069,7 @@ function gTryFinish(){
   const w=byId("gWarn"); if(!w) return;
   w.innerHTML=`<div class="gwarn" role="alert"><p>${miss.length===1?"1 question is":miss.length+" questions are"} not answered yet: ${miss.slice(0,12).map(k=>k+1).join(", ")}${miss.length>12?"…":""}</p>
     <div class="gnav"><button class="btn btn-ghost" id="gGo" type="button">Go to ${miss[0]+1}</button><button class="btn btn-main" id="gAny" type="button">Finish anyway</button></div></div>`;
-  byId("gGo").onclick=()=>{ G_.i=miss[0]; gRender(true); };
+  byId("gGo").onclick=()=>{ G_.i=miss[0]; gRender(true); window.scrollTo({top:Math.max(0,(app.querySelector(".gprog")||app).offsetTop-12)}); };
   byId("gAny").onclick=gResults;
   w.scrollIntoView({block:"nearest",behavior:REDUCED()?"auto":"smooth"});
 }
@@ -2042,7 +2078,8 @@ function gResults(){
   const rows=order.map(j=>({j,q:p.qs[j],a:ans[j],ok:gRight(p.qs[j],ans[j])}));
   const right=rows.filter(r=>r.ok).length, n=rows.length, pct=Math.round(right/n*100);
   const [title,sub]=pct===100?["Perfect! 🌟","Every answer is correct."]:pct>=85?["Excellent! 🎉","Just a few to look at again."]:pct>=65?["Good work! 👍","Look at the red ones and try them again."]:["Keep practising 💪","Read the helpful words, then try the wrong ones again."];
-  if(!G_.retry) gClear(p.id);
+  if(!G_.retry){ gClear(p.id); G_.first={right,n,pct}; }
+  const first=G_.retry&&G_.first;   // a redo of the mistakes: keep the first try visible and in the message
   let name=""; try{ name=localStorage.getItem("rr-student-name")||""; }catch{}
   const wrong=rows.filter(r=>!r.ok);
   const rev=r=>{
@@ -2061,7 +2098,7 @@ function gResults(){
   app.innerHTML=gShell(`
   <section class="gres">
     <div class="gring" style="--p:${pct};--ringc:${pct>=65?"var(--good)":"#E8A317"}"><div><b>${right}/${n}</b><small>${pct}%</small></div></div>
-    <h2>${title}</h2><p>${sub}</p>${statChips(right,n,G_.t0)}
+    <h2>${title}</h2><p>${sub}</p>${first?`<p class="gnote">Mistakes fixed · first try: <b>${first.right} / ${first.n} (${first.pct}%)</b></p>`:""}${statChips(right,n,G_.t0)}
     <div class="gnav">
       ${wrong.length?`<button class="btn btn-main" id="gWrong" type="button">${ICO.repeat1}Fix mistakes (${wrong.length})</button>`:""}
       <button class="btn btn-ghost" id="gAgain" type="button">Start again</button>
@@ -2077,7 +2114,7 @@ function gResults(){
   byId("gAgain").onclick=()=>{ G_.retry=false; again(p.qs.map((_,j)=>j)); };
   byId("gSend").onclick=async()=>{
     const nm=byId("gName").value.trim(); try{ localStorage.setItem("rr-student-name",nm); }catch{}
-    const txt=`✍️ ${s.title} — ${p.title}\n${nm?nm+": ":""}${right} / ${n} (${pct}%)${wrong.length?"\nMistakes: "+wrong.map(r=>r.j+1).join(", "):""}\n${linkFor(p)}`;
+    const txt=`✍️ ${s.title} — ${p.title}\n${nm?nm+": ":""}${first?`first try ${first.right} / ${first.n} (${first.pct}%) · after fixing mistakes ${right} / ${n}`:`${right} / ${n} (${pct}%)`}${wrong.length?"\nMistakes: "+wrong.map(r=>r.j+1).join(", "):""}\n${linkFor(p)}`;
     if(navigator.share){ try{ await navigator.share({text:txt}); return; }catch(err){ if(err&&err.name==="AbortError") return; } }
     window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank","noopener");
   };
@@ -2137,7 +2174,7 @@ async function teacherExams(){
   <p class="note" style="margin-top:16px">Կառուցվածքը նույնն է, ինչ 2026-ի միասնական քննությունում․ տեքստ, ժամանակաձևեր, երկխոսություններ, բառակազմություն, կապակցող բառեր, անուղղակի խոսք, հարցեր, նախդիրներ, ավելորդ բառ, կրավորական սեռ, համապատասխանեցում։ Առաջադրանքները նոր են։</p>`;
   byId("lvBack").onclick=ev=>{ ev.preventDefault(); go(baseUrl()); };
   app.querySelectorAll("[data-xgo]").forEach(a=>a.onclick=ev=>{ ev.preventDefault(); go("?t="+a.dataset.xgo); });
-  app.querySelectorAll("[data-xshare]").forEach(b=>b.onclick=()=>{ const t=EXS().find(x=>x.id===b.dataset.xshare); if(t) linkSheet({title:t.title, sub:"Միասնական քննության ձևաչափ · 80 առաջադրանք", lv:"B2", msg:xMessage(t), link:linkFor(t), qr:xObj(t)}); });
+  app.querySelectorAll("[data-xshare]").forEach(b=>b.onclick=()=>{ const t=EXS().find(x=>x.id===b.dataset.xshare); if(t) linkSheet({title:t.title, sub:"Միասնական քննության ձևաչափ · 80 առաջադրանք", lv:"B2", lvText:"B1–B2", msg:xMessage(t), link:linkFor(t), qr:xObj(t)}); });
   byId("logout").onclick=logout;
   bindThemeBtn("hy");
 }
@@ -2154,7 +2191,7 @@ async function examStudent(id){
   if(!t&&!window.EXAMS){ const part=await loadPart(id); if(part&&part.t&&part.t.sections) t=part.t; }
   if(!t&&!window.EXAMS){ try{ await loadExams(); t=EXS().find(x=>x.id===id); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Could not load the test. Check the internet and reload the page.</p>`; return; } }
   if(seq!==gramSeq) return;
-  if(!t){ teacher(); return; }
+  if(!t){ notFound(); return; }
   xOpen(t,{head:t.title, meta:["Unified exam format","80 tasks"], back:"?tl", backLabel:"Թեստեր"});
 }
 function xOpen(t,ctx){
@@ -2239,6 +2276,7 @@ function xRender(){
   <div id="gWarn"></div>
   <p class="gnote" style="text-align:center">You will see the correct answers at the end. Your answers are saved on this phone.</p>`);
   xBind();
+  if(kbdUse){ const f=app.querySelector(".xsec .xopt,.xsec .xchk,.xsec select"); if(f) f.focus({preventScroll:true}); }
   const cur=app.querySelector(".xtabs .cur"); if(cur&&cur.scrollIntoView) try{ cur.scrollIntoView({block:"nearest",inline:"center"}); }catch{}
   const goSec=i=>{ X_.sec=i; xSave(); xRender(); window.scrollTo({top:Math.max(0,(app.querySelector(".gprog")||app).offsetTop-12)}); };
   app.querySelectorAll("[data-sec]").forEach(b=>b.onclick=()=>goSec(+b.dataset.sec));
@@ -2395,7 +2433,7 @@ async function teacherBank(key){
     </article>`).join("")}</section>`;
     byId("lvBack").onclick=ev=>{ ev.preventDefault(); go("?bl"); };
     app.querySelectorAll("[data-bgo]").forEach(a=>a.onclick=ev=>{ ev.preventDefault(); go("?b="+a.dataset.bgo); });
-    app.querySelectorAll("[data-bshare]").forEach(b=>b.onclick=()=>{ const r=bFind(b.dataset.bshare); if(r) linkSheet({title:`${r.sec.hy} · Փաթեթ ${r.i+1}`, sub:`${r.sec.en} · ${r.t.count} առաջադրանք`, lv:r.sec.key, msg:bMessage(r.sec,r.i,r.t), link:linkFor(r.t), qr:bObj(r.sec,r.i,r.t)}); });
+    app.querySelectorAll("[data-bshare]").forEach(b=>b.onclick=()=>{ const r=bFind(b.dataset.bshare); if(r) linkSheet({title:`${r.sec.hy} · Փաթեթ ${r.i+1}`, sub:`Բաժին ${r.sec.key} · ${r.t.count} առաջադրանք`, lv:"B2", lvText:"B1–B2", msg:bMessage(r.sec,r.i,r.t), link:linkFor(r.t), qr:bObj(r.sec,r.i,r.t)}); });
   }
   byId("logout").onclick=logout;
   bindThemeBtn("hy");
@@ -2407,7 +2445,7 @@ async function bankStudent(id){
   if(!r&&!window.BANK){ const part=await loadPart(id); if(part&&part.sec) r={sec:part.sec,i:part.i,t:part.t}; }
   if(!r&&!window.BANK){ try{ await loadBank(); r=bFind(id); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Could not load the exercise. Check the internet and reload the page.</p>`; return; } }
   if(seq!==gramSeq) return;
-  if(!r){ teacher(); return; }
+  if(!r){ notFound(); return; }
   xOpen(r.t,bCtx(r.sec,r.i,r.t));
 }
 

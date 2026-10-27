@@ -345,7 +345,7 @@ async function walk(w, env, steps, errors, studentOnly) {
     ge = []; g = await openPage("https://x.github.io/er/?g=g-t5-3", calm, ge); await wait(40);
     ok(g.document.querySelectorAll(".gq .gin").length >= 1 && !g.document.querySelector(".gopt"), "grammar: written exercise shows typing boxes");
     ge = []; g = await openPage("https://x.github.io/er/?g=nope", calm, ge); await wait(40);
-    ok(!!g.document.getElementById("pin") && !g.document.querySelector(".gq"), "grammar: unknown exercise falls back to the lock screen");
+    ok(!g.document.getElementById("pin") && !g.document.querySelector(".gq") && /does not work any more/.test(g.document.body.textContent), "grammar: unknown exercise shows a friendly message, not the lock screen");
   }
 
   // ================= practice tests (exam format) =================
@@ -387,7 +387,7 @@ async function walk(w, env, steps, errors, studentOnly) {
       ok(xe.filter(z => !/Not implemented/.test(z)).length === 0, "tests: no errors" + (env.storage ? "" : " without storage"));
     }
     xe = []; x = await openPage("https://x.github.io/er/?t=nope", calm, xe); await wait(40);
-    ok(!!x.document.getElementById("pin") && !x.document.querySelector(".xsec"), "tests: unknown test falls back to the lock screen");
+    ok(!x.document.getElementById("pin") && !x.document.querySelector(".xsec") && /does not work any more/.test(x.document.body.textContent), "tests: unknown test shows a friendly message, not the lock screen");
   }
 
   // ================= practice by section (13 exam task types) =================

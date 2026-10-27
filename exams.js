@@ -5264,13 +5264,13 @@ window.EXAMS = [
 "She is good",
 "He is afraid",
 "They are proud",
-"We are tired"
+"We are fed up"
 ],
 "right": [
 "of their children's success.",
 "at solving puzzles.",
 "of spiders.",
-"of waiting for the bus.",
+"with waiting for the bus.",
 "in solving puzzles.",
 "on spiders."
 ],

@@ -1237,7 +1237,7 @@ window.GRAMMAR = [
      ],
      [
       "ex",
-      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը ժամը 8-ին պարապելիս կլինեմ։"
+      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը երեկոյան ժամը 8-ին քննությանս պատրաստվելիս կլինեմ։"
      ]
     ]
    },
@@ -2583,7 +2583,7 @@ window.GRAMMAR = [
      ],
      [
       "ex",
-      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը ժամը 8-ին պարապելիս կլինեմ։"
+      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը երեկոյան ժամը 8-ին քննությանս պատրաստվելիս կլինեմ։"
      ]
     ]
    },
@@ -3351,7 +3351,7 @@ window.GRAMMAR = [
      ],
      [
       "ex",
-      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը ժամը 8-ին պարապելիս կլինեմ։"
+      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը երեկոյան ժամը 8-ին քննությանս պատրաստվելիս կլինեմ։"
      ]
     ]
    },
@@ -3778,7 +3778,7 @@ window.GRAMMAR = [
      ],
      [
       "ex",
-      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը ժամը 8-ին պարապելիս կլինեմ։"
+      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը երեկոյան ժամը 8-ին քննությանս պատրաստվելիս կլինեմ։"
      ]
     ]
    },
@@ -3978,7 +3978,7 @@ window.GRAMMAR = [
       ]
      },
      {
-      "q": "She _____ always _____ her keys.",
+      "q": "She _____ always _____ her keys! It's so annoying.",
       "o": [
        "is / losing",
        "has / lost",
@@ -4256,7 +4256,7 @@ window.GRAMMAR = [
       "q": "When the teacher entered the classroom, the students _____ already _____.",
       "o": [
        "had / sat down",
-       "were / sitting down",
+       "were / sit down",
        "have / sat down"
       ],
       "a": [
@@ -5130,7 +5130,7 @@ window.GRAMMAR = [
       "o": [
        "hears / will inform",
        "will hear / informs",
-       "heard / informed"
+       "heard / will inform"
       ],
       "a": [
        0
@@ -5153,7 +5153,7 @@ window.GRAMMAR = [
       "o": [
        "will pass / go",
        "pass / will go",
-       "passed / went"
+       "passed / will go"
       ],
       "a": [
        1
@@ -5164,7 +5164,7 @@ window.GRAMMAR = [
       "o": [
        "find / will have asked",
        "will find / asks",
-       "found / had asked"
+       "found / has asked"
       ],
       "a": [
        0
@@ -5175,7 +5175,7 @@ window.GRAMMAR = [
       "o": [
        "will be / will travel",
        "am / will travel",
-       "was / travelled"
+       "was / will travel"
       ],
       "a": [
        1
@@ -5198,7 +5198,7 @@ window.GRAMMAR = [
       "o": [
        "completes / will receive",
        "will complete / receives",
-       "completed / received"
+       "completed / will receive"
       ],
       "a": [
        0
@@ -5209,7 +5209,7 @@ window.GRAMMAR = [
       "o": [
        "will stop / go",
        "stops / will go",
-       "stopped / went"
+       "stopped / will go"
       ],
       "a": [
        1
@@ -5525,7 +5525,7 @@ window.GRAMMAR = [
       "o": [
        "will arrive / open",
        "arrives / will open",
-       "arrived / opened"
+       "arrived / will open"
       ],
       "a": [
        1
@@ -5715,7 +5715,7 @@ window.GRAMMAR = [
      ],
      [
       "ex",
-      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը ժամը 8-ին պարապելիս կլինեմ։"
+      "At 8 p.m. tomorrow, I will be studying for my exam. — Վաղը երեկոյան ժամը 8-ին քննությանս պատրաստվելիս կլինեմ։"
      ]
     ]
    },
@@ -5989,7 +5989,7 @@ window.GRAMMAR = [
      {
       "q": "If he ___ more, he would be healthier.",
       "o": [
-       "had exercised",
+       "has exercised",
        "exercised",
        "exercises",
        "will exercise"
@@ -7069,7 +7069,7 @@ window.GRAMMAR = [
      ],
      [
       "tip",
-      "Կրավորական չի լինում առանց խնդրի բայերից՝ happen, arrive, die, fall… Սխալ է՝ The accident was happened."
+      "Անխնդիր բայերը (happen, arrive, die, fall…) կրավորական սեռ չունեն։ Սխալ է՝ The accident was happened."
      ]
     ]
    }
@@ -8990,7 +8990,7 @@ window.GRAMMAR = [
      {
       "q": "I didn't see ___ at the party.",
       "o": [
-       "everybody",
+       "nothing",
        "somebody",
        "anybody",
        "nobody"
