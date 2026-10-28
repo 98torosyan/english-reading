@@ -63,9 +63,11 @@ def og_svg(e, F):
         size -= 6
     y0 = 300 - (len(lines) - 1) * size * 0.6
     title = "".join(f'<path d="{tp(big, l, size, 470, y0 + i * size * 1.15)[0]}" fill="#fff"/>' for i, l in enumerate(lines))
-    lvw = 84
-    lv = f'<rect x="470" y="{y0 - size - 62:.0f}" width="{lvw}" height="44" rx="22" fill="{LV[e["level"]]}"/>' \
-         f'<path d="{tp(txt, e["level"], 28, 491, y0 - size - 30)[0]}" fill="#fff"/>'
+    badge = e.get("badge", e["level"])
+    bw = tp(txt, badge, 28, 0, 0)[1]
+    lvw = max(84, round(bw + 42))
+    lv = f'<rect x="470" y="{y0 - size - 62:.0f}" width="{lvw}" height="44" rx="22" fill="{e.get("badgec", LV[e["level"]])}"/>' \
+         f'<path d="{tp(txt, badge, 28, 470 + (lvw - bw) / 2, y0 - size - 30)[0]}" fill="#fff"/>'
     info_y = y0 + (len(lines) - 1) * size * 1.15 + 62
     if "info" in e:                       # grammar exercise
         info_txt = e["info"]
@@ -129,6 +131,30 @@ if (ROOT / "ufar.js").exists():
         GR.append({"id": t["id"], "title": t["title"], "level": "B1", "qs": [], "grammar": True, "kind": "u", "icon": "🎓",
                    "info": f"UFAR entrance format · {n} tasks · {t['pts']:g} points",
                    "desc": f"UFAR entrance exam format · {n} tasks · {t['pts']:g} points. Do the test and see your score — Gayane Torosyan's English Reading Room."})
+RL = []                                   # rules: grammar.js topics that have a rule, then rules.js
+GC = {"tenses": "T", "cond": "If", "modal": "Can", "passive": "V3", "reported": "Said", "articles": "The", "quant": "Few", "compare": "-er", "gerund": "-ing", "relative": "Who", "prep": "In"}
+GCOL = {"tenses": ["#5B3DD8", "#A891F7"], "cond": ["#3E5FD9", "#7FA0FF"], "modal": ["#1C8AA3", "#5CC6D9"], "passive": ["#2E9E6A", "#6FCF9B"], "reported": ["#B23F78", "#E57AAE"], "articles": ["#D9822B", "#F2B66D"], "quant": ["#7A4FD6", "#B58CF5"], "compare": ["#C2410C", "#F08A5D"], "gerund": ["#0F766E", "#4FB7A8"], "relative": ["#4F46E5", "#8B87F5"], "prep": ["#A16207", "#E0B04A"]}
+if (ROOT / "grammar.js").exists():
+    seen = {}
+    for st in json.loads(gs[gs.index("["): gs.rindex("]") + 1]):
+        tid = st.get("topic") or st["id"]
+        tt = st.get("tt") or [st["title"], st.get("hy", ""), st.get("tenses", "")]
+        if tid not in seen:
+            seen[tid] = {"id": tid, "title": tt[0], "hy": tt[1], "sub": tt[2], "code": GC.get(tid, "Aa"), "c": GCOL.get(tid, GCOL["tenses"]), "rule": st.get("rule"), "practice": [], "_sets": []}
+        seen[tid]["_sets"].append(st)
+    for t in seen.values():
+        for st in t["_sets"]:
+            for pt in st["parts"]:
+                t["practice"].append({"id": pt["id"], "title": (f"{st['title']} · {pt['title']}" if len(t["_sets"]) > 1 else pt["title"]), "level": pt.get("level", "B1")})
+        del t["_sets"]
+        if t["rule"]: RL.append(t)
+if (ROOT / "rules.js").exists():
+    rs = (ROOT / "rules.js").read_text(encoding="utf-8")
+    RL += json.loads(rs[rs.index("["): rs.rindex("]") + 1])
+for r in RL:
+    GR.append({"id": "r-" + r["id"], "title": r["title"], "ptitle": f"{r['title']} · Grammar rule", "level": "B1", "badge": "Rule", "badgec": r["c"][0], "qs": [], "grammar": True, "kind": "r", "icon": "📘",
+               "info": "Grammar rule · explained in Armenian",
+               "desc": f"{r['hy']} — {r['title']}. Grammar rule with examples — Gayane Torosyan's English Reading Room."})
 for e in E + GR:
     if e.get("grammar"):
         desc, q, icon = e["desc"], e.get("kind", "g"), e.get("icon", "✍️")
@@ -136,7 +162,7 @@ for e in E + GR:
         mins = max(1, round(len(" ".join(e["text"]).split()) / {"A1": 70, "A2": 85, "B1": 100, "B2": 115, "C1": 125}.get(e["level"], 100)))
         desc, q, icon = f"Level {e['level']} · ~{mins} min · {len(e['qs'])} questions. Read, listen and answer — Gayane Torosyan's English Reading Room.", "e", "📖"
     (ROOT / "l" / f"{e['id']}.html").write_text(PAGE.format(
-        title=html.escape(e.get("ptitle", e["title"])), level=e["level"], id=e["id"], base=BASE, desc=html.escape(desc), q=q, icon=icon), encoding="utf-8")
+        title=html.escape(e.get("ptitle", e["title"])), level=e.get("badge", e["level"]), id=e["id"], base=BASE, desc=html.escape(desc), q=q, icon=icon), encoding="utf-8")
     png = ROOT / "og" / f"{e['id']}.png"
     if png.exists():
         continue
@@ -164,6 +190,7 @@ for st in load_js("grammar.js"):
     for pt in st["parts"]: part(pt["id"], {"s": head, "p": pt})
 for t in load_js("exams.js"): part(t["id"], {"t": t})
 for t in load_js("ufar.js"): part(t["id"], {"u": t})
+for r in RL: part("r-" + r["id"], {"r": {**r, "practice": r.get("practice", [])[:6]}})
 for b in load_js("bank.js"):
     head = {k: v for k, v in b.items() if k != "sets"}
     for i, t in enumerate(b["sets"]): part(t["id"], {"sec": head, "i": i, "t": t})
