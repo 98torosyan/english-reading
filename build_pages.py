@@ -127,8 +127,8 @@ if (ROOT / "ufar.js").exists():
     for t in json.loads(us[us.index("["): us.rindex("]") + 1]):
         n = sum(len(g["items"]) for s in t["sections"] for g in s["groups"])
         GR.append({"id": t["id"], "title": t["title"], "level": "B1", "qs": [], "grammar": True, "kind": "u", "icon": "🎓",
-                   "info": f"UFAR entrance format · {n} tasks · 60 points",
-                   "desc": f"UFAR entrance exam format · {n} tasks · 60 points. Do the test and see your score — Gayane Torosyan's English Reading Room."})
+                   "info": f"UFAR entrance format · {n} tasks · {t['pts']:g} points",
+                   "desc": f"UFAR entrance exam format · {n} tasks · {t['pts']:g} points. Do the test and see your score — Gayane Torosyan's English Reading Room."})
 for e in E + GR:
     if e.get("grammar"):
         desc, q, icon = e["desc"], e.get("kind", "g"), e.get("icon", "✍️")

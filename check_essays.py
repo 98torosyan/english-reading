@@ -224,7 +224,7 @@ if up.exists():
                 for it in g["items"]:
                     n = it["n"]; nums.append(n); pts += sec["pt"]; w = f"{tag} #{n}"
                     if sec["type"] == "mc":
-                        k = 3 if sec.get("tf") else (3 if sec["key"] == "1" else 4)
+                        k = 3 if sec.get("tf") or sec["key"] == "1" or t.get("fmt") == "2025" else 4
                         if len(it["o"]) != k or len({o.lower() for o in it["o"]}) != k or not 0 <= it["a"] < k: errors.append(f"{w}: needs {k} different options and a valid answer")
                         if sec["key"] == "1" and "___" not in it["q"]: errors.append(f"{w}: grammar question has no blank")
                     elif sec["type"] == "wf":
@@ -235,7 +235,9 @@ if up.exists():
                         if not -1 <= it["x"] < len(it["line"].split(" ")): errors.append(f"{w}: bad extra word")
                     else: errors.append(f"{w}: unknown type {sec['type']}")
         if nums != list(range(1, len(nums) + 1)): errors.append(f"{tag}: tasks must be numbered from 1")
-        if abs(pts - 60) > 1e-9: errors.append(f"{tag}: points add up to {pts}, not 60")
+        want = {"2025": (80, 80), "2022": (90, 60)}.get(t.get("fmt"))
+        if not want: errors.append(f"{tag}: unknown format {t.get('fmt')}")
+        elif len(nums) != want[0] or abs(pts - want[1]) > 1e-9 or abs(t.get("pts", 0) - want[1]) > 1e-9: errors.append(f"{tag}: needs {want[0]} tasks and {want[1]} points, has {len(nums)} and {pts}")
     print(f"ufar: {len(U)} tests, {sum(len(g['items']) for t in U for s in t['sections'] for g in s['groups'])} tasks")
 
 print(f"{len(E)} essays:", dict(per))
