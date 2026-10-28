@@ -546,6 +546,40 @@ body.ra-open{overflow:hidden}
 .xchosen:empty{display:none}
 @media (max-width:380px){.lvcard{gap:11px;padding:12px}.lvbig{width:48px;height:48px;border-radius:14px}.lvtxt b{font-size:1.05rem}}
 .upts{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;padding:6px 12px;border-radius:999px;background:var(--tint);color:var(--accent);font-size:.85rem;font-weight:800}
+/* ---------- Rules (reference pages) ---------- */
+.rcard .lvbig{background:linear-gradient(135deg,#B45309,#E9C46A);font-family:var(--read);font-size:1.15rem}
+.rlist .lvbig{background:linear-gradient(135deg,var(--g1),var(--g2));box-shadow:0 6px 14px color-mix(in srgb,var(--g1) 30%,transparent);font-family:var(--read);font-size:.98rem;letter-spacing:-.01em}
+.rlist.lvcard{border-left:4px solid var(--g1)}
+.rhero{position:relative;overflow:hidden;border-radius:var(--r-lg);padding:20px 18px 18px;margin:8px 0 14px;color:#fff;background:linear-gradient(135deg,var(--g1),var(--g2));box-shadow:0 14px 34px color-mix(in srgb,var(--g1) 28%,transparent)}
+.rhero::after{content:"";position:absolute;right:-40px;top:-40px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.13)}
+.rhero .rcode{position:absolute;right:16px;bottom:8px;font-family:var(--read);font-weight:700;font-size:3.2rem;line-height:1;opacity:.22;letter-spacing:-.02em}
+.rhero small{display:block;font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+.rhero h1{font-family:var(--read);font-size:1.75rem;line-height:1.18;margin:6px 0 6px;position:relative;z-index:1;max-width:85%}
+.rhero p{margin:0;opacity:.92;font-size:.92rem;line-height:1.45;position:relative;z-index:1;max-width:88%}
+.rtoc{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -18px 14px;padding:2px 18px 4px}
+.rtoc::-webkit-scrollbar{display:none}
+.rtoc a{flex:none;display:inline-flex;align-items:center;gap:6px;max-width:15em;height:36px;padding:0 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:.83rem;font-weight:650;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rtoc a b{color:var(--g1,var(--accent))}
+.rpage{display:grid;gap:12px}
+.rpage .rsec{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px 16px 10px;box-shadow:var(--shadow);scroll-margin-top:16px;animation:rise .35s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--d,0)*50ms)}
+.rpage .rsec h4{display:flex;gap:10px;align-items:flex-start;font-size:1.12rem}
+.rpage .rsec h4 i{flex:none;font-style:normal;font-family:var(--ui);width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;font-size:.8rem;font-weight:800;margin-top:1px}
+.rpage .rf{border-left-color:var(--g1,var(--accent));background:color-mix(in srgb,var(--g1,var(--brand)) 10%,var(--surface))}
+.rtw{overflow-x:auto;margin:0 0 10px;border:1px solid var(--line);border-radius:12px}
+.rt{width:100%;border-collapse:collapse;font-size:.9rem;line-height:1.4}
+.rt th{text-align:left;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--paper);padding:8px 10px;white-space:nowrap}
+.rt td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+.rt td:first-child{font-weight:700;color:var(--ink)}
+.rt.v td{font-family:var(--read)}
+.rt.v td:last-child{font-family:var(--ui);color:var(--muted);font-size:.85rem}
+.rt tr:nth-child(even) td{background:color-mix(in srgb,var(--paper) 55%,transparent)}
+.rprac{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;margin-top:14px;box-shadow:var(--shadow)}
+.rprac h3{font-family:var(--read);font-size:1.12rem;margin:0 0 10px}
+.rprac a{display:flex;align-items:center;gap:10px;min-height:46px;padding:8px 12px;margin:0 0 7px;border-radius:12px;background:var(--paper);color:var(--ink);text-decoration:none;font-weight:600;font-size:.93rem}
+.rprac a svg{width:18px;height:18px;margin-left:auto;color:var(--muted);flex:none}
+.rprac a span.lv{flex:none}
+.rshare{margin:0 0 14px}
+@media print{.sbrand .theme-t,.back,.rtoc,.rshare,.rprac{display:none}.rpage .rsec{box-shadow:none;break-inside:avoid}.rhero{box-shadow:none}}
 /* buttons: a long press must not select their text or open the iPhone magnifier/menu */
 button,.btn,.chip,.chip2,[role=button],label.opt,summary,.xtabs,.gdots{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 /* phones: bigger touch targets, no focus zoom */
@@ -567,7 +601,7 @@ button,.btn,.chip,.chip2,[role=button],label.opt,summary,.xtabs,.gdots{-webkit-u
 <main class="wrap" id="app"></main>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<!-- data: loaded on demand (essays.js, dict.js, grammar.js, exams.js, bank.js, ufar.js, p/ID.js) -->
+<!-- data: loaded on demand (essays.js, dict.js, grammar.js, exams.js, bank.js, ufar.js, rules.js, p/ID.js) -->
 <script>
 /* ======= Settings ======= */
 const TEACHER_NAME = "Gayane Torosyan";          // e.g. "Ms. Anna" — appears in the message if filled
@@ -655,7 +689,7 @@ function notFound(){
 function route(){
   closeSheet(true); closeQR(); stopAll(); closeWordCard();
   const sp=new URLSearchParams(location.search), id=sp.get("e");
-  gramSeq++; G_=null; X_=null; clearTimeout(gRender.t); app.style.removeProperty("--lv");
+  gramSeq++; G_=null; X_=null; clearTimeout(gRender.t); app.style.removeProperty("--lv"); app.style.removeProperty("--g1"); app.style.removeProperty("--g2");
   if(id){
     const seq=gramSeq, known=ESSAYS.find(x=>x.id===id);
     if(known) student(known);
@@ -669,6 +703,8 @@ function route(){
   else if(sp.has("bl")) teacherBank(sp.get("bl"));
   else if(sp.has("u")) ufarStudent(sp.get("u"));
   else if(sp.has("ul")) teacherUfar();
+  else if(sp.has("r")) ruleStudent(sp.get("r"));
+  else if(sp.has("rl")) teacherRules();
   else teacher();
   window.scrollTo(0,0);
 }
@@ -790,12 +826,18 @@ function teacher(listAnim){
       <span class="lvtxt"><b>ՀՖՀ թեստեր</b><small>Ֆրանսիական համալսարանի ընդունելության ձևաչափով՝ 2025 և 2022–23</small></span>
       <span class="lvn">${window.UFAR?UF().length:12}<small>թեստ</small></span>${ICO.chevR}
     </a>
+    <a class="lvcard rcard" href="?rl" id="rulesCard" style="--lv:#B45309;--d:9">
+      <span class="lvbig">§</span>
+      <span class="lvtxt"><b>Կանոններ</b><small>Քերականության բոլոր կանոնները՝ հայերենով, օրինակներով</small></span>
+      <span class="lvn">21<small>թեմա</small></span>${ICO.chevR}
+    </a>
   </section>`;
     app.querySelectorAll("[data-lv]").forEach(a=>a.onclick=ev=>{ ev.preventDefault(); go("?lv="+a.dataset.lv); });
     byId("gramCard").onclick=ev=>{ ev.preventDefault(); go("?gl"); };
     byId("examCard").onclick=ev=>{ ev.preventDefault(); go("?tl"); };
     byId("bankCard").onclick=ev=>{ ev.preventDefault(); go("?bl"); };
     byId("ufarCard").onclick=ev=>{ ev.preventDefault(); go("?ul"); };
+    byId("rulesCard").onclick=ev=>{ ev.preventDefault(); go("?rl"); };
   }else{
     const shown=ESSAYS.filter(e=>e.level===lv);
     app.innerHTML=head+`
@@ -1929,7 +1971,7 @@ function gTopics(){
 function exHTML(t){ const i=t.indexOf(" — "); return i<0?`<span class="en">${esc(t)}</span>`:`<span class="en">${esc(t.slice(0,i))}</span><span class="hy">${esc(t.slice(i+3))}</span>`; }
 function ruleHTML(rule){
   return `<div class="rbody">${rule.map(sec=>`<section class="rsec"><h4>${esc(sec.h)}</h4>${sec.b.map(([k,t])=>
-    k==="f"?`<div class="rf">${esc(t)}</div>`:k==="ex"?`<p class="rex">${exHTML(t)}</p>`:k==="tip"?`<p class="rtip">${esc(t)}</p>`:`<p class="rp">${esc(t)}</p>`).join("")}</section>`).join("")}</div>`;
+    k==="t"?`<div class="rtw"><table class="rt${t[0].length===4?" v":""}"><thead><tr>${t[0].map(h=>`<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${t.slice(1).map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`:k==="f"?`<div class="rf">${esc(t)}</div>`:k==="ex"?`<p class="rex">${exHTML(t)}</p>`:k==="tip"?`<p class="rtip">${esc(t)}</p>`:`<p class="rp">${esc(t)}</p>`).join("")}</section>`).join("")}</div>`;
 }
 async function teacherGrammar(topic){
   if(!isTeacher()&&!sessionOK){ lockScreen(); return; }
@@ -2538,6 +2580,79 @@ async function bankStudent(id){
   if(seq!==gramSeq) return;
   if(!r){ notFound(); return; }
   xOpen(r.t,bCtx(r.sec,r.i,r.t));
+}
+
+/* ================= Rules: every grammar rule as its own page (grammar.js + rules.js) ================= */
+let rulesP=null;
+function loadRules(){
+  if(window.RULES) return Promise.resolve(window.RULES);
+  return rulesP||(rulesP=new Promise((res,rej)=>{
+    const s=document.createElement("script"); s.src="rules.js";
+    s.onload=()=>res(window.RULES||[]); s.onerror=()=>{ rulesP=null; s.remove(); rej(new Error("rules")); };
+    document.head.appendChild(s);
+  }));
+}
+function allRules(){            // grammar topics first (with their exercises), then the extra rules
+  const g=gTopics().filter(t=>t.rule).map(t=>({id:t.id, title:t.title, hy:t.hy, sub:t.sub, code:GCODE[t.id]||"Aa", c:GCOL[t.id]||GCOL.tenses, rule:t.rule,
+    practice:t.sets.flatMap(st=>st.parts.map(p=>({id:p.id, title:t.sets.length>1?`${st.title} · ${p.title}`:p.title, level:p.level||"B1"})))}));
+  return [...g, ...(window.RULES||[])];
+}
+const rId=r=>"r-"+r.id;
+const rStyle=r=>`--g1:${r.c[0]};--g2:${r.c[1]}`;
+const rObj=r=>({id:rId(r), title:r.title, level:"B1", chip:"Grammar rule · Armenian", topic:"Rule"});
+function rMessage(r){ return `${BRAND}\n\n📘 ${r.title} — ${r.hy}\nGrammar rule with examples\n\nRead the rule 👇\n${linkFor({id:rId(r)})}`; }
+function rShare(r){ linkSheet({title:r.hy, sub:`${r.title} · կանոն`, lv:"B1", lvText:"Կանոն", msg:rMessage(r), link:linkFor({id:rId(r)}), qr:rObj(r)}); }
+async function teacherRules(){
+  if(!isTeacher()&&!sessionOK){ lockScreen(); return; }
+  const seq=++gramSeq;
+  document.title="Կանոններ | Gayane Torosyan";
+  app.innerHTML=LOADING;
+  try{ await Promise.all([loadGrammar(),loadRules()]); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Չհաջողվեց բեռնել։ Ստուգիր ինտերնետը և թարմացրու էջը։</p>`; return; }
+  if(seq!==gramSeq) return;
+  const R=allRules(), nG=R.filter(r=>r.practice).length;
+  const card=(r,i)=>`
+    <a class="lvcard rlist" href="?r=${rId(r)}" data-rgo="${rId(r)}" style="--d:${Math.min(i,10)};${rStyle(r)}">
+      <span class="lvbig">${esc(r.code)}</span>
+      <span class="lvtxt"><b>${esc(r.hy)}</b><small>${esc(r.title)}</small></span>
+      ${ICO.chevR}
+    </a>`;
+  app.innerHTML=bHead()+`
+  <a class="back" href="./" id="lvBack">${ICO.chevL}Գլխավոր</a>
+  <div class="lvhead rcard" style="--lv:#B45309"><span class="lvbig">§</span><div><h2>Կանոններ</h2><p>${R.length} թեմա · հայերեն բացատրություն և օրինակներ · ամեն կանոն կարելի է ուղարկել աշակերտին</p></div></div>
+  <p class="gsec">Քերականություն</p>
+  <section class="lvgrid rise">${R.slice(0,nG).map(card).join("")}</section>
+  <p class="gsec">Քննության համար</p>
+  <section class="lvgrid rise">${R.slice(nG).map(card).join("")}</section>`;
+  byId("lvBack").onclick=ev=>{ ev.preventDefault(); go(baseUrl()); };
+  app.querySelectorAll("[data-rgo]").forEach(a=>a.onclick=ev=>{ ev.preventDefault(); go("?r="+a.dataset.rgo); });
+  byId("logout").onclick=logout;
+  bindThemeBtn("hy");
+}
+async function ruleStudent(rid){
+  const seq=++gramSeq;
+  app.innerHTML=LOADING;
+  const id=String(rid||"").replace(/^r-/,"");
+  let r=window.GRAMMAR&&window.RULES?allRules().find(x=>x.id===id):null;
+  if(!r){ const part=await loadPart("r-"+id); if(part&&part.r&&part.r.rule) r=part.r; }
+  if(!r){ try{ await Promise.all([loadGrammar(),loadRules()]); r=allRules().find(x=>x.id===id); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Could not load the rule. Check the internet and reload the page.</p>`; return; } }
+  if(seq!==gramSeq) return;
+  if(!r){ notFound(); return; }
+  const T=isTeacher()||sessionOK;
+  document.title=`${r.title} | Gayane Torosyan`;
+  app.style.setProperty("--g1",r.c[0]); app.style.setProperty("--g2",r.c[1]);
+  const secs=r.rule.map((sec,i)=>({...sec, aid:`rs${i+1}`}));
+  app.innerHTML=`<div class="sbrand">${logoMark(34)}<div><b>Gayane Torosyan</b><span>English Reading Room</span></div><button class="theme-t" id="themeBtn" type="button">${ICO.sun}${ICO.moon}</button></div>
+  ${T?`<a class="back" href="./?rl" id="back">${ICO.chevL}Կանոններ</a>`:""}
+  <header class="rhero"><small>Grammar rule · Կանոն</small><h1>${esc(r.hy)}</h1><p>${esc(r.title)}${r.sub?` · ${esc(r.sub)}`:""}</p><span class="rcode" aria-hidden="true">${esc(r.code)}</span></header>
+  ${T?`<div class="rshare"><button class="btn btn-main" id="rSend" type="button" style="width:100%">${ICO.send}Ուղարկել աշակերտին</button></div>`:""}
+  ${secs.length>2?`<nav class="rtoc" aria-label="Բովանդակություն">${secs.map((x,i)=>`<a href="#${x.aid}" data-toc="${x.aid}"><b>${i+1}</b>${esc(x.h.split(" — ")[0])}</a>`).join("")}</nav>`:""}
+  <div class="rpage">${secs.map((x,i)=>ruleHTML([x]).replace('<section class="rsec">',`<section class="rsec" id="${x.aid}" style="--d:${Math.min(i,8)}">`).replace("<h4>",`<h4><i>${i+1}</i><span>`).replace("</h4>","</span></h4>")).join("")}</div>
+  ${r.practice&&r.practice.length?`<section class="rprac"><h3>Վարժվել այս թեմայով</h3>${r.practice.slice(0,6).map(p=>`<a href="?g=${p.id}" data-pgo="${p.id}"><span class="lv" style="background:var(--${LEVELS.includes(p.level)?p.level:"B1"})">${esc(p.level)}</span>${esc(p.title)}${ICO.chevR}</a>`).join("")}</section>`:""}`;
+  bindThemeBtn("hy");
+  const b=byId("back"); if(b) b.onclick=ev=>{ ev.preventDefault(); go("?rl"); };
+  const sn=byId("rSend"); if(sn) sn.onclick=()=>rShare(r);
+  app.querySelectorAll("[data-toc]").forEach(a=>a.onclick=ev=>{ ev.preventDefault(); const t=byId(a.dataset.toc); if(t) t.scrollIntoView({behavior:REDUCED()?"auto":"smooth",block:"start"}); });
+  app.querySelectorAll("[data-pgo]").forEach(a=>a.onclick=ev=>{ ev.preventDefault(); go("?g="+a.dataset.pgo); });
 }
 
 /* ================= UFAR entrance exam format (ufar.js) ================= */

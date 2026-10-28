@@ -240,6 +240,25 @@ if up.exists():
         elif len(nums) != want[0] or abs(pts - want[1]) > 1e-9 or abs(t.get("pts", 0) - want[1]) > 1e-9: errors.append(f"{tag}: needs {want[0]} tasks and {want[1]} points, has {len(nums)} and {pts}")
     print(f"ufar: {len(U)} tests, {sum(len(g['items']) for t in U for s in t['sections'] for g in s['groups'])} tasks")
 
+# ---- rules (rules.js): reference pages ----
+rp = ROOT / "rules.js"
+if rp.exists():
+    rs = rp.read_text(encoding="utf-8")
+    RS = json.loads(rs[rs.index("["): rs.rindex("]") + 1])
+    gtopics = set()
+    if (ROOT / "grammar.js").exists():
+        gtopics = {st.get("topic") or st["id"] for st in G}
+    for r in RS:
+        tag = f"rule {r['id']}"
+        if not re.fullmatch(r"[a-z0-9]+", r["id"]) or r["id"] in gtopics: errors.append(f"{tag}: bad or duplicate id")
+        if not (r.get("title") and r.get("hy") and r.get("code") and len(r.get("c", [])) == 2): errors.append(f"{tag}: missing title, code or colours")
+        for sec in r["rule"]:
+            if not sec.get("h") or not sec.get("b"): errors.append(f"{tag}: empty section")
+            for k, t in sec["b"]:
+                if k not in ("f", "p", "ex", "tip", "t"): errors.append(f"{tag}: unknown block {k}")
+                if k == "t" and (len(t) < 2 or any(len(row) != len(t[0]) for row in t)): errors.append(f"{tag}: table rows have different lengths")
+    print(f"rules: {len(RS)} extra rule pages")
+
 print(f"{len(E)} essays:", dict(per))
 for k in lv:
     if k in avg: print(f"  {k}: avg sentence {avg[k][0]:.1f} words, long words {avg[k][1]:.0%}, readability grade {avg[k][2]:.1f}")
