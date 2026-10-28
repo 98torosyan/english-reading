@@ -201,6 +201,43 @@ if bp.exists():
             total += len(nums)
     print(f"bank: {len(BK)} sections, {sum(len(b['sets']) for b in BK)} sets, {total} tasks")
 
+# ---- UFAR entrance-format tests (ufar.js) ----
+up = ROOT / "ufar.js"
+if up.exists():
+    us = up.read_text(encoding="utf-8")
+    U = json.loads(us[us.index("["): us.rindex("]") + 1])
+    used = set(ids) | set(gids) | ({t["id"] for t in X} if xp.exists() else set())
+    for t in U:
+        tag = f"ufar {t['id']}"
+        if not re.fullmatch(r"u-[a-z0-9-]+", t["id"]): errors.append(f"{tag}: id must start with u-")
+        if t["id"] in used: errors.append(f"{tag}: id is used twice")
+        used.add(t["id"])
+        if [s["key"] for s in t["sections"]] != ["1", "2", "3", "4", "5A", "5B"]: errors.append(f"{tag}: sections must be 1, 2, 3, 4, 5A, 5B")
+        nums, pts = [], 0
+        for sec in t["sections"]:
+            for g in sec["groups"]:
+                if sec["type"] == "pick" and (len(g["opts"]) != len(g["items"]) + 3 or len(set(g["opts"])) != len(g["opts"])): errors.append(f"{tag}: vocabulary needs 3 extra different definitions")
+                if sec["type"] == "pick" and len({it["a"] for it in g["items"]}) != len(g["items"]): errors.append(f"{tag}: two words share a definition")
+                if sec["type"] == "odd":
+                    xs = [it["x"] for it in g["items"]]
+                    if not 3 <= xs.count(-1) <= 7: errors.append(f"{tag}: odd-word lines should mix correct and wrong lines")
+                for it in g["items"]:
+                    n = it["n"]; nums.append(n); pts += sec["pt"]; w = f"{tag} #{n}"
+                    if sec["type"] == "mc":
+                        k = 3 if sec.get("tf") else (3 if sec["key"] == "1" else 4)
+                        if len(it["o"]) != k or len({o.lower() for o in it["o"]}) != k or not 0 <= it["a"] < k: errors.append(f"{w}: needs {k} different options and a valid answer")
+                        if sec["key"] == "1" and "___" not in it["q"]: errors.append(f"{w}: grammar question has no blank")
+                    elif sec["type"] == "wf":
+                        if it["q"].count("___") != 1 or not it["a"] or not it["w"].isupper(): errors.append(f"{w}: bad word-formation task")
+                    elif sec["type"] == "pick":
+                        if not 0 <= it["a"] < len(g["opts"]): errors.append(f"{w}: bad definition")
+                    elif sec["type"] == "odd":
+                        if not -1 <= it["x"] < len(it["line"].split(" ")): errors.append(f"{w}: bad extra word")
+                    else: errors.append(f"{w}: unknown type {sec['type']}")
+        if nums != list(range(1, len(nums) + 1)): errors.append(f"{tag}: tasks must be numbered from 1")
+        if abs(pts - 60) > 1e-9: errors.append(f"{tag}: points add up to {pts}, not 60")
+    print(f"ufar: {len(U)} tests, {sum(len(g['items']) for t in U for s in t['sections'] for g in s['groups'])} tasks")
+
 print(f"{len(E)} essays:", dict(per))
 for k in lv:
     if k in avg: print(f"  {k}: avg sentence {avg[k][0]:.1f} words, long words {avg[k][1]:.0%}, readability grade {avg[k][2]:.1f}")

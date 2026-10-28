@@ -122,6 +122,13 @@ if (ROOT / "bank.js").exists():
             GR.append({"id": t["id"], "title": b["en"], "ptitle": f"{b['en']} · Set {i}", "level": "B2", "qs": [], "grammar": True, "kind": "b", "icon": "📝",
                        "info": f"Section {b['key']} · Set {i} · {t['count']} tasks",
                        "desc": f"Section {b['key']} · Set {i} · {t['count']} tasks. Exam practice — Gayane Torosyan's English Reading Room."})
+if (ROOT / "ufar.js").exists():
+    us = (ROOT / "ufar.js").read_text(encoding="utf-8")
+    for t in json.loads(us[us.index("["): us.rindex("]") + 1]):
+        n = sum(len(g["items"]) for s in t["sections"] for g in s["groups"])
+        GR.append({"id": t["id"], "title": t["title"], "level": "B1", "qs": [], "grammar": True, "kind": "u", "icon": "🎓",
+                   "info": f"UFAR entrance format · {n} tasks · 60 points",
+                   "desc": f"UFAR entrance exam format · {n} tasks · 60 points. Do the test and see your score — Gayane Torosyan's English Reading Room."})
 for e in E + GR:
     if e.get("grammar"):
         desc, q, icon = e["desc"], e.get("kind", "g"), e.get("icon", "✍️")
@@ -156,6 +163,7 @@ for st in load_js("grammar.js"):
     head = {k: v for k, v in st.items() if k != "parts"}
     for pt in st["parts"]: part(pt["id"], {"s": head, "p": pt})
 for t in load_js("exams.js"): part(t["id"], {"t": t})
+for t in load_js("ufar.js"): part(t["id"], {"u": t})
 for b in load_js("bank.js"):
     head = {k: v for k, v in b.items() if k != "sets"}
     for i, t in enumerate(b["sets"]): part(t["id"], {"sec": head, "i": i, "t": t})
