@@ -787,8 +787,8 @@ function teacher(listAnim){
     </a>
     <a class="lvcard ucard" href="?ul" id="ufarCard" style="--lv:var(--B1);--d:8">
       <span class="lvbig">UFAR</span>
-      <span class="lvtxt"><b>ՀՖՀ թեստեր</b><small>Ֆրանսիական համալսարանի ընդունելության ձևաչափով, 60 միավոր</small></span>
-      <span class="lvn">4<small>թեստ</small></span>${ICO.chevR}
+      <span class="lvtxt"><b>ՀՖՀ թեստեր</b><small>Ֆրանսիական համալսարանի ընդունելության ձևաչափով՝ 2025 և 2022–23</small></span>
+      <span class="lvn">${window.UFAR?UF().length:12}<small>թեստ</small></span>${ICO.chevR}
     </a>
   </section>`;
     app.querySelectorAll("[data-lv]").forEach(a=>a.onclick=ev=>{ ev.preventDefault(); go("?lv="+a.dataset.lv); });
@@ -2552,33 +2552,42 @@ function loadUfar(){
 }
 const UF=()=>window.UFAR||[];
 const uCount=t=>xItems(t).length;
-const uCtx=t=>({head:t.title, meta:["UFAR entrance format",`${uCount(t)} tasks · 60 points · 3 hours`], back:"?ul", backLabel:"ՀՖՀ ընդունելություն", lv:"var(--B1)", lvText:"B1–B2"});
-const uObj=t=>({id:t.id, title:t.title, level:"B1", chip:`UFAR format · ${uCount(t)} tasks · 60 points`, topic:"Test"});
-function uMessage(t){ return `${BRAND}\n\n📝 ${t.title}\nUFAR entrance exam format · ${uCount(t)} tasks · 60 points\n\nDo the test and see your score 👇\n${linkFor(t)}`; }
+const uH=t=>{ const h=(t.mins||180)/60; return `${h} hour${h===1?"":"s"}`; };
+const uHy=t=>`${(t.mins||180)/60} ժամ`;
+const uCtx=t=>({head:t.title, meta:[t.fmt==="2025"?"UFAR 2025 entrance format":"UFAR entrance format",`${uCount(t)} tasks · ${t.pts} points · ${uH(t)}`], back:"?ul", backLabel:"ՀՖՀ թեստեր", lv:"var(--B1)", lvText:"B1–B2"});
+const uObj=t=>({id:t.id, title:t.title, level:"B1", chip:`UFAR format · ${uCount(t)} tasks · ${t.pts} points`, topic:"Test"});
+function uMessage(t){ return `${BRAND}\n\n📝 ${t.title}\nUFAR entrance exam format · ${uCount(t)} tasks · ${t.pts} points · ${uH(t)}\n\nDo the test and see your score 👇\n${linkFor(t)}`; }
+const U_FMT={
+  "2025":{h:"2025-ի ձևաչափ", sub:"Ամենաթարմը", note:"Կառուցվածքը նույնն է, ինչ ՀՖՀ-ի 2025 թ. հունիսի ընդունելության թեստում․ քերականություն (30), բառակազմություն (10), բառապաշար՝ համապատասխանեցում (15), ավելորդ բառ (10), ընթերցանություն՝ երկու տեքստ (7 + 8)։ Ամեն ճիշտ պատասխան՝ 1 միավոր, ընդամենը 80 միավոր, 2.5 ժամ։"},
+  "2022":{h:"2022–23-ի ձևաչափ", sub:"", note:"Կառուցվածքը՝ ըստ ՀՖՀ-ի 2022–23 թ. ընդունելության նմուշի․ քերականություն (40 × 0.5), բառակազմություն (10 × 0.5), բառապաշար (15 × 0.5), ավելորդ բառ (10 × 0.5), ընթերցանություն (15 × 1.5)։ Ընդամենը 60 միավոր, 3 ժամ։"}
+};
 async function teacherUfar(){
   if(!isTeacher()&&!sessionOK){ lockScreen(); return; }
   const seq=++gramSeq;
-  document.title="ՀՖՀ ընդունելություն | Gayane Torosyan";
+  document.title="ՀՖՀ թեստեր | Gayane Torosyan";
   app.innerHTML=LOADING;
   try{ await loadUfar(); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Չհաջողվեց բեռնել։ Ստուգիր ինտերնետը և թարմացրու էջը։</p>`; return; }
   if(seq!==gramSeq) return;
-  const U=UF();
-  app.innerHTML=bHead()+`
-  <a class="back" href="./" id="lvBack">${ICO.chevL}Գլխավոր</a>
-  <div class="lvhead ucard" style="--lv:var(--B1)"><span class="lvbig">UFAR</span><div><h2>ՀՖՀ ընդունելություն</h2><p>Ֆրանսիական համալսարանի անգլերենի քննության ձևաչափով · ${U.length} թեստ · ամեն մեկը՝ 60 միավոր</p></div></div>
-  <section class="list rise">${U.map((t,i)=>`
-    <article class="item" style="--lv:var(--B1);--d:${i}">
+  const U=UF(); let d=0;
+  const group=f=>{ const L=U.filter(t=>(t.fmt||"2022")===f); if(!L.length) return ""; const F=U_FMT[f];
+    return `<p class="gsec">${F.h}${F.sub?` · ${F.sub}`:""}</p>
+  <section class="list rise">${L.map((t,i)=>`
+    <article class="item" style="--lv:var(--B1);--d:${Math.min(d++,10)}">
       <h2><span class="num">${i+1}</span>${esc(t.title)}</h2>
-      <p class="meta"><span class="lv">B1–B2</span><span>5 առաջադրանք</span><span>${uCount(t)} հարց</span><span>60 միավոր</span><span>3 ժամ</span></p>
+      <p class="meta"><span class="lv">B1–B2</span><span>${uCount(t)} հարց</span><span>${t.pts} միավոր</span><span>${uHy(t)}</span></p>
       <div class="actions">
         <button class="btn btn-main" data-ushare="${t.id}">Ուղարկել</button>
         <a class="btn btn-ghost" href="?u=${t.id}" data-ugo="${t.id}">Դիտել</a>
       </div>
     </article>`).join("")}</section>
-  <p class="note" style="margin-top:16px">Կառուցվածքը նույնն է, ինչ ՀՖՀ-ի ընդունելության պաշտոնական նմուշում․ քերականություն (40 × 0.5), բառակազմություն (10 × 0.5), բառապաշար՝ համապատասխանեցում (15 × 0.5), ավելորդ բառ (10 × 0.5), ընթերցանություն՝ երկու տեքստ (15 × 1.5)։ Ընդամենը 60 միավոր, 3 ժամ։ Առաջադրանքները նոր են։</p>`;
+  <p class="note" style="margin-top:12px">${F.note} Առաջադրանքները նոր են։</p>`; };
+  app.innerHTML=bHead()+`
+  <a class="back" href="./" id="lvBack">${ICO.chevL}Գլխավոր</a>
+  <div class="lvhead ucard" style="--lv:var(--B1)"><span class="lvbig">UFAR</span><div><h2>ՀՖՀ թեստեր</h2><p>Ֆրանսիական համալսարանի ընդունելության քննության ձևաչափով · ${U.length} թեստ</p></div></div>
+  ${group("2025")}${group("2022")}`;
   byId("lvBack").onclick=ev=>{ ev.preventDefault(); go(baseUrl()); };
   app.querySelectorAll("[data-ugo]").forEach(a=>a.onclick=ev=>{ ev.preventDefault(); go("?u="+a.dataset.ugo); });
-  app.querySelectorAll("[data-ushare]").forEach(b=>b.onclick=()=>{ const t=UF().find(x=>x.id===b.dataset.ushare); if(t) linkSheet({title:t.title, sub:`ՀՖՀ ձևաչափ · ${uCount(t)} հարց · 60 միավոր`, lv:"B1", lvText:"B1–B2", msg:uMessage(t), link:linkFor(t), qr:uObj(t)}); });
+  app.querySelectorAll("[data-ushare]").forEach(b=>b.onclick=()=>{ const t=UF().find(x=>x.id===b.dataset.ushare); if(t) linkSheet({title:t.title, sub:`ՀՖՀ ձևաչափ · ${uCount(t)} հարց · ${t.pts} միավոր`, lv:"B1", lvText:"B1–B2", msg:uMessage(t), link:linkFor(t), qr:uObj(t)}); });
   byId("logout").onclick=logout;
   bindThemeBtn("hy");
 }

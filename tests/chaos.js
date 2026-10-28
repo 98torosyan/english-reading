@@ -394,17 +394,18 @@ async function walk(w, env, steps, errors, studentOnly) {
   { let ue = []; let x = await openPage("https://x.github.io/er/", calm, ue); await wait(30);
     const d0 = x.document; d0.getElementById("pin").value = PIN; d0.getElementById("lockForm").dispatchEvent(new x.Event("submit")); await wait(60);
     const U = x.eval("UFAR");
-    ok(U.length === 4 && U.every(t => t.sections.flatMap(s => s.groups.flatMap(g => g.items)).length === 90), "ufar: 4 tests with 90 tasks each");
+    const nOf = t => t.sections.flatMap(s => s.groups.flatMap(g => g.items)).length;
+    ok(U.length === 12 && U.filter(t => t.fmt === "2022").every(t => nOf(t) === 90 && t.pts === 60) && U.filter(t => t.fmt === "2025").length === 8 && U.filter(t => t.fmt === "2025").every(t => nOf(t) === 80 && t.pts === 80), "ufar: 4 tests of 90 tasks (60 points) and 8 tests of 80 tasks (80 points)");
     d0.getElementById("ufarCard").click(); await wait(40);
-    ok(d0.querySelectorAll("[data-ushare]").length === 4, "ufar: teacher list shows 4 tests");
+    ok(d0.querySelectorAll("[data-ushare]").length === 12 && d0.querySelectorAll(".gsec").length === 2 && d0.querySelector("[data-ushare]").dataset.ushare === "u-5", "ufar: teacher list shows 12 tests in two groups, newest format first");
     d0.querySelector("[data-ushare]").click(); await wait(30);
     ok(d0.querySelector(".sheet") && d0.getElementById("shQR"), "ufar: share sheet with link and QR");
     ok(/\/l\/u-1\.html$/.test(x.eval("uMessage(UFAR[0])")), "ufar: message links to the test page");
     ok(x.eval(`xRight({type:"wf"},{a:["careless"]}," Careless ")`) && !x.eval(`xRight({type:"wf"},{a:["careless"]},"carefull")`), "ufar: typed answers ignore case and spaces");
     ok(x.eval(`xRight({type:"odd"},{line:"a b the c the",x:2},4)`) && !x.eval(`xRight({type:"odd"},{line:"a b the c",x:2},-1)`) && x.eval(`xRight({type:"odd"},{line:"a b c",x:-1},-1)`), "ufar: odd word is checked by the word, a correct line by ✓");
-    for (const env of [calm, { ...calm, storage: false }]) {
-      ue = []; x = await openPage("https://x.github.io/er/?u=u-3", env, ue); await wait(40);
-      const d = x.document, T = U[2];
+    for (const [env, id] of [[calm, "u-3"], [{ ...calm, storage: false }, "u-3"], [calm, "u-9"]]) {
+      ue = []; x = await openPage("https://x.github.io/er/?u=" + id, env, ue); await wait(40);
+      const d = x.document, T = U.find(t => t.id === id);
       ok(!d.getElementById("pin") && d.querySelectorAll(".xtabs button").length === 6 && /Task 1 · Grammar/.test(d.querySelector(".xsec .gn").textContent), "ufar: student opens without a PIN, 6 tabs, task names");
       let wrongPts = 0, wrongN = 0;
       for (let i = 0; i < 6; i++) {
@@ -421,15 +422,16 @@ async function walk(w, env, steps, errors, studentOnly) {
         }
       }
       d.querySelector('[data-sec="1"]').click(); await wait(2);
-      ok(d.querySelector('[data-wf="44"]').value !== "", "ufar: typed answers stay when coming back to a task");
+      const wf0 = T.sections[1].groups[0].items[3].n;
+      ok(d.querySelector(`[data-wf="${wf0}"]`).value !== "", "ufar: typed answers stay when coming back to a task");
       d.getElementById("xPrev").click(); await wait(2);
       d.querySelector('[data-sec="5"]').click(); await wait(2);
       ok(!d.querySelector(".gres"), "ufar: no answers before the end");
       d.getElementById("xFin").click(); await wait(5);
       ok(/not answered yet: 7/.test(d.getElementById("gWarn").textContent), "ufar: Finish warns about the empty task");
       d.getElementById("gAny").click(); await wait(10);
-      const pts = Math.round((60 - wrongPts - 0.5) * 10) / 10;
-      ok(d.querySelector(".gring b").textContent === `${pts}/60` && d.querySelectorAll(".xtable tr").length === 6 && d.querySelectorAll(".gr.no").length === wrongN + 1, `ufar: ${pts}/60 points, 6-task breakdown, review`);
+      const pts = Math.round((T.pts - wrongPts - T.sections[0].pt) * 10) / 10;
+      ok(d.querySelector(".gring b").textContent === `${pts}/${T.pts}` && d.querySelectorAll(".xtable tr").length === 6 && d.querySelectorAll(".gr.no").length === wrongN + 1, `ufar ${id}: ${pts}/${T.pts} points, 6-task breakdown, review`);
       ok(ue.filter(z => !/Not implemented/.test(z)).length === 0, "ufar: no errors" + (env.storage ? "" : " without storage"));
     }
     ue = []; x = await openPage("https://x.github.io/er/?u=nope", calm, ue); await wait(40);
