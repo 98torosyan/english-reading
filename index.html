@@ -565,12 +565,26 @@ body.ra-open{overflow:hidden}
 .rpage .rsec h4{display:flex;gap:10px;align-items:flex-start;font-size:1.12rem}
 .rpage .rsec h4 i{flex:none;font-style:normal;font-family:var(--ui);width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;font-size:.8rem;font-weight:800;margin-top:1px}
 .rpage .rf{border-left-color:var(--g1,var(--accent));background:color-mix(in srgb,var(--g1,var(--brand)) 10%,var(--surface))}
-.rtw{overflow-x:auto;margin:0 0 10px;border:1px solid var(--line);border-radius:12px}
-.rt{width:100%;border-collapse:collapse;font-size:.9rem;line-height:1.4}
+.rpage>*,.rpage .rsec{min-width:0}
+.rpage .rbody{padding:0;display:block}
+.rpage .rsec{border-top:1px solid var(--line)}
+.rtl{display:grid;gap:6px;margin:0 0 10px}
+.rrow{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:var(--paper)}
+.rrow>b{flex:none;width:7.2em;font-size:.9rem;line-height:1.45;color:var(--g1,var(--accent));overflow-wrap:anywhere}
+.rrow>span{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;font-family:var(--read);font-size:.98rem;line-height:1.45}
+.rpair{display:block}
+.rtl.stack .rrow{flex-direction:column;gap:3px}
+.rtl.stack .rrow>b{width:auto}
+:root[data-mode="dark"] .rrow>b,:root[data-mode="dark"] .rtoc a b{color:var(--g2,var(--accent))}
+:root[data-mode="dark"] .rpage .rf{border-left-color:var(--g2,var(--accent))}
+.rtw{overflow-x:auto;margin:0 0 10px;border:1px solid var(--line);border-radius:12px;max-width:100%}
+.rt{width:100%;border-collapse:collapse;font-size:.88rem;line-height:1.35}
 .rt th{text-align:left;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--paper);padding:8px 10px;white-space:nowrap}
-.rt td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+.rt td{padding:7px 8px;border-top:1px solid var(--line);vertical-align:top}
+.rt th{padding:8px}
 .rt td:first-child{font-weight:700;color:var(--ink)}
-.rt.v td{font-family:var(--read)}
+.rt.v{table-layout:fixed}.rt.v th:nth-child(-n+3){width:21%}
+.rt.v td{font-family:var(--read);overflow-wrap:anywhere}.rt.v td:last-child{overflow-wrap:normal;hyphens:none}
 .rt.v td:last-child{font-family:var(--ui);color:var(--muted);font-size:.85rem}
 .rt tr:nth-child(even) td{background:color-mix(in srgb,var(--paper) 55%,transparent)}
 .rprac{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;margin-top:14px;box-shadow:var(--shadow)}
@@ -1969,9 +1983,16 @@ function gTopics(){
   return out;
 }
 function exHTML(t){ const i=t.indexOf(" — "); return i<0?`<span class="en">${esc(t)}</span>`:`<span class="en">${esc(t.slice(0,i))}</span><span class="hy">${esc(t.slice(i+3))}</span>`; }
+function ruleTable(t){
+  if(t[0].length===2){
+    const rows=t.slice(1), stack=rows.some(([k])=>k.length>15);   // long left side: put it above the examples
+    return `<div class="rtl${stack?" stack":""}" role="list" aria-label="${esc(t[0].join(" · "))}">${rows.map(([k,v])=>`<div class="rrow" role="listitem"><b>${esc(k)}</b><span>${(v.includes("→")?v.split(/,\s+/):[v]).map(x=>`<span class="rpair">${esc(x)}</span>`).join("")}</span></div>`).join("")}</div>`;
+  }
+  return `<div class="rtw"><table class="rt v"><thead><tr>${t[0].map(h=>`<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${t.slice(1).map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+}
 function ruleHTML(rule){
   return `<div class="rbody">${rule.map(sec=>`<section class="rsec"><h4>${esc(sec.h)}</h4>${sec.b.map(([k,t])=>
-    k==="t"?`<div class="rtw"><table class="rt${t[0].length===4?" v":""}"><thead><tr>${t[0].map(h=>`<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${t.slice(1).map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`:k==="f"?`<div class="rf">${esc(t)}</div>`:k==="ex"?`<p class="rex">${exHTML(t)}</p>`:k==="tip"?`<p class="rtip">${esc(t)}</p>`:`<p class="rp">${esc(t)}</p>`).join("")}</section>`).join("")}</div>`;
+    k==="t"?ruleTable(t):k==="f"?`<div class="rf">${esc(t)}</div>`:k==="ex"?`<p class="rex">${exHTML(t)}</p>`:k==="tip"?`<p class="rtip">${esc(t)}</p>`:`<p class="rp">${esc(t)}</p>`).join("")}</section>`).join("")}</div>`;
 }
 async function teacherGrammar(topic){
   if(!isTeacher()&&!sessionOK){ lockScreen(); return; }
