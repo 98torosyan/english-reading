@@ -516,6 +516,36 @@ body.ra-open{overflow:hidden}
 .xtable .bar i{display:block;height:100%;background:var(--good)}
 .xrev .gr .ya{font-family:var(--ui)}
 .xrev h3{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 4px}
+/* ---------- UFAR entrance format ---------- */
+.ucard .lvbig{background:linear-gradient(135deg,#1C8AA3,#3E5FD9 55%,#6A49E2);font-size:.78rem;letter-spacing:.06em}
+.xrtitle{font-family:var(--read);font-size:1.18rem;line-height:1.3;margin:0 0 10px}
+.xwf .xq{margin-bottom:0}
+.xwfs{font-family:var(--read);font-weight:400;font-size:1.08rem;line-height:1.9;margin:0;flex:1;min-width:0}
+.xwfs .gin{width:9.5em}
+.xbase{display:inline-block;margin:0 0 0 2px;padding:1px 8px;border-radius:7px;background:var(--tint);color:var(--accent);font-family:var(--ui);font-size:.8rem;font-weight:800;letter-spacing:.06em;vertical-align:.12em;white-space:nowrap}
+.xwf .gin.ok{color:var(--good);border-bottom-color:var(--good)}
+.xodd{display:flex;gap:10px;align-items:flex-start}
+.xodd .xn{margin-top:4px}
+.xodd.ex .xn{background:transparent;border:1.5px dashed var(--line);color:var(--muted)}
+.xline{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:2px 0;font-family:var(--read);font-size:1.06rem;line-height:1.5}
+.xw{border:0;background:transparent;font:inherit;color:var(--ink);padding:2px 3px;border-radius:7px;min-height:34px;transition:background-color .15s ease,color .15s ease}
+@media (hover:hover){.xw:hover{background:var(--tint)}}
+.xw[aria-pressed="true"]{color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,transparent);text-decoration:line-through;text-decoration-thickness:2px}
+.xok{flex:none;margin-left:auto;display:inline-flex;align-items:center;gap:5px;min-height:34px;padding:0 11px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);color:var(--muted);font-family:var(--ui);font-size:.85rem;font-weight:800;transition:background-color .15s ease,border-color .15s ease,color .15s ease}
+.xok svg{width:16px;height:16px}
+.xok[aria-pressed="true"]{color:#fff;background:var(--good);border-color:var(--good)}
+.xodd.ex .xw.gone{color:var(--bad);text-decoration:line-through;text-decoration-thickness:2px;padding:3px 4px}
+.xodd.ex .xok{pointer-events:none}
+.xodd.ex{opacity:.78;padding:4px 0 10px}
+.xdefs{margin:0 0 12px;padding:12px 14px;border-radius:var(--r-md);background:var(--paper);list-style:none;display:grid;gap:6px;font-size:.93rem;line-height:1.4}
+.xdefs li{display:flex;gap:9px}.xdefs li b{flex:none;width:1.4em;color:var(--accent)}
+.xpick .xpair span{font-family:var(--read);font-size:1.05rem}
+.xpick .xpair{flex-wrap:wrap}
+.xitem.xpick{padding:4px 0;border-top:0}
+.xchosen{flex-basis:100%;margin:-2px 0 0 38px;color:var(--muted);font-size:.85rem;line-height:1.35}
+.xchosen:empty{display:none}
+@media (max-width:380px){.lvcard{gap:11px;padding:12px}.lvbig{width:48px;height:48px;border-radius:14px}.lvtxt b{font-size:1.05rem}}
+.upts{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;padding:6px 12px;border-radius:999px;background:var(--tint);color:var(--accent);font-size:.85rem;font-weight:800}
 /* buttons: a long press must not select their text or open the iPhone magnifier/menu */
 button,.btn,.chip,.chip2,[role=button],label.opt,summary,.xtabs,.gdots{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 /* phones: bigger touch targets, no focus zoom */
@@ -527,6 +557,7 @@ button,.btn,.chip,.chip2,[role=button],label.opt,summary,.xtabs,.gdots{-webkit-u
 .lv{background:var(--lv)}.mini{background:var(--surface)}
 .w.sel{background:rgba(108,76,228,.24)}
 .opt.right,.rstats .ok{background:rgba(30,138,90,.16)}.opt.wrong,.rstats .no{background:rgba(194,59,59,.15)}
+.xw[aria-pressed="true"]{background:rgba(194,59,59,.12)}
 .gopt[aria-pressed="true"],.xopt[aria-pressed="true"],.xchk[aria-pressed="true"],.gdots button.done,.xtabs button.done,.rf,.xsel,.gin,.back svg,.ra-tool.on{background:rgba(108,76,228,.12)}
 .ra-entry{background:rgba(108,76,228,.06)}.gwarn,.rtip{background:rgba(232,163,23,.14)}
 }
@@ -536,7 +567,7 @@ button,.btn,.chip,.chip2,[role=button],label.opt,summary,.xtabs,.gdots{-webkit-u
 <main class="wrap" id="app"></main>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<!-- data: loaded on demand (essays.js, dict.js, grammar.js, exams.js, bank.js, p/ID.js) -->
+<!-- data: loaded on demand (essays.js, dict.js, grammar.js, exams.js, bank.js, ufar.js, p/ID.js) -->
 <script>
 /* ======= Settings ======= */
 const TEACHER_NAME = "Gayane Torosyan";          // e.g. "Ms. Anna" — appears in the message if filled
@@ -636,6 +667,8 @@ function route(){
   else if(sp.has("tl")) teacherExams();
   else if(sp.has("b")) bankStudent(sp.get("b"));
   else if(sp.has("bl")) teacherBank(sp.get("bl"));
+  else if(sp.has("u")) ufarStudent(sp.get("u"));
+  else if(sp.has("ul")) teacherUfar();
   else teacher();
   window.scrollTo(0,0);
 }
@@ -752,11 +785,17 @@ function teacher(listAnim){
       <span class="lvtxt"><b>Բաժիններ</b><small>Քննության 13 բաժինները՝ առանձին մարզվելու համար</small></span>
       <span class="lvn">1080<small>առաջ.</small></span>${ICO.chevR}
     </a>
+    <a class="lvcard ucard" href="?ul" id="ufarCard" style="--lv:var(--B1);--d:8">
+      <span class="lvbig">UFAR</span>
+      <span class="lvtxt"><b>ՀՖՀ թեստեր</b><small>Ֆրանսիական համալսարանի ընդունելության ձևաչափով, 60 միավոր</small></span>
+      <span class="lvn">4<small>թեստ</small></span>${ICO.chevR}
+    </a>
   </section>`;
     app.querySelectorAll("[data-lv]").forEach(a=>a.onclick=ev=>{ ev.preventDefault(); go("?lv="+a.dataset.lv); });
     byId("gramCard").onclick=ev=>{ ev.preventDefault(); go("?gl"); };
     byId("examCard").onclick=ev=>{ ev.preventDefault(); go("?tl"); };
     byId("bankCard").onclick=ev=>{ ev.preventDefault(); go("?bl"); };
+    byId("ufarCard").onclick=ev=>{ ev.preventDefault(); go("?ul"); };
   }else{
     const shown=ESSAYS.filter(e=>e.level===lv);
     app.innerHTML=head+`
@@ -2142,11 +2181,20 @@ const xObj=t=>({id:t.id, title:t.title, level:"B2", chip:"Unified exam format ·
 function xMessage(t){ return `${BRAND}\n\n📝 ${t.title}\nUnified exam format · 80 tasks · 13 sections\n\nDo the test and see your score 👇\n${linkFor(t)}`; }
 const xSame=(a,b)=>Array.isArray(a)&&a.length===b.length&&a.every((x,i)=>x===b[i]);
 function xAnswered(s,v){
-  if(s.type==="mc") return Number.isInteger(v);
+  if(s.type==="mc"||s.type==="pick"||s.type==="odd") return Number.isInteger(v);
+  if(s.type==="wf") return typeof v==="string"&&v.trim()!=="";
   return Array.isArray(v)&&v.some(x=>x!=null&&x!=="");
 }
+const xNorm=w=>String(w==null?"":w).toLowerCase().replace(/[’‘`]/g,"'").replace(/[^a-z']+/g," ").trim();
+const xLetter=i=>String.fromCharCode(65+i);
+const xToks=it=>it.line.split(" ");
+const xPts=x=>String(Math.round(x*10)/10);
+const xLabel=s=>s.name?`Task ${s.key.replace(/[A-Z]$/,"")} · ${s.name}`:`Section ${s.key}`;
+const xGroupOf=(s,it)=>s.groups.find(g=>g.items.includes(it))||{};
 function xRight(s,it,v){
-  if(s.type==="mc") return v===it.a;
+  if(s.type==="mc"||s.type==="pick") return v===it.a;
+  if(s.type==="wf") return typeof v==="string"&&it.a.some(a=>xNorm(a)===xNorm(v));
+  if(s.type==="odd"){ if(!Number.isInteger(v)) return false; if(v===-1) return it.x===-1; const t=xToks(it); return it.x!==-1&&t[v]!=null&&xNorm(t[v])===xNorm(t[it.x]); }
   if(s.type==="multi") return Array.isArray(v)&&xSame([...v].sort((a,b)=>a-b),[...it.a].sort((a,b)=>a-b));
   return xSame(v||[],it.a);
 }
@@ -2200,7 +2248,7 @@ function xOpen(t,ctx){
   const sv=xLoad(t.id);
   X_={t, ctx, sec:sv?Math.min(Math.max(sv.sec|0,0),t.sections.length-1):0, ans:sv?sv.ans:{}, t0:Date.now()};
   document.title=`${ctx.head} | Gayane Torosyan`;
-  app.style.setProperty("--lv","var(--C1)");
+  app.style.setProperty("--lv",ctx.lv||"var(--C1)");
   xRender();
 }
 function xShell(inner){
@@ -2209,7 +2257,7 @@ function xShell(inner){
   ${isTeacher()||sessionOK?`<a class="back" href="./${c.back}" id="back">${ICO.chevL}${esc(c.backLabel)}</a>`:""}
   <header class="essay-head">
     <h1>${esc(c.head)}</h1>
-    <p class="meta"><span class="lv">B1–B2</span>${c.meta.map(m=>`<span>${esc(m)}</span>`).join("")}</p>
+    <p class="meta"><span class="lv">${esc(c.lvText||"B1–B2")}</span>${c.meta.map(m=>`<span>${esc(m)}</span>`).join("")}</p>
   </header>${inner}`;
 }
 function xBind(){ const b=byId("back"); if(b) b.onclick=ev=>{ ev.preventDefault(); go(X_.ctx.back); }; bindThemeBtn("en"); }
@@ -2229,9 +2277,20 @@ function xSecHTML(s){
   const A=X_.ans;
   const body=s.groups.map(g=>{
     let h="";
-    if(g.text&&s.type==="mc") h+=`<div class="xtext">${xParas(xGapsHTML(g.text,xMcFill),s.key==="I")}</div>`;
+    if(g.text&&s.type==="mc") h+=`<div class="xtext">${g.title?`<h3 class="xrtitle">${esc(g.title)}</h3>`:""}${xParas(xGapsHTML(g.text,xMcFill),s.key==="I")}</div>`;
+    if(s.type==="pick"&&g.opts) h+=`<ol class="xdefs">${g.opts.map((o,i)=>`<li><b>${xLetter(i)}</b><span>${esc(o)}</span></li>`).join("")}</ol>`;
+    if(s.type==="odd"&&g.ex) h+=g.ex.map((e,i)=>`<div class="xodd ex"><span class="xn">${i?"00":"0"}</span><div class="xline">${xOddLine(e,null,true)}</div></div>`).join("");
     h+=g.items.map(it=>{
       const v=A[it.n];
+      if(s.type==="wf"){
+        const [a,b]=it.q.split(/_{3,}/);
+        return `<div class="xitem xwf"><p class="xq"><span class="xn">${it.n}</span><span class="xwfs">${esc(a)}<input class="gin" data-wf="${it.n}" type="text" value="${esc(typeof v==="string"?v:"")}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="next" aria-label="Task ${it.n}: the right form of ${esc(it.w)}">${esc(b||"")} <span class="xbase">${esc(it.w)}</span></span></p></div>`;
+      }
+      if(s.type==="pick"){
+        return `<div class="xitem xpick"><label class="xpair"><span><b class="xn" style="display:inline-grid;margin-right:8px">${it.n}</b>${esc(it.q)}</span>
+          <select class="xsel" data-pick="${it.n}" aria-label="Definition for ${esc(it.q)}"><option value="">—</option>${g.opts.map((_,r)=>`<option value="${r}"${v===r?" selected":""}>${xLetter(r)}</option>`).join("")}</select><small class="xchosen" id="xc${it.n}">${Number.isInteger(v)?esc(g.opts[v]):""}</small></label></div>`;
+      }
+      if(s.type==="odd") return `<div class="xitem xodd"><span class="xn">${it.n}</span><div class="xline">${xOddLine(it,v)}</div></div>`;
       if(s.type==="mc"){
         const long=it.o.some(o=>o.length>22);
         return `<div class="xitem"><p class="xq"><span class="xn">${it.n}</span><span>${it.q?esc(it.q):`<span style="color:var(--muted);font-weight:500">Gap (${it.n})</span>`}</span></p>
@@ -2255,7 +2314,13 @@ function xSecHTML(s){
     }).join("");
     return h;
   }).join("");
-  return `<section class="xsec" id="xSec"><p class="gn">Section ${s.key} · ${xRange(s).includes("–")?"Tasks":"Task"} ${xRange(s)}</p><p class="xins">${esc(s.en)}</p><p class="xins-hy">${esc(s.hy)}</p>${body}</section>`;
+  const nIt=s.groups.reduce((a,g)=>a+g.items.length,0);
+  return `<section class="xsec" id="xSec"><p class="gn">${esc(xLabel(s))} · ${xRange(s).includes("–")?"Tasks":"Task"} ${xRange(s)}</p><p class="xins">${esc(s.en)}</p><p class="xins-hy">${esc(s.hy)}</p>${s.pt?`<p class="upts">${xPts(s.pt)} point${s.pt===1?"":"s"} each · ${xPts(s.pt*nIt)} in total</p>`:""}${body}</section>`;
+}
+function xOddLine(it,v,ex){
+  const t=xToks(it);
+  return t.map((w,i)=>ex?`<span class="xw${i===it.x?" gone":""}">${esc(w)}</span>`:`<button class="xw" type="button" data-ow="${it.n}" data-t="${i}" aria-pressed="${v===i}">${esc(w)}</button>`).join("")
+    +(ex?(it.x===-1?`<span class="xok" aria-pressed="true">${ICO.check}<span>OK</span></span>`:""):`<button class="xok" type="button" data-ow="${it.n}" data-t="-1" aria-pressed="${v===-1}" aria-label="Line ${it.n} is correct">${ICO.check}<span>OK</span></button>`);
 }
 function xCounts(){
   const all=xItems(X_.t), done=all.filter(({s,it})=>xAnswered(s,X_.ans[it.n])).length;
@@ -2278,7 +2343,7 @@ function xRender(){
   <div id="gWarn"></div>
   <p class="gnote" style="text-align:center">You will see the correct answers at the end. Your answers are saved on this phone.</p>`);
   xBind();
-  if(kbdUse){ const f=app.querySelector(".xsec .xopt,.xsec .xchk,.xsec select"); if(f) f.focus({preventScroll:true}); }
+  if(kbdUse){ const f=app.querySelector(".xsec .xopt,.xsec .xchk,.xsec select,.xsec input,.xsec .xw"); if(f) f.focus({preventScroll:true}); }
   const cur=app.querySelector(".xtabs .cur"); if(cur&&cur.scrollIntoView) try{ cur.scrollIntoView({block:"nearest",inline:"center"}); }catch{}
   const goSec=i=>{ X_.sec=i; xSave(); xRender(); window.scrollTo({top:Math.max(0,(app.querySelector(".gprog")||app).offsetTop-12)}); };
   app.querySelectorAll("[data-sec]").forEach(b=>b.onclick=()=>goSec(+b.dataset.sec));
@@ -2299,6 +2364,19 @@ function xRender(){
     X_.ans[n]=cur.includes(m)?cur.filter(x=>x!==m):[...cur,m].sort((a,b)=>a-b);
     b.setAttribute("aria-pressed",X_.ans[n].includes(m)); refresh();
   });
+  app.querySelectorAll("[data-ow]").forEach(b=>b.onclick=()=>{
+    const n=+b.dataset.ow, k=+b.dataset.t;
+    if(X_.ans[n]===k) delete X_.ans[n]; else X_.ans[n]=k;
+    app.querySelectorAll(`[data-ow="${n}"]`).forEach(x=>x.setAttribute("aria-pressed",+x.dataset.t===X_.ans[n]));
+    refresh();
+  });
+  app.querySelectorAll("[data-wf]").forEach(inp=>{
+    inp.oninput=()=>{ const n=+inp.dataset.wf; if(inp.value.trim()) X_.ans[n]=inp.value; else delete X_.ans[n]; refresh(); };
+    inp.onkeydown=ev=>{ if(ev.key!=="Enter") return; ev.preventDefault();
+      const all=[...app.querySelectorAll("[data-wf]")], nx=all[all.indexOf(inp)+1]; if(nx) nx.focus(); else inp.blur(); };
+  });
+  app.querySelectorAll("[data-pick]").forEach(sel=>sel.onchange=()=>{ const n=+sel.dataset.pick; if(sel.value==="") delete X_.ans[n]; else X_.ans[n]=+sel.value;
+    const c=byId("xc"+n), r=xFindItem(n); if(c&&r) c.textContent=Number.isInteger(X_.ans[n])?(r.g.opts||[])[X_.ans[n]]||"":""; refresh(); });
   app.querySelectorAll("[data-ord],[data-mat]").forEach(sel=>sel.onchange=()=>{
     const n=+(sel.dataset.ord||sel.dataset.mat), k=+sel.dataset.k, r=xFindItem(n).it;
     const len=sel.dataset.ord?r.a.length:r.left.length;
@@ -2323,13 +2401,19 @@ function xGapSentence(s,it){
 }
 function xYours(s,it,v){
   if(!xAnswered(s,v)) return "—";
-  if(s.type==="mc") return `${"abcd"[v]}) ${it.o[v]}`;
+  if(s.type==="mc") return s.tf?it.o[v]:`${"abcd"[v]}) ${it.o[v]}`;
+  if(s.type==="pick") return `${xLetter(v)}) ${(xGroupOf(s,it).opts||[])[v]||""}`;
+  if(s.type==="wf") return v.trim();
+  if(s.type==="odd") return v===-1?"✓ correct line":xToks(it)[v]||"—";
   if(s.type==="multi") return v.join(", ");
   if(s.type==="order") return v.map(x=>x?`${x}`:"–").join(", ");
   return v.map((x,i)=>`${"ABCD"[i]}–${x||"?"}`).join(", ");
 }
 function xCorrect(s,it){
-  if(s.type==="mc") return `${"abcd"[it.a]}) ${it.o[it.a]}`;
+  if(s.type==="mc") return s.tf?it.o[it.a]:`${"abcd"[it.a]}) ${it.o[it.a]}`;
+  if(s.type==="pick") return `${xLetter(it.a)}) ${(xGroupOf(s,it).opts||[])[it.a]||""}`;
+  if(s.type==="wf") return it.a.join(" / ");
+  if(s.type==="odd") return it.x===-1?"✓ correct line":xToks(it)[it.x];
   if(s.type==="multi") return it.a.join(", ");
   if(s.type==="order") return it.a.join(", ")+"  ("+it.a.map(x=>it.words[x-1]).join(", ")+")";
   return it.a.map((x,i)=>`${"ABCD"[i]}–${x}`).join(", ");
@@ -2337,16 +2421,21 @@ function xCorrect(s,it){
 function xResults(){
   const t=X_.t, A=X_.ans;
   const rows=xItems(t).map(({s,it})=>({s,it,ok:xRight(s,it,A[it.n])}));
-  const right=rows.filter(r=>r.ok).length, n=rows.length, pct=Math.round(right/n*100);
+  const right=rows.filter(r=>r.ok).length, n=rows.length, U=t.kind==="ufar";
+  const got=rows.reduce((a,r)=>a+(r.ok?(r.s.pt||1):0),0), max=rows.reduce((a,r)=>a+(r.s.pt||1),0);
+  const pct=Math.round((U?got/max:right/n)*100);
   const [title,sub]=pct>=90?["Excellent! 🌟","You are ready for the exam."]:pct>=75?["Very good! 🎉","Look at the red tasks and you will be even better."]:pct>=50?["Good work! 👍","Study the sections with the lowest score."]:["Keep practising 💪","Read the correct answers carefully and try again."];
   try{ localStorage.removeItem(xKey(t.id)); }catch{}
   let name=""; try{ name=localStorage.getItem("rr-student-name")||""; }catch{}
-  const bySec=t.sections.map(s=>{ const r=rows.filter(x=>x.s===s); return {s, ok:r.filter(x=>x.ok).length, all:r.length}; });
+  const bySec=t.sections.map(s=>{ const r=rows.filter(x=>x.s===s), ok=r.filter(x=>x.ok).length; return {s, ok, all:r.length, txt:U?`${xPts(ok*s.pt)}/${xPts(r.length*s.pt)}`:`${ok}/${r.length}`}; });
   const rev=onlyWrong=>t.sections.map(s=>{
     const rs=rows.filter(r=>r.s===s&&(!onlyWrong||!r.ok)); if(!rs.length) return "";
-    return (t.sections.length>1?`<h3>Section ${s.key} · ${esc(s.en)}</h3>`:"")+rs.map(({it,ok})=>{
+    return (t.sections.length>1?`<h3>${esc(s.name?xLabel(s):`Section ${s.key} · ${s.en}`)}</h3>`:"")+rs.map(({it,ok})=>{
       let q="";
-      if(s.type==="mc") q=it.q?esc(it.q).replace(/\n/g," "):xGapSentence(s,it);
+      if(s.type==="wf"){ const [a,b]=it.q.split(/_{3,}/); q=`${esc(a)}<span class="gbl">${esc(it.a[0])}</span>${esc(b||"")} <span class="xbase">${esc(it.w)}</span>`; }
+      else if(s.type==="pick") q=`<b>${esc(it.q)}</b>`;
+      else if(s.type==="odd") q=`<span style="display:inline">${xToks(it).map((w,i)=>i===it.x?`<s style="color:var(--bad);text-decoration-thickness:2px">${esc(w)}</s>`:esc(w)).join(" ")}</span>`;
+      else if(s.type==="mc") q=it.q?esc(it.q).replace(/\n/g," "):xGapSentence(s,it);
       else if(s.type==="order") q=`<span class="xtext" style="display:block;margin:6px 0 0;font-size:.95rem">${xOrderText(it,null,true)}</span>`;
       else if(s.type==="multi") q=it.s.map((x,j)=>`<span style="display:block;font-size:.9rem;${it.a.includes(j+1)?"color:var(--good)":"opacity:.75"}">${j+1}. ${esc(Array.isArray(x)?x[1]:x)}</span>`).join("");
       else q=it.left.map((l,i)=>`<span style="display:block;font-size:.9rem">${"ABCD"[i]}) ${esc(l)} → <b style="color:var(--good)">${it.a[i]}) ${esc(it.right[it.a[i]-1])}</b></span>`).join("");
@@ -2356,9 +2445,9 @@ function xResults(){
   const wrongN=n-right;
   app.innerHTML=xShell(`
   <section class="gres">
-    <div class="gring" style="--p:${pct};--ringc:${pct>=50?"var(--good)":"#E8A317"}"><div><b>${right}/${n}</b><small>${pct}%</small></div></div>
+    <div class="gring" style="--p:${pct};--ringc:${pct>=50?"var(--good)":"#E8A317"}"><div><b>${U?`${xPts(got)}/${xPts(max)}`:`${right}/${n}`}</b><small>${U?`points · ${pct}%`:`${pct}%`}</small></div></div>
     <h2>${title}</h2><p>${sub}</p>${statChips(right,n,X_.t0)}
-    ${t.sections.length>1?`<table class="xtable">${bySec.map(b=>`<tr><td><b>${b.s.key}</b></td><td style="width:55%"><div class="bar"><i style="width:${Math.round(b.ok/b.all*100)}%"></i></div></td><td>${b.ok}/${b.all}</td></tr>`).join("")}</table>`:""}
+    ${t.sections.length>1?`<table class="xtable">${bySec.map(b=>`<tr><td><b>${b.s.key}</b></td><td style="width:55%"><div class="bar"><i style="width:${Math.round(b.ok/b.all*100)}%"></i></div></td><td>${b.txt}</td></tr>`).join("")}</table>`:""}
     <div class="gnav" style="margin-top:16px"><button class="btn btn-ghost" id="xAgain" type="button">${ICO.repeat1}Start again</button></div>
     <div class="gname"><input id="gName" type="text" placeholder="Your name" autocomplete="name" value="${esc(name)}" aria-label="Your name"><button class="btn btn-main" id="gSend" type="button" style="flex:none">${ICO.send}Send result</button></div>
   </section>
@@ -2369,7 +2458,7 @@ function xResults(){
   byId("xAgain").onclick=()=>{ X_.ans={}; X_.sec=0; X_.t0=Date.now(); xSave(); xRender(); window.scrollTo(0,0); };
   byId("gSend").onclick=async()=>{
     const nm=byId("gName").value.trim(); try{ localStorage.setItem("rr-student-name",nm); }catch{}
-    const txt=`📝 ${X_.ctx.head}${X_.ctx.meta.length>1?" · "+X_.ctx.meta[1]:""}\n${nm?nm+": ":""}${right} / ${n} (${pct}%)\n`+(t.sections.length>1?bySec.map(b=>`${b.s.key}: ${b.ok}/${b.all}`).join(" · ")+"\n":"")+linkFor(t);
+    const txt=`📝 ${X_.ctx.head}${X_.ctx.meta.length>1?" · "+X_.ctx.meta[1]:""}\n${nm?nm+": ":""}${U?`${xPts(got)} / ${xPts(max)} points`:`${right} / ${n}`} (${pct}%)\n`+(t.sections.length>1?bySec.map(b=>`${b.s.key}: ${b.txt}`).join(" · ")+"\n":"")+linkFor(t);
     if(navigator.share){ try{ await navigator.share({text:txt}); return; }catch(err){ if(err&&err.name==="AbortError") return; } }
     window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank","noopener");
   };
@@ -2449,6 +2538,59 @@ async function bankStudent(id){
   if(seq!==gramSeq) return;
   if(!r){ notFound(); return; }
   xOpen(r.t,bCtx(r.sec,r.i,r.t));
+}
+
+/* ================= UFAR entrance exam format (ufar.js) ================= */
+let ufarP=null;
+function loadUfar(){
+  if(window.UFAR) return Promise.resolve(window.UFAR);
+  return ufarP||(ufarP=new Promise((res,rej)=>{
+    const s=document.createElement("script"); s.src="ufar.js";
+    s.onload=()=>res(window.UFAR||[]); s.onerror=()=>{ ufarP=null; s.remove(); rej(new Error("ufar")); };
+    document.head.appendChild(s);
+  }));
+}
+const UF=()=>window.UFAR||[];
+const uCount=t=>xItems(t).length;
+const uCtx=t=>({head:t.title, meta:["UFAR entrance format",`${uCount(t)} tasks · 60 points · 3 hours`], back:"?ul", backLabel:"ՀՖՀ ընդունելություն", lv:"var(--B1)", lvText:"B1–B2"});
+const uObj=t=>({id:t.id, title:t.title, level:"B1", chip:`UFAR format · ${uCount(t)} tasks · 60 points`, topic:"Test"});
+function uMessage(t){ return `${BRAND}\n\n📝 ${t.title}\nUFAR entrance exam format · ${uCount(t)} tasks · 60 points\n\nDo the test and see your score 👇\n${linkFor(t)}`; }
+async function teacherUfar(){
+  if(!isTeacher()&&!sessionOK){ lockScreen(); return; }
+  const seq=++gramSeq;
+  document.title="ՀՖՀ ընդունելություն | Gayane Torosyan";
+  app.innerHTML=LOADING;
+  try{ await loadUfar(); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Չհաջողվեց բեռնել։ Ստուգիր ինտերնետը և թարմացրու էջը։</p>`; return; }
+  if(seq!==gramSeq) return;
+  const U=UF();
+  app.innerHTML=bHead()+`
+  <a class="back" href="./" id="lvBack">${ICO.chevL}Գլխավոր</a>
+  <div class="lvhead ucard" style="--lv:var(--B1)"><span class="lvbig">UFAR</span><div><h2>ՀՖՀ ընդունելություն</h2><p>Ֆրանսիական համալսարանի անգլերենի քննության ձևաչափով · ${U.length} թեստ · ամեն մեկը՝ 60 միավոր</p></div></div>
+  <section class="list rise">${U.map((t,i)=>`
+    <article class="item" style="--lv:var(--B1);--d:${i}">
+      <h2><span class="num">${i+1}</span>${esc(t.title)}</h2>
+      <p class="meta"><span class="lv">B1–B2</span><span>5 առաջադրանք</span><span>${uCount(t)} հարց</span><span>60 միավոր</span><span>3 ժամ</span></p>
+      <div class="actions">
+        <button class="btn btn-main" data-ushare="${t.id}">Ուղարկել</button>
+        <a class="btn btn-ghost" href="?u=${t.id}" data-ugo="${t.id}">Դիտել</a>
+      </div>
+    </article>`).join("")}</section>
+  <p class="note" style="margin-top:16px">Կառուցվածքը նույնն է, ինչ ՀՖՀ-ի ընդունելության պաշտոնական նմուշում․ քերականություն (40 × 0.5), բառակազմություն (10 × 0.5), բառապաշար՝ համապատասխանեցում (15 × 0.5), ավելորդ բառ (10 × 0.5), ընթերցանություն՝ երկու տեքստ (15 × 1.5)։ Ընդամենը 60 միավոր, 3 ժամ։ Առաջադրանքները նոր են։</p>`;
+  byId("lvBack").onclick=ev=>{ ev.preventDefault(); go(baseUrl()); };
+  app.querySelectorAll("[data-ugo]").forEach(a=>a.onclick=ev=>{ ev.preventDefault(); go("?u="+a.dataset.ugo); });
+  app.querySelectorAll("[data-ushare]").forEach(b=>b.onclick=()=>{ const t=UF().find(x=>x.id===b.dataset.ushare); if(t) linkSheet({title:t.title, sub:`ՀՖՀ ձևաչափ · ${uCount(t)} հարց · 60 միավոր`, lv:"B1", lvText:"B1–B2", msg:uMessage(t), link:linkFor(t), qr:uObj(t)}); });
+  byId("logout").onclick=logout;
+  bindThemeBtn("hy");
+}
+async function ufarStudent(id){
+  const seq=++gramSeq;
+  app.innerHTML=LOADING;
+  let t=window.UFAR?UF().find(x=>x.id===id):null;
+  if(!t&&!window.UFAR){ const part=await loadPart(id); if(part&&part.u&&part.u.sections) t=part.u; }
+  if(!t&&!window.UFAR){ try{ await loadUfar(); t=UF().find(x=>x.id===id); }catch{ if(seq===gramSeq) app.innerHTML=`<p class="gload">Could not load the test. Check the internet and reload the page.</p>`; return; } }
+  if(seq!==gramSeq) return;
+  if(!t){ notFound(); return; }
+  xOpen(t,uCtx(t));
 }
 
 loadPrefs(); applyPrefs();

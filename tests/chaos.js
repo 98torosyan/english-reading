@@ -3,7 +3,7 @@
 const { JSDOM } = require("jsdom");
 const fs = require("fs"), path = require("path"), crypto = require("crypto");
 const ROOT = path.join(__dirname, "..");
-const DATA = ["essays.js", "dict.js", "grammar.js", "exams.js", "bank.js"].map(f => "<script>" + fs.readFileSync(path.join(ROOT, f), "utf8") + "</script>").join("");
+const DATA = ["essays.js", "dict.js", "grammar.js", "exams.js", "bank.js", "ufar.js"].map(f => "<script>" + fs.readFileSync(path.join(ROOT, f), "utf8") + "</script>").join("");
 const HTML = fs.readFileSync(path.join(ROOT, "index.html"), "utf8").replace(/<!-- data:[^>]*-->/, () => DATA);
 const PIN = process.env.TEST_PIN || "1234";
 let seed = +(process.env.SEED || 12345); const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
@@ -388,6 +388,52 @@ async function walk(w, env, steps, errors, studentOnly) {
     }
     xe = []; x = await openPage("https://x.github.io/er/?t=nope", calm, xe); await wait(40);
     ok(!x.document.getElementById("pin") && !x.document.querySelector(".xsec") && /does not work any more/.test(x.document.body.textContent), "tests: unknown test shows a friendly message, not the lock screen");
+  }
+
+  // ================= UFAR entrance format (points, typed answers, odd word, matching) =================
+  { let ue = []; let x = await openPage("https://x.github.io/er/", calm, ue); await wait(30);
+    const d0 = x.document; d0.getElementById("pin").value = PIN; d0.getElementById("lockForm").dispatchEvent(new x.Event("submit")); await wait(60);
+    const U = x.eval("UFAR");
+    ok(U.length === 4 && U.every(t => t.sections.flatMap(s => s.groups.flatMap(g => g.items)).length === 90), "ufar: 4 tests with 90 tasks each");
+    d0.getElementById("ufarCard").click(); await wait(40);
+    ok(d0.querySelectorAll("[data-ushare]").length === 4, "ufar: teacher list shows 4 tests");
+    d0.querySelector("[data-ushare]").click(); await wait(30);
+    ok(d0.querySelector(".sheet") && d0.getElementById("shQR"), "ufar: share sheet with link and QR");
+    ok(/\/l\/u-1\.html$/.test(x.eval("uMessage(UFAR[0])")), "ufar: message links to the test page");
+    ok(x.eval(`xRight({type:"wf"},{a:["careless"]}," Careless ")`) && !x.eval(`xRight({type:"wf"},{a:["careless"]},"carefull")`), "ufar: typed answers ignore case and spaces");
+    ok(x.eval(`xRight({type:"odd"},{line:"a b the c the",x:2},4)`) && !x.eval(`xRight({type:"odd"},{line:"a b the c",x:2},-1)`) && x.eval(`xRight({type:"odd"},{line:"a b c",x:-1},-1)`), "ufar: odd word is checked by the word, a correct line by ✓");
+    for (const env of [calm, { ...calm, storage: false }]) {
+      ue = []; x = await openPage("https://x.github.io/er/?u=u-3", env, ue); await wait(40);
+      const d = x.document, T = U[2];
+      ok(!d.getElementById("pin") && d.querySelectorAll(".xtabs button").length === 6 && /Task 1 · Grammar/.test(d.querySelector(".xsec .gn").textContent), "ufar: student opens without a PIN, 6 tabs, task names");
+      let wrongPts = 0, wrongN = 0;
+      for (let i = 0; i < 6; i++) {
+        d.querySelector(`[data-sec="${i}"]`).click(); await wait(2);
+        const s = T.sections[i];
+        for (const g of s.groups) for (const it of g.items) {
+          if (it.n === 7) continue;                                   // leave one empty
+          const bad = it.n % 9 === 0;
+          if (s.type === "mc") d.querySelector(`.xopt[data-x="${it.n}"][data-o="${bad ? (it.a + 1) % it.o.length : it.a}"]`).click();
+          else if (s.type === "wf") { const el = d.querySelector(`[data-wf="${it.n}"]`); el.value = bad ? "xyz" : it.a[0].toUpperCase(); el.dispatchEvent(new x.Event("input")); }
+          else if (s.type === "pick") { const el = d.querySelector(`[data-pick="${it.n}"]`); el.value = String(bad ? (it.a + 1) % g.opts.length : it.a); el.dispatchEvent(new x.Event("change")); }
+          else if (s.type === "odd") { const k = bad ? (it.x === -1 ? 0 : -1) : it.x; d.querySelector(`[data-ow="${it.n}"][data-t="${k}"]`).click(); }
+          if (bad) { wrongPts += s.pt; wrongN++; }
+        }
+      }
+      d.querySelector('[data-sec="1"]').click(); await wait(2);
+      ok(d.querySelector('[data-wf="44"]').value !== "", "ufar: typed answers stay when coming back to a task");
+      d.getElementById("xPrev").click(); await wait(2);
+      d.querySelector('[data-sec="5"]').click(); await wait(2);
+      ok(!d.querySelector(".gres"), "ufar: no answers before the end");
+      d.getElementById("xFin").click(); await wait(5);
+      ok(/not answered yet: 7/.test(d.getElementById("gWarn").textContent), "ufar: Finish warns about the empty task");
+      d.getElementById("gAny").click(); await wait(10);
+      const pts = Math.round((60 - wrongPts - 0.5) * 10) / 10;
+      ok(d.querySelector(".gring b").textContent === `${pts}/60` && d.querySelectorAll(".xtable tr").length === 6 && d.querySelectorAll(".gr.no").length === wrongN + 1, `ufar: ${pts}/60 points, 6-task breakdown, review`);
+      ok(ue.filter(z => !/Not implemented/.test(z)).length === 0, "ufar: no errors" + (env.storage ? "" : " without storage"));
+    }
+    ue = []; x = await openPage("https://x.github.io/er/?u=nope", calm, ue); await wait(40);
+    ok(!x.document.getElementById("pin") && /does not work any more/.test(x.document.body.textContent), "ufar: unknown test shows a friendly message");
   }
 
   // ================= practice by section (13 exam task types) =================
