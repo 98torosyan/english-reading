@@ -3,7 +3,7 @@
 const { JSDOM } = require("jsdom");
 const fs = require("fs"), path = require("path"), crypto = require("crypto");
 const ROOT = path.join(__dirname, "..");
-const DATA = ["essays.js", "dict.js", "grammar.js", "exams.js", "bank.js", "ufar.js"].map(f => "<script>" + fs.readFileSync(path.join(ROOT, f), "utf8") + "</script>").join("");
+const DATA = ["essays.js", "dict.js", "grammar.js", "exams.js", "bank.js", "ufar.js", "rules.js"].map(f => "<script>" + fs.readFileSync(path.join(ROOT, f), "utf8") + "</script>").join("");
 const HTML = fs.readFileSync(path.join(ROOT, "index.html"), "utf8").replace(/<!-- data:[^>]*-->/, () => DATA);
 const PIN = process.env.TEST_PIN || "1234";
 let seed = +(process.env.SEED || 12345); const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
@@ -436,6 +436,31 @@ async function walk(w, env, steps, errors, studentOnly) {
     }
     ue = []; x = await openPage("https://x.github.io/er/?u=nope", calm, ue); await wait(40);
     ok(!x.document.getElementById("pin") && /does not work any more/.test(x.document.body.textContent), "ufar: unknown test shows a friendly message");
+  }
+
+  // ================= rules: reference pages =================
+  { let re_ = []; let x = await openPage("https://x.github.io/er/", calm, re_); await wait(30);
+    const d = x.document; d.getElementById("pin").value = PIN; d.getElementById("lockForm").dispatchEvent(new x.Event("submit")); await wait(60);
+    const all = x.eval("allRules()");
+    ok(all.length === 21 && /21/.test(d.getElementById("rulesCard").textContent), "rules: 21 topics, the home card shows the right number");
+    d.getElementById("rulesCard").click(); await wait(40);
+    ok(d.querySelectorAll("[data-rgo]").length === 21 && d.querySelectorAll(".gsec").length === 2, "rules: teacher list shows all rules in two groups");
+    d.querySelector('[data-rgo="r-wordform"]').click(); await wait(40);
+    ok(d.querySelector(".rhero") && d.getElementById("rSend") && d.querySelectorAll(".rpage .rsec").length === all.find(r => r.id === "wordform").rule.length, "rules: rule page opens from the list with every section");
+    d.getElementById("rSend").click(); await wait(30);
+    ok(d.querySelector(".sheet") && d.getElementById("shQR") && /\/l\/r-wordform\.html/.test(x.eval("rMessage(allRules().find(r=>r.id==='wordform'))")), "rules: share sheet with a link to the rule page");
+    for (const [id, env] of [["r-cond", calm], ["r-irregular", { ...calm, storage: false }], ["r-tenses", calm]]) {
+      re_ = []; x = await openPage("https://x.github.io/er/?r=" + id, env, re_); await wait(40);
+      const sd = x.document, r = x.eval(`allRules().find(r=>"r-"+r.id===${JSON.stringify(id)})`);
+      ok(!sd.getElementById("pin") && !sd.getElementById("back") && !sd.getElementById("rSend") && sd.querySelector(".rhero h1").textContent === r.hy, `rules ${id}: student sees the rule without a PIN and without teacher buttons`);
+      ok(sd.querySelectorAll(".rpage .rsec").length === r.rule.length && (!r.practice || sd.querySelectorAll(".rprac a").length === Math.min(6, r.practice.length)), `rules ${id}: all sections${r.practice ? " and practice links" : ""}`);
+      if (id === "r-irregular") ok(sd.querySelectorAll(".rt tbody tr").length >= 60, "rules: irregular verbs table has 60+ verbs");
+      const toc = sd.querySelector("[data-toc]"); if (toc) toc.click();
+      const pr = sd.querySelector("[data-pgo]"); if (pr) { pr.click(); await wait(40); ok(sd.querySelector(".gq"), `rules ${id}: practice link opens the exercise`); }
+      ok(re_.filter(z => !/Not implemented/.test(z)).length === 0, `rules ${id}: no errors`);
+    }
+    re_ = []; x = await openPage("https://x.github.io/er/?r=r-nope", calm, re_); await wait(40);
+    ok(!x.document.getElementById("pin") && /does not work any more/.test(x.document.body.textContent), "rules: unknown rule shows a friendly message");
   }
 
   // ================= practice by section (13 exam task types) =================
